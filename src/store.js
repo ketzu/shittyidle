@@ -5,10 +5,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    resource: 0
+    resource: 0,
+    tickrate: 100,
+    generators: {}
   },
   getters: {
     resource(state) { return state.resource; },
+    tickrate(state) { return state.tickrate; },
+    generators(state) { return state.generators; }
   },
   mutations: {
     initstore(state) {
@@ -22,12 +26,26 @@ export default new Vuex.Store({
     },
     updateresource(state, payload) {
       state.resource = payload.value;
+    },
+    spendresource(state, payload) {
+      state.resource -= payload.value;
+    },
+    build(state, {name}) {
+      console.log(state.generators);
+      if(state.generators[name] === undefined)
+        state.generators[name] = 0;
+      state.generators[name] += 1;
     }
-
   },
   actions: {
     updateresource({commit}, payload) {
       commit('updateresource', payload);
+    },
+    spendresource({commit}, payload) {
+      commit('spendresource', payload);
+    },
+    build({commit}, payload) {
+      commit('build', payload);
     }
   }
 })
