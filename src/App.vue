@@ -5,7 +5,7 @@
         IGame
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      {{resource}} units
+      {{Math.floor(resource)}} units
     </v-toolbar>
     <Game></Game>
     <v-footer app dark height="auto" absolute>

@@ -31,9 +31,8 @@ export default new Vuex.Store({
       state.resource -= payload.value;
     },
     build(state, {name}) {
-      console.log(state.generators);
       if(state.generators[name] === undefined)
-        state.generators[name] = 0;
+        Vue.set(state.generators, name, 0);
       state.generators[name] += 1;
     }
   },

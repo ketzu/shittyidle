@@ -43,7 +43,7 @@
             </v-card-title>
 
             <v-list two-line>
-              <Generator :name="generator.name" :key="generator.name" v-for="generator in generators"></Generator>
+              <Generator :name="generator.name" :generation="generator.generation" :cost="generator.cost" :key="generator.name" v-for="generator in generators"></Generator>
             </v-list>
 
             <v-card-actions>
@@ -69,8 +69,8 @@ export default {
   data() {
     return {
       generators: [
-        {name: "Slow", generation: level => {return level*level;}},
-        {name: "Hyper", generation: level => {return Math.exp(level)-1;}}
+        {name: "Slow", generation: level => {return level*level;}, cost: level => {return level*level*level}},
+        {name: "Hyper", generation: level => {return Math.exp(level)-1;}, cost: level => {return Math.exp(level*level)}}
       ]
     }
   },

@@ -6,10 +6,10 @@
 
     <v-list-tile-content>
       <v-list-tile-title>
-        {{name}}
+        {{name}}, next level for {{Math.floor(cost(level))}} units
       </v-list-tile-title>
       <v-list-tile-sub-title>
-        Producing 0 units.
+        Producing {{Math.floor(generation(level))}} units per tick.
       </v-list-tile-sub-title>
     </v-list-tile-content>
 
@@ -24,7 +24,7 @@
 <script>
   export default {
     name: "Generator",
-    props: ["name"],
+    props: ["name", "cost", "generation"],
     data() {
       return {
       }
@@ -32,13 +32,27 @@
     computed: {
       level: {
         get() {
-          return this.$store.getters["generators"][this.name];
+          let tmp = this.$store.getters["generators"][this.name];
+          if(tmp === undefined)
+            return 0;
+          return tmp;
         }
+      },
+      resource: {
+        get() {
+          return this.$store.getters["resource"];
+        }
+      },
+      buildable() {
+        return this.resource > this.cost(this.level);
       }
     },
     methods: {
       build() {
-        this.$store.dispatch("build", {name: this.name});
+        if(this.buildable) {
+          this.$store.dispatch("spendresource", {value: this.cost(this.level)});
+          this.$store.dispatch("build", {name: this.name});
+        }
       }
     }
   }
