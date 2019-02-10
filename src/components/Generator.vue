@@ -6,15 +6,18 @@
 
     <v-list-tile-content>
       <v-list-tile-title>
-        {{name}}, next level for {{Math.floor(cost(level))}} units
+        {{name}}, next level for {{Math.floor(cost(level))}} units.
       </v-list-tile-title>
+      <v-list-tile-sub-title>
+        {{buildamount}}
+      </v-list-tile-sub-title>
       <v-list-tile-sub-title>
         Producing {{Math.floor(generation(level))}} units per tick.
       </v-list-tile-sub-title>
     </v-list-tile-content>
 
     <v-list-tile-action>
-      <v-btn icon ripple @click="build()">
+      <v-btn icon ripple @click="build()" :disabled="!buildable">
         <v-icon color="blue darken-2">fas fa-hammer</v-icon>
       </v-btn>
     </v-list-tile-action>
@@ -24,7 +27,7 @@
 <script>
   export default {
     name: "Generator",
-    props: ["name", "cost", "generation"],
+    props: ["name", "cost", "generation", "buildamount"],
     data() {
       return {
       }

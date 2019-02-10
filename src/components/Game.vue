@@ -2,7 +2,7 @@
   <v-content class="deep-purple darken-4">
     <v-container grid-list-lg>
       <v-layout align-start justify-center row wrap>
-        <v-flex md9>
+        <v-flex md6>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -21,7 +21,7 @@
 
                 <v-list-tile-content>
                   <v-list-tile-title>
-                    {{resourcegain*1000/tickrate}} units per second.
+                    {{Math.floor(resourcegain*1000/tickrate)}} units per second.
                   </v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
@@ -33,7 +33,7 @@
             </v-card-actions>
           </v-card>
         </v-flex>
-        <v-flex md3>
+        <v-flex md6>
           <v-card>
             <v-card-title primary-title>
               <div>
@@ -43,12 +43,12 @@
             </v-card-title>
 
             <v-list two-line>
-              <Generator :name="generator.name" :generation="generator.generation" :cost="generator.cost" :key="generator.name" v-for="generator in generators"></Generator>
+              <Generator :buildamount="buildamount" :name="generator.name" :generation="generator.generation" :cost="generator.cost" :key="generator.name" v-for="generator in generators"></Generator>
             </v-list>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn flat>Share</v-btn>
+              <v-btn flat @click="changeBuildamount()">{{buildamount}}x</v-btn>
               <v-btn flat color="purple">Explore</v-btn>
             </v-card-actions>
           </v-card>
@@ -71,7 +71,8 @@ export default {
       generators: [
         {name: "Slow", generation: level => {return level*level;}, cost: level => {return level*level*level}},
         {name: "Hyper", generation: level => {return Math.exp(level)-1;}, cost: level => {return Math.exp(level*level)}}
-      ]
+      ],
+      buildamount: 1
     }
   },
   computed: {
@@ -102,6 +103,16 @@ export default {
       }
     }
   },
+  methods: {
+    changeBuildamount() {
+      switch(this.buildamount) {
+        case 1: this.buildamount = 10; break;
+        case 10: this.buildamount = 100; break;
+        case 100: this.buildamount = 1000; break;
+        default: this.buildamount = 1;
+      }
+    }
+  },
   mounted() {
     let self = this;
     setInterval(() => {
@@ -114,18 +125,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 </style>
