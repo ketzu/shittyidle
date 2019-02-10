@@ -2,10 +2,10 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        IGame
+        City Idle
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      {{resource}} units
+      {{formatresource(resource)}}
     </v-toolbar>
     <Game></Game>
     <v-footer app dark height="auto" absolute>

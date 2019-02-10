@@ -13,11 +13,17 @@ const resourcegain = (state) => {
 export default new Vuex.Store({
   state: {
     resource: 0,
-    tickrate: 100
+    tickrate: 100,
+    towntype: "Village",
+    title: "Mayor",
+    currency: "€"
   },
   getters: {
     resource(state) { return state.resource; },
     tickrate(state) { return state.tickrate; },
+    towntype(state) { return state.towntype; },
+    currency(state) { return state.currency; },
+    title(state) { return state.title; },
     resourcegain(state) {
       return resourcegain(state);
     }
@@ -42,6 +48,10 @@ export default new Vuex.Store({
     },
     spendresource(state, payload) {
       state.resource -= payload.value;
+    },
+    settownspecs(state, {title, towntype}) {
+      state.towntype = towntype;
+      state.title = title;
     }
   },
   actions: {
@@ -50,6 +60,9 @@ export default new Vuex.Store({
     },
     spendresource({commit}, payload) {
       commit('spendresource', payload);
+    },
+    settownspecs({commit}, payload) {
+      commit('settownspecs', payload);
     }
   }
 })
