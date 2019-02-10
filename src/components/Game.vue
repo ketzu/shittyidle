@@ -27,13 +27,6 @@ export default {
   data() {
     return {
     }
-  },
-  computed: {
-    tickrate: {
-      get() {
-        return this.$store.getters["tickrate"];
-      }
-    }
   }
 }
 </script>

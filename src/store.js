@@ -3,6 +3,12 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+const buildings = [
+  {name: "Farm", type: "Generator", icon: "fa-apple-alt"},
+  {name: "Inn", type: "Generator", icon: "fa-beer"},
+  {name: "Roads", type: "Support", icon: "fa-road"}
+];
+
 const resourcegain = (state) => {
   // base generation
   let gain = 1;
@@ -16,10 +22,12 @@ export default new Vuex.Store({
     tickrate: 100,
     towntype: "Village",
     title: "Mayor",
-    currency: "€"
+    currency: "€",
+    buildings: {}
   },
   getters: {
     resource(state) { return state.resource; },
+    buildings(state) { return buildings; },
     tickrate(state) { return state.tickrate; },
     towntype(state) { return state.towntype; },
     currency(state) { return state.currency; },
