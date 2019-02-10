@@ -10,7 +10,7 @@
     <Game></Game>
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
-        If you are not idling, you are doing it wrong.
+        If you are not idling, you are doing it wrong. ~<a @click="$store.commit('hardreset')">HARD RESET.</a>~
       </v-layout>
     </v-footer>
   </v-app>

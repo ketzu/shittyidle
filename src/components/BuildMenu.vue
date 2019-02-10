@@ -14,7 +14,7 @@
     <v-card-actions>
       Producing {{formatresource(resourcegain*1000/tickrate)}} per second.
       <v-spacer></v-spacer>
-      <v-btn flat color="purple" @click="$store.commit('settownspecs',{title:'Mayor', towntype: 'Village'})">FixMe</v-btn>
+      <!--<v-btn flat color="purple" @click="$store.commit('settownspecs',{title:'Mayor', towntype: 'Village'})">FixMe</v-btn>-->
     </v-card-actions>
   </v-card>
 </template>

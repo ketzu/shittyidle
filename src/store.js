@@ -4,16 +4,32 @@ import Vuex from 'vuex'
 Vue.use(Vuex);
 
 const buildings = [
-  {name: "Farm", type: "Generator", icon: "fa-apple-alt"},
-  {name: "Inn", type: "Generator", icon: "fa-beer"},
-  {name: "Roads", type: "Support", icon: "fa-road"}
+  {name: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: 10, rate: 1.1}, gain: 1},
+  {name: "Inn", type: "Generator", icon: "fa-beer", cost: {base: 1000, rate: 1.1}, gain: 100},
+  {name: "Roads", type: "Support", icon: "fa-road", cost: {base: 1000000, rate: 1.1}, gain: 1.02}
 ];
 
 const resourcegain = (state) => {
   // base generation
   let gain = 1;
-
-  return gain;
+  let multiplier = 1;
+  for(let current of buildings) {
+    let level = state.buildings[current['name']];
+    if(level === undefined)
+      continue;
+    switch(current.type) {
+      case "Support":
+        multiplier *= Math.pow(current.gain,level);
+        break;
+      case "Generator":
+        gain += current.gain * level;
+        break;
+      default:
+        console.log("Default case triggered for: "+name);
+        break;
+    }
+  }
+  return [gain,multiplier];
 };
 
 export default new Vuex.Store({
@@ -28,12 +44,16 @@ export default new Vuex.Store({
   getters: {
     resource(state) { return state.resource; },
     buildings(state) { return buildings; },
+    buildinglevels(state) { return state.buildings; },
     tickrate(state) { return state.tickrate; },
     towntype(state) { return state.towntype; },
     currency(state) { return state.currency; },
     title(state) { return state.title; },
+    multiplier(state) {
+      return resourcegain(state)[1];
+    },
     resourcegain(state) {
-      return resourcegain(state);
+      return resourcegain(state).reduce((a,b) => a*b);
     }
   },
   mutations: {
@@ -48,7 +68,7 @@ export default new Vuex.Store({
     },
     startgame(state) {
       setInterval(() => {
-        state.resource += resourcegain(state);
+        state.resource += resourcegain(state).reduce((a,b) => a*b);
       }, state.tickrate);
     },
     updateresource(state, payload) {
@@ -60,6 +80,25 @@ export default new Vuex.Store({
     settownspecs(state, {title, towntype}) {
       state.towntype = towntype;
       state.title = title;
+    },
+    buybuilding(state, {building}) {
+      if(state.buildings[building.name] === undefined)
+        Vue.set(state.buildings, building.name, 0);
+      state.resource -= building.cost.base*Math.pow(building.cost.rate,state.buildings[building.name]);
+      state.buildings[building.name] += 1;
+    },
+    hardreset(state) {
+      // Hard Reset State to initial values
+      this.replaceState(
+        Object.assign(state, {
+          resource: 0,
+          tickrate: 100,
+          towntype: "Village",
+          title: "Mayor",
+          currency: "€",
+          buildings: {}
+        })
+      );
     }
   },
   actions: {
@@ -71,6 +110,9 @@ export default new Vuex.Store({
     },
     settownspecs({commit}, payload) {
       commit('settownspecs', payload);
+    },
+    buybuilding({commit}, payload) {
+      commit('buybuilding', payload);
     }
   }
 })
