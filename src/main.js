@@ -18,11 +18,14 @@ Vue.mixin(Data);
 
 Vue.mixin({
   methods: {
-    formatresource(value) {
+    format(value) {
       if(value < 1000*1000*1000)
-        return Math.floor(value).toLocaleString()+this.$store.getters.currency;
+        return value.toFixed(2).toLocaleString();
       let values = value.toExponential().split('e').map(i => Number(i));
-      return values[0].toFixed(2)+" x10^"+values[1].toFixed(0)+this.$store.getters.currency;
+      return values[0].toFixed(2)+" x10^"+values[1].toFixed(0);
+    },
+    formatresource(value) {
+      return this.format(value)+this.$store.getters.currency;
     }
   }
 });

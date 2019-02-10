@@ -9,7 +9,7 @@
         {{type.name}}, producing {{formatresource(mul*type.gain*level*1000/tickrate)}} per second.
       </v-list-tile-title>
       <v-list-tile-title v-else>
-        {{type.name}}, supporting multiplier is {{Math.pow(type.gain,level)}}.
+        {{type.name}}, supporting multiplier is {{format(Math.pow(type.gain,level))}}.
       </v-list-tile-title>
 
       <v-list-tile-sub-title>
