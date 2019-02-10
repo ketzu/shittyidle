@@ -17,5 +17,8 @@ new Vue({
   render: h => h(App),
   beforeCreate() {
     this.$store.commit('initstore');
+  },
+  mounted() {
+    this.$store.commit('startgame');
   }
 }).$mount('#app')

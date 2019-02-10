@@ -43,7 +43,7 @@
             </v-card-title>
 
             <v-list two-line>
-              <Generator :name="generator.name" :key="generator.name" v-for="generator in generators"></Generator>
+              Generators
             </v-list>
 
             <v-card-actions>
@@ -59,55 +59,23 @@
 </template>
 
 <script>
-import Generator from './Generator.vue'
+import Data from './data'
 
 export default {
   name: 'Game',
   components: {
-    Generator
   },
   data() {
     return {
-      generators: [
-        {name: "Slow", generation: level => {return level*level;}},
-        {name: "Hyper", generation: level => {return Math.exp(level)-1;}}
-      ]
     }
   },
   computed: {
-    resource: {
-      get() {
-        return this.$store.getters["resource"];
-      },
-      set(value) {
-        this.$store.dispatch('updateresource', {value: value});
-      }
-    },
-    resourcegain: {
-      get() {
-        // base generation
-        let gain = 1;
-
-        // generators computation
-        const levels = this.$store.getters["generators"];
-        for(const gen of this.generators) {
-          gain += gen.generation(gen.name in levels? levels[gen.name] : 0);
-        }
-        return gain;
-      }
-    },
     tickrate: {
       get() {
         return this.$store.getters["tickrate"];
       }
     }
   },
-  mounted() {
-    let self = this;
-    setInterval(() => {
-      // Main Gameloop
-      self.resource += this.resourcegain;
-    }, this.tickrate);
-  }
+  mixins: [Data]
 }
 </script>

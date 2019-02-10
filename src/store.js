@@ -1,18 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
+const resourcegain = (state) => {
+  // base generation
+  let gain = 1;
+
+  return gain;
+};
 
 export default new Vuex.Store({
   state: {
     resource: 0,
-    tickrate: 100,
-    generators: {}
+    tickrate: 100
   },
   getters: {
     resource(state) { return state.resource; },
     tickrate(state) { return state.tickrate; },
-    generators(state) { return state.generators; }
+    resourcegain(state) {
+      return resourcegain(state);
+    }
   },
   mutations: {
     initstore(state) {
@@ -24,17 +32,16 @@ export default new Vuex.Store({
         );
       }
     },
+    startgame(state) {
+      setInterval(() => {
+        state.resource += resourcegain(state);
+      }, state.tickrate);
+    },
     updateresource(state, payload) {
       state.resource = payload.value;
     },
     spendresource(state, payload) {
       state.resource -= payload.value;
-    },
-    build(state, {name}) {
-      console.log(state.generators);
-      if(state.generators[name] === undefined)
-        state.generators[name] = 0;
-      state.generators[name] += 1;
     }
   },
   actions: {
@@ -43,9 +50,6 @@ export default new Vuex.Store({
     },
     spendresource({commit}, payload) {
       commit('spendresource', payload);
-    },
-    build({commit}, payload) {
-      commit('build', payload);
     }
   }
 })

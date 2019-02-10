@@ -18,6 +18,7 @@
 
 <script>
 import Game from './components/Game.vue'
+import Data from './components/data'
 
 export default {
   name: 'app',
@@ -28,14 +29,8 @@ export default {
     return {
     }
   },
-  computed: {
-    resource: {
-      get() {
-        return this.$store.getters["resource"];
-      }
-    }
-  },
   methods: {
-  }
+  },
+  mixins: [Data]
 }
 </script>
