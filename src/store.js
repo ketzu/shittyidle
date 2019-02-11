@@ -6,7 +6,12 @@ Vue.use(Vuex);
 const buildings = [
   {name: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: 10, rate: 1.1}, gain: 1},
   {name: "Inn", type: "Generator", icon: "fa-beer", cost: {base: 1000, rate: 1.1}, gain: 100},
-  {name: "Roads", type: "Support", icon: "fa-road", cost: {base: 1000000, rate: 1.1}, gain: 1.02}
+  {name: "Roads", type: "Support", icon: "fa-road", cost: {base: 1000000, rate: 1.1}, gain: 1.02},
+  {name: "Store", type: "Generator", icon: "fa-store-alt", cost: {base: 1000000, rate: 1.1}, gain: 10000},
+  {name: "Bank", type: "Generator", icon: "fa-university", cost: {base: 1000000000, rate: 1.1}, gain: 1000000},
+  {name: "Public Transport", type: "Support", icon: "fa-bus-alt", cost: {base: 1000000000000, rate: 1.1}, gain: 1.03},
+  {name: "Datacenter", type: "Generator", icon: "fa-database", cost: {base: 1000000000000, rate: 1.1}, gain: 100000000},
+  {name: "Factory", type: "Generator", icon: "fa-industry", cost: {base: 1000000000000000, rate: 1.1}, gain: 10000000000}
 ];
 
 const resourcegain = (state) => {

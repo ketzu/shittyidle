@@ -5,15 +5,19 @@
     </v-list-tile-avatar>
 
     <v-list-tile-content>
-      <v-list-tile-title v-if="type.type === 'Generator'">
-        {{type.name}}, producing {{formatresource(mul*type.gain*level*1000/tickrate)}} per second.
-      </v-list-tile-title>
-      <v-list-tile-title v-else>
-        {{type.name}}, supporting multiplier is {{format(Math.pow(type.gain,level))}}.
+      <v-list-tile-title>
+        {{type.name}}
       </v-list-tile-title>
 
+      <v-list-tile-sub-title v-if="type.type === 'Generator'">
+        {{formatresource(mul*type.gain*level*1000/tickrate)}} per second.
+      </v-list-tile-sub-title>
+      <v-list-tile-sub-title v-else>
+        Supporting multiplier is {{format(Math.pow(type.gain,level))}}.
+      </v-list-tile-sub-title>
+
       <v-list-tile-sub-title>
-        {{type.type}}, next level costs {{formatresource(cost)}}.
+        Next level: {{formatresource(cost)}}.
       </v-list-tile-sub-title>
     </v-list-tile-content>
 

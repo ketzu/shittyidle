@@ -2,11 +2,11 @@
   <v-content class="green darken-3">
     <v-container grid-list-lg>
       <v-layout align-start justify-center row wrap>
-        <v-flex md9>
+        <v-flex md8>
           <CityScreen></CityScreen>
         </v-flex>
 
-        <v-flex md3>
+        <v-flex md4>
           <BuildMenu></BuildMenu>
         </v-flex>
       </v-layout>
