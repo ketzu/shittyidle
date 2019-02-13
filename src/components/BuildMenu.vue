@@ -9,13 +9,14 @@
 
     <v-list two-line>
       <transition name="fade" :key="index" v-for="(building, index) in buildings">
-        <Building :type="building" v-if="building.cost.base < alltime"></Building>
+        <Building :type="building" v-if="building.cost.base < alltime" :count="buycount"></Building>
       </transition>
     </v-list>
 
     <v-card-actions>
       <v-spacer></v-spacer>
       <!--<v-btn flat color="purple" @click="$store.commit('settownspecs',{title:'Mayor', towntype: 'Village'})">FixMe</v-btn>-->
+      <v-btn flat color="purple" @click="cycleCount()">{{buycount}}x</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -25,10 +26,25 @@
   export default {
     name: "BuildMenu",
     components: {Building},
+    data() {
+      return {
+        buycount: 1
+      }
+    },
     computed: {
       buildings: {
         get() {
           return this.$store.getters.buildings;
+        }
+      }
+    },
+    methods: {
+      cycleCount() {
+        switch (this.buycount) {
+          case 1: this.buycount = 10; break;
+          case 10: this.buycount = 100; break;
+          case 100: this.buycount = 1000; break;
+          case 1000: this.buycount = 1;
         }
       }
     }

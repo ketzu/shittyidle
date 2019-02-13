@@ -17,7 +17,7 @@
       </v-list-tile-sub-title>
 
       <v-list-tile-sub-title>
-        Next level: {{formatresource(cost)}}.
+        Next {{count>1? count : ''}} level{{count>1?'s':''}}: {{formatresource(cost)}}.
       </v-list-tile-sub-title>
     </v-list-tile-content>
 
@@ -32,7 +32,7 @@
 <script>
   export default {
     name: "Building",
-    props: ['type'],
+    props: ['type','count'],
     computed: {
       level: {
         get() {
@@ -49,7 +49,13 @@
         }
       },
       cost() {
-        return this.type.cost.base*Math.pow(this.type.cost.rate,this.level);
+        if(this.count === 1) {
+          return this.type.cost.base*Math.pow(this.type.cost.rate,this.level);
+        }else{
+          const rtos = Math.pow(this.type.cost.rate,this.level);
+          const rtogms = Math.pow(this.type.cost.rate,this.count);
+          return this.type.cost.base*rtos*(rtogms*this.type.cost.rate-1)/(this.type.cost.rate-1);
+        }
       },
       buyable() {
         return this.cost <= this.resource;
@@ -58,7 +64,7 @@
     methods: {
       buy() {
         if(this.buyable)
-          this.$store.dispatch('buybuilding',{building: this.type});
+          this.$store.dispatch('buybuilding',{building: this.type, count: this.count});
       }
     }
   }

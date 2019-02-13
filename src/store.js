@@ -126,12 +126,17 @@ export default new Vuex.Store({
       state.towntype = towntype;
       state.title = title;
     },
-    buybuilding(state, {building}) {
+    buybuilding(state, {building, count}) {
       if(state.buildings[building.name] === undefined)
         Vue.set(state.buildings, building.name, 0);
-      state.resource -= building.cost.base*Math.pow(building.cost.rate,state.buildings[building.name]);
-      state.buildings[building.name] += 1;
-      upgrade(building.name, state.buildings[building.name]);
+      for(let i=0;i<count;i++){
+        const cost = building.cost.base*Math.pow(building.cost.rate,state.buildings[building.name]);
+        if(cost < state.resource) {
+          state.resource -= cost;
+          state.buildings[building.name] += 1;
+          upgrade(building.name, state.buildings[building.name]);
+        }
+      }
     },
     hardreset(state) {
       // Hard Reset State to initial values
