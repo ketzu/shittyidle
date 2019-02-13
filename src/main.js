@@ -9,7 +9,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 Vue.config.productionTip = false
 
 store.subscribe((mutation, state) => {
-  localStorage.setItem('igame-v1', JSON.stringify(state));
+  localStorage.setItem('igame-v1', JSON.stringify({...state, time: (new Date()).getTime()}));
 });
 
 import Data from './components/data'

@@ -2,15 +2,21 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        City Idle
+        City Idle - a work in progress v0.1
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      {{formatresource(resource)}}
+      <h2>{{formatresource(resource)}}</h2>
+      <v-spacer></v-spacer>
+      all time {{formatresource(alltime)}}
     </v-toolbar>
     <Game></Game>
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
-        If you are not idling, you are doing it wrong. ~<a @click="$store.commit('hardreset')">HARD RESET.</a>~
+        <v-spacer></v-spacer>
+        <a href="https://www.paypal.me/roughbudget">Supprt the game.</a>
+        <v-spacer></v-spacer>
+        <a @click="$store.commit('hardreset')">HARD RESET (No confirmation!)</a>
+        <v-spacer></v-spacer>
       </v-layout>
     </v-footer>
   </v-app>
@@ -34,3 +40,13 @@ export default {
   mixins: [Data]
 }
 </script>
+<style scoped>
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+</style>

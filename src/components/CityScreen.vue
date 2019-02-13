@@ -6,6 +6,11 @@
         <span class="grey--text">Make wise decisions!</span>
       </div>
     </v-card-title>
+
+    <v-card-text>
+      Currently producing {{formatresource(resourcegain*1000/tickrate)}} per second.
+    </v-card-text>
+
   </v-card>
 </template>
 
