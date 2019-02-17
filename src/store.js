@@ -75,7 +75,7 @@ const allupgrades = (buildingid, level) => {
 const resourcegain = (state) => {
   // base generation
   let gain = 0.1;
-  let multiplier = 1;
+  let multiplier = 1+expmult(state);
   for(let current of buildings) {
     let level = state.buildings[current['name']];
     if(level === undefined)
@@ -86,24 +86,52 @@ const resourcegain = (state) => {
   return [gain,multiplier];
 };
 
+const updateresources = (state, gain) => {
+  state.resource += gain;
+  state.resetresource += gain;
+  state.alltime += gain;
+};
+
+const resettable = (state) => {
+  if(state.buildings['Casino'] >= 100)
+    return true;
+  return false;
+};
+
+const expgain = (state) => {
+  return Math.sqrt(state.resetresource/(2*Math.pow(10,10)));
+};
+const expmult = (state) => {
+  return 0.1*state.experience;
+};
+
 export default new Vuex.Store({
   state: {
+    resets: 0,
+    resetresource: 0,
+    experience: 0,
     resource: 0,
     alltime: 0,
     tickrate: 100,
     towntype: "village",
     title: "mayor",
-    currency: "€",
+    currency: "₡",
     buildings: {}
   },
   getters: {
     resource(state) { return state.resource; },
+    expgain(state) { return expgain(state); },
+    expmult(state) { return expmult(state); },
     alltime(state) { return state.alltime; },
+    resetresource(state) { return state.resetresource; },
+    experience(state) { return state.experience; },
+    resets(state) { return state.resets; },
     buildings(state) { return buildings; },
     buildinglevels(state) { return state.buildings; },
     tickrate(state) { return state.tickrate; },
     towntype(state) { return state.towntype; },
     currency(state) { return state.currency; },
+    resettable(state) { return resettable(state); },
     title(state) { return state.title; },
     multiplier(state) {
       return resourcegain(state)[1];
@@ -134,16 +162,14 @@ export default new Vuex.Store({
           // at most 25920000 ticks = 30 Days worth of offline time
           let ticks = Math.min(((new Date()).getTime()-deserialize["time"])/state.tickrate,25920000);
           const gain = resourcegain(state).reduce((a,b) => a*b);
-          state.resource += ticks*gain;
-          state.alltime += ticks*gain;
+          updateresources(state,ticks*gain);
         }
       }
     },
     startgame(state) {
       setInterval(() => {
         const gain = resourcegain(state).reduce((a,b) => a*b);
-        state.resource += gain;
-        state.alltime += gain;
+        updateresources(state, gain);
       }, state.tickrate);
     },
     updateresource(state, payload) {
@@ -155,6 +181,20 @@ export default new Vuex.Store({
     settownspecs(state, {title, towntype}) {
       state.towntype = towntype;
       state.title = title;
+    },
+    softreset(state, {title, payload}) {
+      if(resettable(state)){
+        state.resets += 1;
+        state.experience += expgain(state);
+
+        // Reset run specific stats
+        state.buildings = {};
+        state.resource = 0;
+        state.resetresource = 0;
+
+        // Reset buildings array
+        Object.assign(buildings, JSON.parse(JSON.stringify(basebuildings)));
+      }
     },
     buybuilding(state, {building, count}) {
       if(state.buildings[building.name] === undefined)
@@ -172,21 +212,28 @@ export default new Vuex.Store({
       // Hard Reset State to initial values
       this.replaceState(
         Object.assign(state, {
+          resets: 0,
+          experience: 0,
+          resetresource: 0,
           resource: 0,
           alltime: 0,
           tickrate: 100,
           towntype: "village",
           title: "mayor",
-          currency: "€",
+          currency: "₡",
           buildings: {}
         })
       );
+      // Reset buildings array
       Object.assign(buildings, JSON.parse(JSON.stringify(basebuildings)));
+    },
+    cheat(state) {
+      updateresources(state, state.resource);
     }
   },
   actions: {
-    updateresource({commit}, payload) {
-      commit('updateresource', payload);
+    cheat({commit}) {
+      commit('cheat');
     },
     spendresource({commit}, payload) {
       commit('spendresource', payload);
@@ -196,6 +243,9 @@ export default new Vuex.Store({
     },
     buybuilding({commit}, payload) {
       commit('buybuilding', payload);
+    },
+    softreset({commit}, payload) {
+      commit('softreset', payload);
     }
   }
 })

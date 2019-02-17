@@ -4,9 +4,14 @@
       <v-toolbar-title>
         <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> City Idle
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
+
       <h2>{{formatresource(resource)}}</h2>
+
       <v-spacer></v-spacer>
+
+      <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
       <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
         <v-icon>fas fa-code-branch</v-icon>
       </v-btn>

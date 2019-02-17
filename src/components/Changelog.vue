@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.3</span>
+        <span class="grey--text">Current Version: 0.4</span>
       </div>
     </v-card-title>
 
@@ -31,7 +31,6 @@
             <h2>Upcoming Features</h2>
             <br>
             <ul>
-              <li>First soft reset draft</li>
               <li>Support buildings</li>
               <li>Actual gamescreen</li>
               <li>Feedback options</li>
@@ -51,10 +50,18 @@
           <v-flex md12>
             <h2>Changelog</h2>
             <br>
+            Version 0.4
+            <ul>
+              <li>New URL</li>
+              <li>First soft reset mechanic</li>
+              <li>A few statistics</li>
+              <li>Number notation change starting with 10^6</li>
+            </ul>
+            <br>
             Version 0.3
             <ul>
               <li>New balancing mechanic (and rebalancing)</li>
-              <li>Logo, Favicon and URL</li>
+              <li>Logo and Favicon</li>
               <li>Sidemenu for devnews</li>
             </ul>
             <br>

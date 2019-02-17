@@ -16,7 +16,7 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <!--<v-btn flat color="purple" @click="$store.commit('settownspecs',{title:'Mayor', towntype: 'Village'})">FixMe</v-btn>-->
-      <v-btn flat color="purple" @click="cycleCount()">{{buycount}}x</v-btn>
+      <v-btn flat color="blue darken-4" @click="cycleCount()">{{buycount}}x</v-btn>
     </v-card-actions>
   </v-card>
 </template>

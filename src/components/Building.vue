@@ -23,7 +23,7 @@
 
     <v-list-tile-action>
       <v-btn icon ripple @click="buy()" :disabled="!buyable">
-        <v-icon :color="buyable? 'blue darken-2' : 'grey darken-2'">fas fa-hammer</v-icon>
+        <v-icon :color="buyable? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
       </v-btn>
     </v-list-tile-action>
   </v-list-tile>
