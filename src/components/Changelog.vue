@@ -32,6 +32,13 @@
           <v-flex md12>
             <h2>Changelog</h2>
             <br>
+            Version 0.3
+            <ul>
+              <li>New balancing mechanic (and rebalancing)</li>
+              <li>Logo, Favicon and URL</li>
+              <li></li>
+            </ul>
+            <br>
             Version 0.2
             <ul>
               <li>Game-Dev Screen added</li>

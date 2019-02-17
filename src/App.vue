@@ -2,14 +2,13 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        City Idle
+        <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> City Idle
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <h2>{{formatresource(resource)}}</h2>
       <v-spacer></v-spacer>
-      all time {{formatresource(alltime)}}
       <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
-        <v-icon>fas fa-bars</v-icon>
+        <v-icon>fas fa-code-branch</v-icon>
       </v-btn>
     </v-toolbar>
 

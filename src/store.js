@@ -115,8 +115,8 @@ export default new Vuex.Store({
   mutations: {
     initstore(state) {
       // Check if the ID exists
-      if (localStorage.getItem('igame-v1')) {
-        let deserialize = JSON.parse(localStorage.getItem('igame-v1'));
+      if (localStorage.getItem('cidle-v1')) {
+        let deserialize = JSON.parse(localStorage.getItem('cidle-v1'));
         // Replace the state object with the stored item
         this.replaceState(
           Object.assign(state, deserialize)
