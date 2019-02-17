@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.2</span>
+        <span class="grey--text">Current Version: 0.3</span>
       </div>
     </v-card-title>
 
@@ -36,7 +36,7 @@
             <ul>
               <li>New balancing mechanic (and rebalancing)</li>
               <li>Logo, Favicon and URL</li>
-              <li></li>
+              <li>Sidemenu for devnews</li>
             </ul>
             <br>
             Version 0.2
