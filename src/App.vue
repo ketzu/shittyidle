@@ -2,13 +2,21 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        City Idle - a work in progress v0.1
+        City Idle
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <h2>{{formatresource(resource)}}</h2>
       <v-spacer></v-spacer>
       all time {{formatresource(alltime)}}
+      <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
+        <v-icon>fas fa-bars</v-icon>
+      </v-btn>
     </v-toolbar>
+
+    <v-navigation-drawer fixed v-model="sidemenu" app right>
+      <Changelog></Changelog>
+    </v-navigation-drawer>
+
     <Game></Game>
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
@@ -24,15 +32,18 @@
 
 <script>
 import Game from './components/Game.vue'
+import Changelog from "./components/Changelog.vue";
 import Data from './components/data'
 
 export default {
   name: 'app',
   components: {
-    Game
+    Game,
+    Changelog
   },
   data() {
     return {
+      sidemenu: false
     }
   },
   methods: {

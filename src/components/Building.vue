@@ -10,7 +10,7 @@
       </v-list-tile-title>
 
       <v-list-tile-sub-title v-if="type.gain>0">
-        {{formatresource(mul*type.gain*level*1000/tickrate)}} per second.
+        {{formatresource(mul*type.gain*level*1000/tickrate)}} per second ({{format(mul*type.gain*level*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
       </v-list-tile-sub-title>
       <v-list-tile-sub-title v-if="type.mult>1">
         Supporting multiplier is {{format(Math.pow(type.mult,level))}}.

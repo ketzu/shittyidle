@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import BuildMenu from './BuildMenu'
+import BuildMenu from './BuildMenu';
 import CityScreen from "./CityScreen";
 
 export default {

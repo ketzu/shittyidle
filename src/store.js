@@ -3,31 +3,61 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+const bbcost = 10;
+const costgrowth = 13;
+
+const bcost = {
+  Farm: bbcost,
+  Inn: Math.pow(costgrowth,1)*bbcost,
+  Store: Math.pow(costgrowth,2)*bbcost,
+  Bank: Math.pow(costgrowth,3)*bbcost,
+  Datacenter: Math.pow(costgrowth,4)*bbcost,
+  Factory: Math.pow(costgrowth,5)*bbcost,
+  Energy: Math.pow(costgrowth,6)*bbcost,
+  Casino: Math.pow(costgrowth,7)*bbcost
+};
+
+const bbgain = 0.1;
+const gaingrowth = 8;
+
+const bgain = {
+  Farm: bbgain,
+  Inn: Math.pow(gaingrowth,1)*bbgain,
+  Store: Math.pow(gaingrowth,2)*bbgain,
+  Bank: Math.pow(gaingrowth,3)*bbgain,
+  Datacenter: Math.pow(gaingrowth,4)*bbgain,
+  Factory: Math.pow(gaingrowth,5)*bbgain,
+  Energy: Math.pow(gaingrowth,6)*bbgain,
+  Casino: Math.pow(gaingrowth,7)*bbgain
+};
+
 const basebuildings = [
-  {name: "Farm", title: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: 10, rate: 1.1}, gain: 0.1, mult: 1.00},
-  {name: "Inn" , title: "Inn", type: "Generator", icon: "fa-beer", cost: {base: 1000, rate: 1.1}, gain: 100, mult: 1.00},
-  {name: "Roads", title: "Roads", type: "Support", icon: "fa-road", cost: {base: 1000000, rate: 1.1}, gain: 0, mult: 1.02},
-  {name: "Store", title: "Store", type: "Generator", icon: "fa-store-alt", cost: {base: 1000000, rate: 1.1}, gain: 10000, mult: 1.00},
-  {name: "Bank", title: "Bank", type: "Generator", icon: "fa-university", cost: {base: 1000000000, rate: 1.1}, gain: 1000000, mult: 1.00},
-  {name: "Public Transport" , title: "Public Transport", type: "Support", icon: "fa-bus-alt", cost: {base: 1000000000000, rate: 1.1}, gain: 0, mult: 1.03},
-  {name: "Datacenter", title: "Datacenter", type: "Generator", icon: "fa-database", cost: {base: 1000000000000, rate: 1.1}, gain: 100000000, mult: 1.00},
-  {name: "Factory", title: "Factory", type: "Generator", icon: "fa-industry", cost: {base: 1000000000000000, rate: 1.1}, gain: 10000000000, mult: 1.00}
+  {name: "Farm", title: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: bcost['Farm'], rate: 1.1}, gain: bgain['Farm'], mult: 1.00},
+  {name: "Inn" , title: "Inn", type: "Generator", icon: "fa-beer", cost: {base: bcost['Inn'], rate: 1.1}, gain: bgain['Inn'], mult: 1.00},
+  {name: "Store", title: "Store", type: "Generator", icon: "fa-store-alt", cost: {base: bcost['Store'], rate: 1.1}, gain: bgain['Store'], mult: 1.00},
+  {name: "Bank", title: "Bank", type: "Generator", icon: "fa-university", cost: {base: bcost['Bank'], rate: 1.1}, gain: bgain['Bank'], mult: 1.00},
+  {name: "Datacenter", title: "Datacenter", type: "Generator", icon: "fa-database", cost: {base: bcost['Datacenter'], rate: 1.1}, gain: bgain['Datacenter'], mult: 1.00},
+  {name: "Factory", title: "Factory", type: "Generator", icon: "fa-industry", cost: {base: bcost['Factory'], rate: 1.1}, gain: bgain['Factory'], mult: 1.00},
+  {name: "Energy", title: "Coal Plant", type: "Generator", icon: "fa-burn", cost: {base: bcost['Energy'], rate: 1.1}, gain: bgain['Energy'], mult: 1.00},
+  {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.1}, gain: bgain['Casino'], mult: 1.00}
 ];
 
 let buildings = JSON.parse(JSON.stringify(basebuildings));
 
 const upgrades = {
-  Farm: {10: {gain: 0.2, title: "Faster Farm"}, 25: {gain: 0.5, title: "Efficient Farm"}},
-  Inn:  {15: {gain: 150, title: "Tavern"}, 30: {gain: 250, title: "Bar"}},
-  Roads: {50: {mult: 1.03, title: "Speedway"}, 100: {gain: 50000, title: "Toll Roads"}},
-  Store: {10: {gain: 20000, title: "Shop"}, 25: {gain: 50000, title: "Mall"}},
-  Bank: {20: {gain: 1700000, title: "Online bank"}, 25: {gain: 3000000, title: "Investment Bank"}},
-  "Public Transport":  {25: {mult: 1.04, title: "Selfdriving Cars"}, 50: {gain: 1000000000, title: "Train station"}, 100: {gain: 1000000000, title: "Airport"}},
-  Datacenter: {10: {gain: 200000000, title: "Social Networks"}, 25: {gain: 400000000, title: "Bitcoin Mining"}},
-  Factory: {},
+  Farm: {25: {gain: 3*bgain['Farm'], title: "Efficient Farm"}, 100: {gain: 15*bgain['Farm'], title: "Automated Farm"}},
+  Inn:  {30: {gain: 4*bgain['Inn'], title: "Tavern"}, 60: {gain: 12*bgain['Inn'], title: "Bar"}},
+  Store: {15: {gain: 2*bgain['Store'], title: "Shop"}, 40: {gain: 4*bgain['Store'], title: "Market"}, 80: {gain: 8*bgain['Store'], title: "Mall"}},
+  Bank: {35: {gain: 4*bgain['Bank'], title: "Online bank"}, 70: {gain: 8*bgain['Bank'], title: "Investment Bank"}},
+  Datacenter: {40: {gain: 4*bgain['Datacenter'], title: "Social Networks"}, 50: {gain: 7*bgain['Datacenter'], title: "Bitcoin Mining"}},
+  Factory: {10: {gain: 3*bgain['Factory'], title: "Outsourcing"}, 80: {gain: 8*bgain['Factory'], title: "Automatic Factory"}},
+  Energy: {50: {gain: 3*bgain['Energy'], title: "Atomic Reactor"}, 90: {gain: 8*bgain['Energy'], title: "Renewable Energy"}},
+  Casino: {100: {gain: 2*bgain['Casino'], title: "Casino"}, 200: {gain: 4*bgain['Casino'], title: "Las Vegas"}},
 };
 
 const upgrade = (buildingid, level) => {
+  if(upgrades[buildingid] === undefined)
+    return;
   if(upgrades[buildingid][level] === undefined)
     return;
   let index = buildings.findIndex(element => element.name === buildingid);
