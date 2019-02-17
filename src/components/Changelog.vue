@@ -10,6 +10,23 @@
     <v-card-text>
       <v-container grid-list-lg>
         <v-layout align-start justify-center row wrap>
+          <!--
+          <v-flex md12>
+            <h2>Feedback and Ideas</h2>
+
+            <v-textarea
+                name="feedback"
+                box
+                v-model="feedbacktext"
+                label="Send the authors a message."
+                auto-grow
+                value=""
+            ></v-textarea>
+            <v-btn @click="submitFeedback()">
+              Submit
+            </v-btn>
+          </v-flex>-->
+
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
@@ -63,10 +80,6 @@
               <li>Income and layout draft</li>
             </ul>
           </v-flex>
-
-          <v-flex md12>
-            <h2>Feedback and Ideas</h2>
-          </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
@@ -76,7 +89,20 @@
 
 <script>
   export default {
-    name: "Changelog"
+    name: "Changelog",
+    data() {
+      return {
+        feedbacktext: ""
+      }
+    },
+    methods: {
+      submitFeedback() {
+        if(this.feedbacktext !== "") {
+
+          this.feedbacktext = "";
+        }
+      }
+    }
   }
 </script>
 
