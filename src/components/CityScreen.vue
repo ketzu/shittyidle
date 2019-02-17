@@ -9,7 +9,7 @@
 
     <v-card-text>
       Currently producing {{formatresource(resourcegain*1000/tickrate)}} per second.
-
+      <br>
       Produced {{formatresource(alltime)}} all time.
     </v-card-text>
 

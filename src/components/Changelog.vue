@@ -21,6 +21,8 @@
               <li>Cross computer storage</li>
               <li>Hard reset confirmation</li>
               <li>Building efficiency indicator</li>
+              <li>Import/Export of Game State</li>
+              <li>Cloud Saves</li>
             </ul>
             &nbsp; &nbsp;...
             <br>
