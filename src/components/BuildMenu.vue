@@ -42,8 +42,9 @@
       cycleCount() {
         switch (this.buycount) {
           case 1: this.buycount = 10; break;
-          case 10: this.buycount = 100; break;
-          case 100: this.buycount = 1000; break;
+          case 10: this.buycount = 25; break;
+          case 25: this.buycount = 100; break;
+          case 100: this.buycount = 1; break;
           case 1000: this.buycount = 1;
         }
       }

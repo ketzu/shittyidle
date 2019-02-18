@@ -25,7 +25,7 @@
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
         <v-spacer></v-spacer>
-        <a href="https://www.paypal.me/roughbudget">Supprt the game.</a>
+        <a href="https://www.paypal.me/roughbudget">Support the game.</a>
         <v-spacer></v-spacer>
         <a @click="$store.commit('hardreset')">HARD RESET (No confirmation!)</a>
         <v-spacer></v-spacer>

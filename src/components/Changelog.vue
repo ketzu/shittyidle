@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.4</span>
+        <span class="grey--text">Current Version: 0.4.2</span>
       </div>
     </v-card-title>
 
@@ -49,6 +49,19 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
+            <br>
+            Version 0.4.2
+            <ul>
+              <li>More Upgrades</li>
+              <li>Rebalancing for even less fun!</li>
+            </ul>
+            <br>
+            Version 0.4.1
+            <ul>
+              <li>Typo fixed</li>
+              <li>Removed statistics unrealted to current point in game</li>
+              <li>(These statistics are temporary fillers for the main screen and will be moved soon)</li>
+            </ul>
             <br>
             Version 0.4
             <ul>

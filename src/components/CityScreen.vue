@@ -9,18 +9,18 @@
 
     <v-card-text>
       Currently producing {{formatresource(resourcegain*1000/tickrate)}} per second.
-      <br>
-      Produced {{formatresource(resetresource)}} this reset.
+
+      <span v-if="resets > 0"><br>Produced {{formatresource(resetresource)}} this reset.</span>
+
       <br>
       Produced {{formatresource(alltime)}} all time.
-      <br>
-      <span v-if="resets > 0">Your experience gives you a {{format(expmult)}}x multiplier.</span>
-      <br>
-      <span v-if="resettable || resets > 0">A job change would gain you {{formatexp(expgain)}} experience.</span>
+
+      <span v-if="resets > 0"><br>Your experience gives you a {{format(expmult)}}x multiplier.</span>
+
+      <span v-if="resettable || resets > 0"><br>A job change would gain you {{formatexp(expgain)}} experience.</span>
     </v-card-text>
 
     <v-card-actions>
-      <v-btn flat color="blue darken-2" @click="$store.dispatch('cheat')" v-if="!resettable">Cheat.</v-btn>
 
       <v-spacer></v-spacer>
 
