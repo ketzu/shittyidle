@@ -159,6 +159,7 @@ export default new Vuex.Store({
   },
   getters: {
     resource(state) { return state.resource; },
+    upgrades(state) { return upgrades; },
     expgain(state) { return expgain(state); },
     expmult(state) { return expmult(state); },
     alltime(state) { return state.alltime; },

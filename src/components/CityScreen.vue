@@ -21,6 +21,7 @@
     </v-card-text>
 
     <v-card-actions>
+      <v-btn flat color="blue darken-2" @click="$store.dispatch('cheat')" v-if="!resettable">Cheat.</v-btn>
 
       <v-spacer></v-spacer>
 

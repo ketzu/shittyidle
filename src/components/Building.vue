@@ -1,20 +1,21 @@
 <template>
-  <v-list-tile avatar>
+  <v-hover>
+  <v-list-tile avatar  slot-scope="{ hover }">
     <v-list-tile-avatar>
       <v-icon large color="grey darken-2">fas {{type.icon}}</v-icon>
     </v-list-tile-avatar>
 
     <v-list-tile-content>
       <v-list-tile-title>
-        {{type.title}} ({{level}})
+        {{type.title}} (<transition name="fade">
+        <span v-if="hover">Next upgrade in {{nextupgrade}} levels.</span>
+        <span v-else>{{level}}</span>
+      </transition>)
       </v-list-tile-title>
 
-      <v-list-tile-sub-title v-if="type.gain>0">
-        {{formatresource(mul*type.gain*level*1000/tickrate)}} per second ({{format(mul*type.gain*level*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
-      </v-list-tile-sub-title>
-      <v-list-tile-sub-title v-if="type.mult>1">
-        Supporting multiplier is {{format(Math.pow(type.mult,level))}}.
-      </v-list-tile-sub-title>
+        <v-list-tile-sub-title>
+          {{formatresource(mul*type.gain*level*1000/tickrate)}} per second ({{format(mul*type.gain*level*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
+        </v-list-tile-sub-title>
 
       <v-list-tile-sub-title>
         Next {{count>1? count : ''}} level{{count>1?'s':''}}: {{formatresource(cost)}}.
@@ -27,6 +28,7 @@
       </v-btn>
     </v-list-tile-action>
   </v-list-tile>
+  </v-hover>
 </template>
 
 <script>
@@ -41,6 +43,27 @@
             return 0;
           }
           return level;
+        }
+      },
+      nextupgrade: {
+        get() {
+          let possibleups = [];
+          for (var key in this.upgrades) {
+            // check if the property/key is defined in the object itself, not in parent
+            if (this.upgrades.hasOwnProperty(key)) {
+              if(this.level < key) {
+                possibleups.push(key-this.level);
+              }
+            }
+          }
+          if(possibleups.length === 0)
+            return "∞";
+          return Math.min(...possibleups);
+        }
+      },
+      upgrades: {
+        get() {
+          return this.$store.getters.upgrades[this.type.name];
         }
       },
       mul: {

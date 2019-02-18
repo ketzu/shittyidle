@@ -53,6 +53,7 @@
             Version 0.4.2
             <ul>
               <li>More Upgrades</li>
+              <li>Bad mouseover text to show levels left for upgrade</li>
               <li>Rebalancing for even less fun!</li>
             </ul>
             <br>
