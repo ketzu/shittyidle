@@ -1,4 +1,6 @@
-# firstgame
+# shitty idle 
+
+http://shittyidle.com
 
 ## Project setup
 ```
