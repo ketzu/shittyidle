@@ -55,6 +55,8 @@
               <li>Colors!</li>
               <li>New on-click menu for buildings</li>
               <li>Stats screen</li>
+              <li>Multibuy improved</li>
+              <li>Nerfed experience, less fun for everyone!</li>
             </ul>
             <br>
             Version 0.4.2
