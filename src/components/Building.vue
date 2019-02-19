@@ -37,7 +37,7 @@
               <v-container grid-list-lg>
                 <v-layout align-start justify-center row wrap>
                   <v-flex md4 offset-md1 xs10 offset-xs1>
-                    <h2 class="stat" style="font-weight: normal;">{{type.title}}</h2>
+                    <h2 class="stat">{{type.title}}</h2>
                     <span class="subitem">current level</span>
                   </v-flex>
                   <v-flex md4 offset-md1 xs10 offset-xs1>

@@ -8,16 +8,7 @@
     </v-card-title>
 
     <v-card-text>
-      Currently producing {{formatresource(resourcegain*1000/tickrate)}} per second.
-
-      <span v-if="resets > 0"><br>Produced {{formatresource(resetresource)}} this reset.</span>
-
-      <br>
-      Produced {{formatresource(alltime)}} all time.
-
-      <span v-if="resets > 0"><br>Your experience gives you a {{format(expmult)}}x multiplier.</span>
-
-      <span v-if="resettable || resets > 0"><br>A job change would gain you {{formatexp(expgain)}} experience.</span>
+      Maybe check out the stats screen <v-icon small>fas fa-chart-line</v-icon> or the on click menu of buildings.
     </v-card-text>
 
     <v-card-actions>

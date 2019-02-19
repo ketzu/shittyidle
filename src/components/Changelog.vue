@@ -54,6 +54,7 @@
             <ul>
               <li>Colors!</li>
               <li>New on-click menu for buildings</li>
+              <li>Stats screen</li>
             </ul>
             <br>
             Version 0.4.2
