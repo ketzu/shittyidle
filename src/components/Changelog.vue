@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.4.2</span>
+        <span class="grey--text">Current Version: 0.5</span>
       </div>
     </v-card-title>
 
@@ -49,6 +49,12 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
+            <br>
+            Version 0.5
+            <ul>
+              <li>Colors!</li>
+              <li>New on-click menu for buildings</li>
+            </ul>
             <br>
             Version 0.4.2
             <ul>
