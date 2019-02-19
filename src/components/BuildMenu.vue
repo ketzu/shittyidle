@@ -14,6 +14,15 @@
     </v-list>
 
     <v-card-actions>
+      &nbsp;&nbsp;
+      <v-slider
+          v-model="buycount"
+          min="1"
+          max="100"
+          thumb-label
+          label="Multi buy"
+          color="blue darken-4"
+      ></v-slider>
       <v-spacer></v-spacer>
       <!--<v-btn flat color="purple" @click="$store.commit('settownspecs',{title:'Mayor', towntype: 'Village'})">FixMe</v-btn>-->
       <v-btn flat color="blue darken-4" @click="cycleCount()">{{buycount}}x</v-btn>
@@ -28,7 +37,9 @@
     components: {Building},
     data() {
       return {
-        buycount: 1
+        buycount: 1,
+        shiftkey: false,
+        buycountstore: 0
       }
     },
     computed: {
@@ -44,10 +55,26 @@
           case 1: this.buycount = 10; break;
           case 10: this.buycount = 25; break;
           case 25: this.buycount = 100; break;
-          case 100: this.buycount = 1; break;
-          case 1000: this.buycount = 1;
+          default: this.buycount = 1;
+        }
+      },
+      keydown(e) {
+        if(e.key=="Shift" && !this.shiftkey) {
+          this.shiftkey = true;
+          this.buycountstore = this.buycount;
+          this.buycount = 10;
+        }
+      },
+      keyup(e) {
+        if(e.key=="Shift") {
+          this.shiftkey = false;
+          this.buycount = this.buycountstore;
         }
       }
+    },
+    mounted() {
+      window.addEventListener("keydown", this.keydown);
+      window.addEventListener("keyup", this.keyup);
     }
   }
 </script>

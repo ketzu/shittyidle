@@ -141,7 +141,7 @@ const expgain = (state) => {
   return Math.sqrt(state.resetresource/(2*Math.pow(10,10)));
 };
 const expmult = (state) => {
-  return 0.1*state.experience;
+  return 0.075*state.experience;
 };
 
 export default new Vuex.Store({
