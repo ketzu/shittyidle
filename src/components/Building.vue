@@ -71,7 +71,7 @@
                         </v-list-tile-content>
 
                         <v-list-tile-action>
-                          <v-icon large color="green darken-3" v-if="level>index">fas fa-check</v-icon>
+                          <v-icon large color="green darken-3" v-if="level>=index">fas fa-check</v-icon>
                           <v-icon large color="grey darken-2" v-else>fas fa-slash</v-icon>
                         </v-list-tile-action>
                       </v-list-tile>
