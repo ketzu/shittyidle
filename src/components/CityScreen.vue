@@ -8,7 +8,14 @@
     </v-card-title>
 
     <v-card-text>
-      Maybe check out the stats screen <v-icon small>fas fa-chart-line</v-icon> or the on click menu of buildings.
+      <v-container grid-list-lg>
+        <v-layout align-start justify-center row wrap>
+          <v-flex md8 offset-md-2>
+            <v-img src="welcome.png" contain max-width="800px"></v-img>
+          </v-flex>
+        </v-layout>
+      </v-container>
+
     </v-card-text>
 
     <v-card-actions>

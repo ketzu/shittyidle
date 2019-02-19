@@ -9,7 +9,7 @@
         <v-dialog v-model="dialog" max-width="600px">
           <span slot="activator">
             <v-list-tile-title>
-              {{type.title}} ({{level}})
+              ({{level}}) {{type.title}}
             </v-list-tile-title>
 
             <v-list-tile-sub-title>
