@@ -2,7 +2,7 @@
 
   <v-dialog v-model="dialog" max-width="600px">
     <v-btn slot="activator" icon id="importexporttoggle">
-      <v-icon>fas fa-exchange-alt</v-icon>
+      <v-icon>fas fa-save</v-icon>
     </v-btn>
     <v-card>
       <v-card-title style="background-color: #2e7d32; color: white;">
@@ -10,7 +10,7 @@
           <v-layout>
             <v-flex xs12 align-end flexbox>
               <span class="headline">
-                <v-icon large color="white">fas fa-exchange-alt</v-icon>
+                <v-icon large color="white">fas fa-save</v-icon>
                 Import / Export
               </span>
             </v-flex>

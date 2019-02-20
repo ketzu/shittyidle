@@ -173,7 +173,7 @@ export default new Vuex.Store({
     buildinglevels(state) { return state.buildings; },
     tickrate(state) { return state.tickrate; },
     towntype(state) { return state.towntype; },
-    currency(state) { return state.currency; },
+    currency(state) { return "₡"; },
     resettable(state) { return resettable(state); },
     title(state) { return state.title; },
     multiplier(state) {

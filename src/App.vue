@@ -8,12 +8,13 @@
       <v-spacer></v-spacer>
 
       <h2>{{formatresource(resource)}}</h2>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
 
       <v-spacer></v-spacer>
 
-      <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
-      <ImportExport></ImportExport>
       <stats></stats>
+      <ImportExport></ImportExport>
       <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
         <v-icon>fas fa-code-branch</v-icon>
       </v-btn>
@@ -29,7 +30,7 @@
         <v-spacer></v-spacer>
         <a href="https://www.paypal.me/roughbudget">Support the game.</a>
         <v-spacer></v-spacer>
-        <a @click="$store.commit('hardreset')">HARD RESET (No confirmation!)</a>
+        <HardReset></HardReset>
         <v-spacer></v-spacer>
       </v-layout>
     </v-footer>
@@ -40,6 +41,7 @@
 import Game from './components/Game.vue';
 import Changelog from "./components/Changelog.vue";
 import Stats from "./components/Stats.vue";
+import HardReset from "./components/HardReset.vue";
 import ImportExport from "./components/ImportExport.vue";
 import Data from './components/data';
 
@@ -49,7 +51,8 @@ export default {
     Game,
     Changelog,
     Stats,
-    ImportExport
+    ImportExport,
+    HardReset
   },
   data() {
     return {
