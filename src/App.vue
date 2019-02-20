@@ -2,43 +2,75 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        IGame
+        <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> City Idle
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
-      {{Math.floor(resource)}} units
+
+      <h2>{{formatresource(resource)}}</h2>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
+
+      <v-spacer></v-spacer>
+
+      <stats></stats>
+      <ImportExport></ImportExport>
+      <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
+        <v-icon>fas fa-code-branch</v-icon>
+      </v-btn>
     </v-toolbar>
+
+    <v-navigation-drawer fixed v-model="sidemenu" app right>
+      <Changelog></Changelog>
+    </v-navigation-drawer>
+
     <Game></Game>
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
-        If you are not idling, you are doing it wrong.
+        <v-spacer></v-spacer>
+        <a href="https://www.paypal.me/roughbudget">Support the game.</a>
+        <v-spacer></v-spacer>
+        <HardReset></HardReset>
+        <v-spacer></v-spacer>
       </v-layout>
     </v-footer>
   </v-app>
 </template>
 
 <script>
-import Game from './components/Game.vue'
+import Game from './components/Game.vue';
+import Changelog from "./components/Changelog.vue";
+import Stats from "./components/Stats.vue";
+import HardReset from "./components/HardReset.vue";
+import ImportExport from "./components/ImportExport.vue";
+import Data from './components/data';
 
 export default {
   name: 'app',
   components: {
-    Game
+    Game,
+    Changelog,
+    Stats,
+    ImportExport,
+    HardReset
   },
   data() {
     return {
-    }
-  },
-  computed: {
-    resource: {
-      get() {
-        return this.$store.getters["resource"];
-      }
+      sidemenu: false
     }
   },
   methods: {
-  }
+  },
+  mixins: [Data]
 }
 </script>
+<style scoped>
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
 
-<style>
+a:hover {
+  text-decoration: underline;
+}
 </style>

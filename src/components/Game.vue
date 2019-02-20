@@ -1,57 +1,13 @@
 <template>
-  <v-content class="deep-purple darken-4">
+  <v-content class="green darken-3">
     <v-container grid-list-lg>
       <v-layout align-start justify-center row wrap>
-        <v-flex md6>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <div class="headline">Gamescreen</div>
-                <span class="grey--text">All the data you want!</span>
-              </div>
-            </v-card-title>
-
-            <v-list two-line>
-              <v-list-tile avatar>
-                <v-list-tile-avatar>
-                  <v-btn icon @click="">
-                    <v-icon large color="blue darken-2">fas fa-arrow-circle-up</v-icon>
-                  </v-btn>
-                </v-list-tile-avatar>
-
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    {{Math.floor(resourcegain*1000/tickrate)}} units per second.
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat color="purple">I have no use.</v-btn>
-            </v-card-actions>
-          </v-card>
+        <v-flex md8>
+          <CityScreen></CityScreen>
         </v-flex>
-        <v-flex md6>
-          <v-card>
-            <v-card-title primary-title>
-              <div>
-                <div class="headline">Generators</div>
-                <span class="grey--text">Increasing your increments!</span>
-              </div>
-            </v-card-title>
 
-            <v-list two-line>
-              <Generator :buildamount="buildamount" :name="generator.name" :generation="generator.generation" :cost="generator.cost" :key="generator.name" v-for="generator in generators"></Generator>
-            </v-list>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn flat @click="changeBuildamount()">{{buildamount}}x</v-btn>
-              <v-btn flat color="purple">Explore</v-btn>
-            </v-card-actions>
-          </v-card>
+        <v-flex md4>
+          <BuildMenu></BuildMenu>
         </v-flex>
       </v-layout>
     </v-container>
@@ -59,70 +15,18 @@
 </template>
 
 <script>
-import Generator from './Generator.vue'
+import BuildMenu from './BuildMenu';
+import CityScreen from "./CityScreen";
 
 export default {
   name: 'Game',
   components: {
-    Generator
+    CityScreen,
+    BuildMenu
   },
   data() {
     return {
-      generators: [
-        {name: "Slow", generation: level => {return level*level;}, cost: level => {return level*level*level}},
-        {name: "Hyper", generation: level => {return Math.exp(level)-1;}, cost: level => {return Math.exp(level*level)}}
-      ],
-      buildamount: 1
     }
-  },
-  computed: {
-    resource: {
-      get() {
-        return this.$store.getters["resource"];
-      },
-      set(value) {
-        this.$store.dispatch('updateresource', {value: value});
-      }
-    },
-    resourcegain: {
-      get() {
-        // base generation
-        let gain = 1;
-
-        // generators computation
-        const levels = this.$store.getters["generators"];
-        for(const gen of this.generators) {
-          gain += gen.generation(gen.name in levels? levels[gen.name] : 0);
-        }
-        return gain;
-      }
-    },
-    tickrate: {
-      get() {
-        return this.$store.getters["tickrate"];
-      }
-    }
-  },
-  methods: {
-    changeBuildamount() {
-      switch(this.buildamount) {
-        case 1: this.buildamount = 10; break;
-        case 10: this.buildamount = 100; break;
-        case 100: this.buildamount = 1000; break;
-        default: this.buildamount = 1;
-      }
-    }
-  },
-  mounted() {
-    let self = this;
-    setInterval(() => {
-      // Main Gameloop
-      self.resource += this.resourcegain;
-    }, this.tickrate);
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
