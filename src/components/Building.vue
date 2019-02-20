@@ -17,7 +17,7 @@
             </v-list-tile-sub-title>
 
             <v-list-tile-sub-title>
-              Next {{count>1? count : ''}} level{{count>1?'s':''}}: {{formatresource(cost)}}.
+              <span v-if="nextupgrade==='∞'">Max upgrades.</span> Next {{count>1? count : ''}} level{{count>1?'s':''}}: {{formatresource(cost)}}.
             </v-list-tile-sub-title>
           </span>
           <v-card>
