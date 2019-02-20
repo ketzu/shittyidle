@@ -35,9 +35,7 @@
               <li>Actual gamescreen</li>
               <li>Feedback options</li>
               <li>Cross computer storage</li>
-              <li>Hard reset confirmation</li>
               <li>Building efficiency indicator</li>
-              <li>Import/Export of Game State</li>
               <li>Cloud Saves</li>
             </ul>
             &nbsp; &nbsp;...
@@ -49,6 +47,13 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
+            <br>
+            Version 0.6
+            <ul>
+              <li>Exp nerfed, for some reason it's still too much fun.</li>
+              <li>Import/Export added</li>
+              <li>Less accidental clicking and having to restart. (Hard Reset confirmation)</li>
+            </ul>
             <br>
             Version 0.5
             <ul>

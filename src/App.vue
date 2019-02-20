@@ -12,6 +12,7 @@
       <v-spacer></v-spacer>
 
       <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
+      <ImportExport></ImportExport>
       <stats></stats>
       <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
         <v-icon>fas fa-code-branch</v-icon>
@@ -39,6 +40,7 @@
 import Game from './components/Game.vue';
 import Changelog from "./components/Changelog.vue";
 import Stats from "./components/Stats.vue";
+import ImportExport from "./components/ImportExport.vue";
 import Data from './components/data';
 
 export default {
@@ -46,7 +48,8 @@ export default {
   components: {
     Game,
     Changelog,
-    Stats
+    Stats,
+    ImportExport
   },
   data() {
     return {

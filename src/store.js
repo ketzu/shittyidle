@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+const storagename = 'cidle-v1';
+
 const bbcost = 10;
 const costgrowth = 13;
 
@@ -39,7 +41,7 @@ const basebuildings = [
   {name: "Datacenter", title: "Datacenter", type: "Generator", icon: "fa-satellite-dish", cost: {base: bcost['Datacenter'], rate: 1.1}, gain: bgain['Datacenter'], mult: 1.00, iconcolor: "blue darken-4"},
   {name: "Factory", title: "Factory", type: "Generator", icon: "fa-industry", cost: {base: bcost['Factory'], rate: 1.1}, gain: bgain['Factory'], mult: 1.00, iconcolor: "teal darken-4"},
   {name: "Energy", title: "Coal Plant", type: "Generator", icon: "fa-burn", cost: {base: bcost['Energy'], rate: 1.1}, gain: bgain['Energy'], mult: 1.00, iconcolor: "deep-orange"},
-  {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.1}, gain: bgain['Casino'], mult: 1.00, iconcolor: "purple darken-2"}
+  {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.095}, gain: bgain['Casino'], mult: 1.00, iconcolor: "purple darken-2"}
 ];
 
 let buildings = JSON.parse(JSON.stringify(basebuildings));
@@ -141,7 +143,7 @@ const expgain = (state) => {
   return Math.sqrt(state.resetresource/(2*Math.pow(10,10)));
 };
 const expmult = (state) => {
-  return 0.075*state.experience;
+  return 0.04*state.experience;
 };
 
 export default new Vuex.Store({
@@ -184,8 +186,8 @@ export default new Vuex.Store({
   mutations: {
     initstore(state) {
       // Check if the ID exists
-      if (localStorage.getItem('cidle-v1')) {
-        let deserialize = JSON.parse(localStorage.getItem('cidle-v1'));
+      if (localStorage.getItem(storagename)) {
+        let deserialize = JSON.parse(localStorage.getItem(storagename));
         // Replace the state object with the stored item
         this.replaceState(
           Object.assign(state, deserialize)
@@ -250,23 +252,10 @@ export default new Vuex.Store({
       }
     },
     hardreset(state) {
-      // Hard Reset State to initial values
-      this.replaceState(
-        Object.assign(state, {
-          resets: 0,
-          experience: 0,
-          resetresource: 0,
-          resource: 0,
-          alltime: 0,
-          tickrate: 100,
-          towntype: "village",
-          title: "mayor",
-          currency: "₡",
-          buildings: {}
-        })
-      );
-      // Reset buildings array
-      Object.assign(buildings, JSON.parse(JSON.stringify(basebuildings)));
+      // Hard Reset: Delete State
+      localStorage.removeItem(storagename);
+      // Reload page
+      location.reload();
     },
     cheat(state) {
       updateresources(state, state.resource);
