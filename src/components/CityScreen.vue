@@ -34,7 +34,7 @@
       <v-spacer></v-spacer>
 
       <transition name="fade">
-        <v-btn flat color="blue darken-2" @click="findNewJob()" v-if="resettable">Find a new job. (Gain {{formatexp(expgain)}} Exp.)</v-btn>
+        <SoftReset></SoftReset>
       </transition>
     </v-card-actions>
   </v-card>
@@ -42,21 +42,18 @@
 
 <script>
   import Stats from "./Stats.vue";
+  import SoftReset from "./SoftReset.vue";
 
   export default {
     name: "CityScreen",
     components: {
-      Stats
+      Stats,
+      SoftReset
     },
     data() {
       return {
         tabcontrols: 0,
         tabs: ['Main','Statistics']
-      }
-    },
-    methods: {
-      findNewJob() {
-        this.$store.dispatch('softreset', {});
       }
     }
   }

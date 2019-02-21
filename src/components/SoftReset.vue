@@ -1,0 +1,58 @@
+<template>
+  <v-dialog v-model="dialog" max-width="600">
+    <v-btn slot="activator" flat color="blue darken-2" @click="findNewJob()" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp.)</v-btn>
+    <v-card>
+      <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
+        <v-icon large color="white">far fa-envelope</v-icon>
+        &nbsp;You have been offered a new job!
+      </v-card-title>
+
+      <v-card-text>
+        <v-container grid-list-lg>
+          <v-layout align-start justify-center row wrap>
+            <v-flex md10 offset-md1>
+              Dear {{title}},
+            </v-flex>
+            <v-flex md10 offset-md1>
+              the investors of a new {{towntype}} have heard of your progress. They have <b>offered you a position</b>! Your new title would stay {{title}}, though.
+            </v-flex>
+            <v-flex md10 offset-md1>
+              You would be able to apply the <b>{{formatexp(expgain)}} experience</b> you gained here. Your experience should help you make the next {{towntype}} grow even faster!
+            </v-flex>
+            <v-flex md10 offset-md1>
+              If you choose to accept this offer, please sign this document! You will instantly move to the place of our new {{towntype}}.
+            </v-flex>
+            <v-flex md10 offset-md1>
+              Best and happy regards,<br>
+              your assistant.
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn color="green darken-4" flat @click="dialog = false;this.$store.dispatch('softreset', {})">
+          <v-icon small left>fas fa-file-signature</v-icon>
+          Accept
+        </v-btn>
+
+        <v-btn color="blue darken-2" flat @click="dialog = false">
+          <v-icon small left>fas fa-times</v-icon>
+          Stay
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
+
+<script>
+  export default {
+    name: "SoftReset"
+  }
+</script>
+
+<style scoped>
+
+</style>

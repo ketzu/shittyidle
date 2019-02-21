@@ -3,7 +3,7 @@
   <a @click="dialog = true">HARD RESET</a>
   <v-dialog
       v-model="dialog"
-      max-width="290">
+      max-width="350">
     <v-card>
       <v-card-title class="headline">Hard Reset?</v-card-title>
 

@@ -31,6 +31,7 @@
             <h2>Upcoming Features</h2>
             <br>
             <ul>
+              <li>Research</li>
               <li>Support buildings</li>
               <li>Actual gamescreen</li>
               <li>Feedback options</li>
