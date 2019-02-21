@@ -1,11 +1,18 @@
 <template>
   <v-card>
-    <v-card-title primary-title style="margin-bottom: -30px;">
+    <v-card-title primary-title style="margin-bottom: -10px;">
       <div>
         <div class="headline">Welcome to your {{towntype}}, {{title}}.</div>
         <span class="grey--text">Make wise decisions!</span>
       </div>
     </v-card-title>
+
+    <div style="background-color: #3E2723;" v-if="resettable">
+      <v-spacer></v-spacer>
+      <transition name="fade">
+        <SoftReset></SoftReset>
+      </transition>
+    </div>
 
     <v-card-text>
       <v-tabs v-model="tabcontrols" color="white" fixed-tabs slider-color="green darken-4">
@@ -13,7 +20,6 @@
           {{ i }}
         </v-tab>
       </v-tabs>
-
       <v-tabs-items v-model="tabcontrols">
         <v-tab-item>
           <v-container grid-list-lg>
@@ -33,9 +39,8 @@
       </v-tabs-items>
     </v-card-text>
 
-    <v-card-actions>
+    <v-card-actions :style="resettable?'background-color: #3E2723;':''">
       <v-spacer></v-spacer>
-
       <transition name="fade">
         <SoftReset></SoftReset>
       </transition>

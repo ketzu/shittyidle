@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" max-width="600">
-    <v-btn slot="activator" flat color="blue darken-2" @click="findNewJob()" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp.)</v-btn>
+    <v-btn slot="activator" flat color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
         <v-icon large color="white">far fa-envelope</v-icon>
@@ -33,7 +33,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="green darken-4" flat @click="dialog = false;this.$store.dispatch('softreset', {})">
+        <v-btn color="green darken-4" flat @click="dialog = false;$store.dispatch('softreset', {})">
           <v-icon small left>fas fa-file-signature</v-icon>
           Accept
         </v-btn>
@@ -49,7 +49,12 @@
 
 <script>
   export default {
-    name: "SoftReset"
+    name: "SoftReset",
+    data() {
+      return {
+        dialog: false
+      }
+    }
   }
 </script>
 
