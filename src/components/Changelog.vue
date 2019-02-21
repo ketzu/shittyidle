@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.5</span>
+        <span class="grey--text">Current Version: 0.7</span>
       </div>
     </v-card-title>
 
@@ -47,6 +47,12 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
+            <br>
+            Version 0.7
+            <ul>
+              <li>Tabbing introduction, statistics moved</li>
+              <li>Exp gain listed on job change button</li>
+            </ul>
             <br>
             Version 0.6
             <ul>

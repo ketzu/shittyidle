@@ -13,7 +13,6 @@
 
       <v-spacer></v-spacer>
 
-      <stats></stats>
       <ImportExport></ImportExport>
       <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
         <v-icon>fas fa-code-branch</v-icon>
@@ -40,7 +39,6 @@
 <script>
 import Game from './components/Game.vue';
 import Changelog from "./components/Changelog.vue";
-import Stats from "./components/Stats.vue";
 import HardReset from "./components/HardReset.vue";
 import ImportExport from "./components/ImportExport.vue";
 import Data from './components/data';
@@ -50,7 +48,6 @@ export default {
   components: {
     Game,
     Changelog,
-    Stats,
     ImportExport,
     HardReset
   },
