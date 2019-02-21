@@ -53,6 +53,7 @@
             <ul>
               <li>Tabbing introduction, statistics moved</li>
               <li>Exp gain listed on job change button</li>
+              <li>Soft Reset confirmation</li>
             </ul>
             <br>
             Version 0.6

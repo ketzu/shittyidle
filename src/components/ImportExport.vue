@@ -1,5 +1,4 @@
 <template>
-
   <v-dialog v-model="dialog" max-width="600px">
     <v-btn slot="activator" icon id="importexporttoggle">
       <v-icon>fas fa-save</v-icon>

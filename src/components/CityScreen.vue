@@ -27,6 +27,9 @@
         <v-tab-item>
           <Stats></Stats>
         </v-tab-item>
+        <v-tab-item>
+          <Help></Help>
+        </v-tab-item>
       </v-tabs-items>
     </v-card-text>
 
@@ -41,6 +44,7 @@
 </template>
 
 <script>
+  import Help from "./Help.vue";
   import Stats from "./Stats.vue";
   import SoftReset from "./SoftReset.vue";
 
@@ -48,12 +52,13 @@
     name: "CityScreen",
     components: {
       Stats,
-      SoftReset
+      SoftReset,
+      Help
     },
     data() {
       return {
         tabcontrols: 0,
-        tabs: ['Main','Statistics']
+        tabs: ['Main','Statistics','Help']
       }
     }
   }

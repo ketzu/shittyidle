@@ -36,12 +36,7 @@
 
 <script>
   export default {
-    name: "Stats",
-    data() {
-      return {
-        dialog: false
-      }
-    }
+    name: "Stats"
   }
 </script>
 
