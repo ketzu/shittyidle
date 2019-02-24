@@ -30,6 +30,11 @@
             </v-layout>
           </v-container>
         </v-tab-item>
+
+        <v-tab-item v-if="tabs.includes('Infrastructure')">
+          <Infrastructure></Infrastructure>
+        </v-tab-item>
+
         <v-tab-item>
           <Stats></Stats>
         </v-tab-item>
@@ -41,9 +46,7 @@
 
     <v-card-actions :style="resettable?'background-color: #3E2723;':''">
       <v-spacer></v-spacer>
-      <transition name="fade">
-        <SoftReset></SoftReset>
-      </transition>
+      <h4 style="color:white;">You have new messages.</h4>
     </v-card-actions>
   </v-card>
 </template>
@@ -52,18 +55,33 @@
   import Help from "./Help.vue";
   import Stats from "./Stats.vue";
   import SoftReset from "./SoftReset.vue";
+  import Infrastructure from "./Infrastructure.vue";
 
   export default {
     name: "CityScreen",
     components: {
+      Infrastructure,
       Stats,
       SoftReset,
-      Help
+      Help,
+      Infrastructure
     },
     data() {
       return {
-        tabcontrols: 0,
-        tabs: ['Main','Statistics','Help']
+        tabcontrols: 0
+      }
+    },
+    computed: {
+      tabs: {
+        get() {
+          let entries = ['Main'];
+
+          if(this.citylevel>0)
+            entries.push('Infrastructure');
+
+          entries.push('Statistics','Help');
+          return entries;
+        }
       }
     }
   }

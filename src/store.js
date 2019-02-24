@@ -147,6 +147,20 @@ const expmult = (state) => {
   return 0.04*state.experience;
 };
 
+const citynames = [
+  "village",
+  "city",
+  "large city",
+  "metropolis"
+];
+
+const cityupgradeable = (state) => {
+  if(state.citylevel === 0 && state.experience >= 1000) {
+    return true;
+  }
+  return false;
+};
+
 export default new Vuex.Store({
   state: {
     resets: 0,
@@ -155,9 +169,9 @@ export default new Vuex.Store({
     resource: 0,
     alltime: 0,
     tickrate: 100,
-    towntype: "village",
     title: "mayor",
     currency: "₡",
+    citylevel: 0,
     buildings: {}
   },
   getters: {
@@ -173,7 +187,10 @@ export default new Vuex.Store({
     buildings(state) { return buildings; },
     buildinglevels(state) { return state.buildings; },
     tickrate(state) { return state.tickrate; },
-    towntype(state) { return state.towntype; },
+    towntype(state) { return citynames[state.citylevel]; },
+    nexttowntype(state) { return citynames[state.citylevel+1]; },
+    cityupgradeable(state) { return cityupgradeable(state); },
+    citylevel(state) { return state.citylevel; },
     currency(state) { return "₡"; },
     resettable(state) { return resettable(state); },
     title(state) { return state.title; },
@@ -226,7 +243,7 @@ export default new Vuex.Store({
       state.towntype = towntype;
       state.title = title;
     },
-    softreset(state, {title, payload}) {
+    softreset(state, {upgrade}) {
       if(resettable(state)){
         state.resets += 1;
         state.experience += expgain(state);
@@ -238,6 +255,10 @@ export default new Vuex.Store({
 
         // Reset buildings array
         Object.assign(buildings, JSON.parse(JSON.stringify(basebuildings)));
+      }
+      if(upgrade && cityupgradeable(state)){
+        state.experience = 0;
+        state.citylevel += 1;
       }
     },
     buybuilding(state, {building, count}) {
