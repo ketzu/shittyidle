@@ -16,7 +16,7 @@
         This project was created to show a friend JavaScript, we discuss and continue to work on it together. The aspirations for our first game are very high, as the name indicates.
       </v-flex>
       <v-flex xs10 offset-xs1>
-        If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a> or <a href="https://reddit.com/u/ketzu">ask me on reddit</a>.
+        If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/u/ketzu">ask me on reddit</a>.
       </v-flex>
     </v-layout>
   </v-container>

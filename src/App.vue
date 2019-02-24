@@ -73,9 +73,14 @@ export default {
       self.notificationstext = upgrade.gain+"x upgrade for "+building;
       self.notification = true;
     });
+    this.bus.$on('notification', text => {
+      self.notificationstext = text;
+      self.notification = true;
+    });
   },
   beforeDestroy() {
     this.bus.$off('upgrade');
+    this.bus.$off('notification');
   },
   mixins: [Data]
 }

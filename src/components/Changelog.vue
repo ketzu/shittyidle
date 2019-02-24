@@ -10,22 +10,20 @@
     <v-card-text>
       <v-container grid-list-lg>
         <v-layout align-start justify-center row wrap>
-          <!--
           <v-flex md12>
             <h2>Feedback and Ideas</h2>
-
             <v-textarea
                 name="feedback"
                 box
                 v-model="feedbacktext"
-                label="Send the authors a message."
+                label="Message to the authors."
                 auto-grow
                 value=""
             ></v-textarea>
             <v-btn @click="submitFeedback()">
               Submit
             </v-btn>
-          </v-flex>-->
+          </v-flex>
 
           <v-flex md12>
             <h2>Upcoming Features</h2>
@@ -33,7 +31,6 @@
             <ul>
               <li>Research</li>
               <li>Actual gamescreen</li>
-              <li>Feedback options</li>
               <li>Cross computer storage</li>
               <li>Building efficiency indicator</li>
               <li>Cloud Saves</li>
@@ -159,8 +156,21 @@
     methods: {
       submitFeedback() {
         if(this.feedbacktext !== "") {
-
-          this.feedbacktext = "";
+          let data = new FormData();
+          data.append( "feedback", this.feedbacktext);
+          fetch("http://shittyidle.com/feedback.php", {
+            method: 'POST',
+            body: data
+          }).then(res => res.json())
+            .then(({success}) => {
+              if(success) {
+                this.feedbacktext = "";
+                this.bus.$emit('notification', "Message succesfully sent.");
+              }else{
+                this.bus.$emit('notification', "Message could not be sent for some reason.");
+              }
+            })
+            .catch(error => console.error('Error:', error));
         }
       }
     }
