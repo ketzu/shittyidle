@@ -62,11 +62,11 @@
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                           <v-list-tile-title>
-                            {{upgrade.title}}
+                            {{upgrade.uname === undefined ? upgrade.title : upgrade.uname}}
                           </v-list-tile-title>
 
                           <v-list-tile-sub-title>
-                            {{format(upgrade.gain/basegain[type.name])}}x
+                            {{format(upgrade.gain)}}x
                           </v-list-tile-sub-title>
                         </v-list-tile-content>
 

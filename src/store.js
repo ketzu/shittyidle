@@ -48,51 +48,51 @@ let buildings = JSON.parse(JSON.stringify(basebuildings));
 
 const upgrades = {
   Farm: {
-    25: {gain: 3*bgain['Farm'], title: "Crop Rotation"},
-    50: {gain: 15*bgain['Farm'], title: "Fertilizer"},
-    100:{gain: 125*bgain['Farm'], title: "Artificial Irrigation"},
-    130: {gain:1250*bgain['Farm'], title: "Plant Crossing"},
-    170: {gain:15000*bgain['Farm'], title: "Mechanized Agriculture"},
-    200: {gain:270000*bgain['Farm'], title: "Bio Farming"}
+    25: {gain: 3, uname: "Crop Rotation"},
+    50: {gain: 5, uname: "Fertilizer"},
+    100:{gain: 15, uname: "Artificial Irrigation", title: "Advanced Farm"},
+    130: {gain:10, uname: "Plant Crossing"},
+    170: {gain:12, uname: "Mechanized Agriculture", title: "Automated Farm"},
+    200: {gain:18, uname: "Bio Farming", title: "Bio Farm"}
     },
   Inn:  {
-    30: {gain: 3*bgain['Inn'], title: "Tavern"},
-    60: {gain: 9*bgain['Inn'], title: "Minibars"},
-    90: {gain: 108*bgain['Inn'], title: "Hotel"},
-    120:{gain: 1620*bgain['Inn'], title: "Spa"},
-    150:{gain: 19440*bgain['Inn'], title: "Bar"}
+    30: {gain: 3, title: "Tavern"},
+    60: {gain: 3, title: "Minibars"},
+    90: {gain: 12, title: "Hotel"},
+    120:{gain: 15, title: "Spa"},
+    150:{gain: 12, title: "Bar"}
     },
   Store: {
-    15: {gain: 4*bgain['Store'], title: "Shop"},
-    40: {gain: 16*bgain['Store'], title: "Market"},
-    80: {gain: 80*bgain['Store'], title: "Farming Market"},
-    140: {gain:880*bgain['Store'], title: "Mall"}
+    15: {gain: 4, title: "Shop"},
+    40: {gain: 4, title: "Market"},
+    80: {gain: 5, title: "Farming Market"},
+    140: {gain:11, title: "Mall"}
     },
   Bank: {
-    35: {gain: 5*bgain['Bank'], title: "Online bank"},
-    70: {gain: 8*5*bgain['Bank'], title: "Loan Shark"},
-    105: {gain: 8*5*4*bgain['Bank'], title: "Investment Bank"},
-    140: {gain: 8*5*4*9*bgain['Bank'], title: "Highspeed Trader"},
-    180: {gain: 8*5*4*9*13*bgain['Bank'], title: "Money Launderer"}
+    35: {gain: 5, title: "Online bank"},
+    70: {gain: 8, title: "Loan Shark"},
+    105: {gain: 4, title: "Investment Bank"},
+    140: {gain: 9, title: "Highspeed Trader"},
+    180: {gain: 13, title: "Money Launderer"}
     },
   Datacenter: {
-    40: {gain: 4*bgain['Datacenter'], title: "Bitcoin Mining"},
-    80: {gain: 28*bgain['Datacenter'], title: "Social Networks"},
-    120: {gain:140*bgain['Datacenter'], title: "Ad Tracking"},
-    160: {gain:1260*bgain['Datacenter'], title: "Smart Grid"}
+    40: {gain: 4, title: "Bitcoin Mining"},
+    80: {gain: 7, title: "Social Networks"},
+    120: {gain:5, title: "Ad Tracking"},
+    160: {gain:9, title: "Smart Grid"}
     },
   Factory: {
-    10: {gain: 3*bgain['Factory'], title: "Outsourcing"},
-    40: {gain: 12*bgain['Factory'], title: "Automatic Factory"},
-    80: {gain: 96*bgain['Factory'], title: "Self Replicating Goods"}
+    10: {gain: 3, title: "Outsourcing"},
+    40: {gain: 4, title: "Automatic Factory"},
+    80: {gain: 8, title: "Self Replicating Goods"}
     },
   Energy: {
-    50: {gain: 3*bgain['Energy'], title: "Nuclear Reactor"},
-    90: {gain: 24*bgain['Energy'], title: "Renewable Energy"}
+    50: {gain: 3, title: "Nuclear Reactor"},
+    90: {gain: 8, title: "Renewable Energy"}
     },
   Casino: {
-    75: {gain: 2*bgain['Casino'], title: "Casino"},
-    150: {gain: 8*bgain['Casino'], title: "Las Vegas"}
+    75: {gain: 2, title: "Casino"},
+    150: {gain: 4, title: "Las Vegas"}
     },
 };
 
@@ -104,7 +104,8 @@ const upgrade = (buildingid, level) => {
   let index = buildings.findIndex(element => element.name === buildingid);
   if(index === undefined)
     return;
-  buildings[index] = {...buildings[index], ...upgrades[buildingid][level]};
+  let tempgain = buildings[index].gain * upgrades[buildingid][level].gain;
+  buildings[index] = {...buildings[index], ...upgrades[buildingid][level], gain: tempgain};
 };
 
 const allupgrades = (buildingid, level) => {

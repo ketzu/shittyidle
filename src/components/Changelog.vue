@@ -49,6 +49,13 @@
           <v-flex md12>
             <h2>Changelog</h2>
             <br>
+            Version 0.7.1
+            <ul>
+              <li>Upgrade list now contains multiplier of that upgrade</li>
+              <li>New data layout for upgrades</li>
+              <li>Corrected upgrade multiplier of farm</li>
+            </ul>
+            <br>
             Version 0.7
             <ul>
               <li>Tabbing introduction, statistics moved</li>
