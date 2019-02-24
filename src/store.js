@@ -96,6 +96,16 @@ const upgrades = {
     },
 };
 
+const infrastructure = [
+  {name: "Roads", title: "Roads", icon: "fa-road", reqlevel: 1, basemult: 1.03, affected: ['Farm', 'Store', 'Factory'], cost: {base: Math.pow(10,5), rate: 1.1}},
+  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.02, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}},
+  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.04, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}},
+  {name: "University", title: "University", icon: "fa-graduation-cap ", reqlevel: 2, basemult: 1.02, affected: [], cost: {base: Math.pow(10,15), rate: 1.1}},
+  {name: "Lighting", title: "Lighting", icon: "fa-lightbulb", reqlevel: 2, basemult: 1.02, affected: [], cost: {base: Math.pow(10,20), rate: 1.1}},
+  {name: "Internet", title: "Internet", icon: "fa-wifi", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,25), rate: 1.1}},
+  {name: "Airport", title: "Airport", icon: "fa-plane-departure ", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,30), rate: 1.1}}
+];
+
 const upgrade = (buildingid, level) => {
   if(upgrades[buildingid] === undefined)
     return;
@@ -114,6 +124,15 @@ const allupgrades = (buildingid, level) => {
   }
 };
 
+const affecting = (building, inflevels) => {
+  let mult = 1;
+  for(let infra of infrastructure.filter(inf => inf.affected.includes(building.name))) {
+    if(inflevels[infra.name] !== undefined)
+      mult *= Math.pow(infra.basemult, inflevels[infra.name]);
+  }
+  return mult;
+};
+
 const resourcegain = (state) => {
   // base generation
   let gain = 0.1;
@@ -123,7 +142,7 @@ const resourcegain = (state) => {
     if(level === undefined)
       continue;
     multiplier *= Math.pow(current.mult,level);
-    gain += current.gain * level;
+    gain += current.gain * level*affecting(current, state.infrastructure);
   }
   return [gain,multiplier];
 };
@@ -172,7 +191,8 @@ export default new Vuex.Store({
     title: "mayor",
     currency: "₡",
     citylevel: 0,
-    buildings: {}
+    buildings: {},
+    infrastructure: {}
   },
   getters: {
     resource(state) { return state.resource; },
@@ -185,6 +205,8 @@ export default new Vuex.Store({
     experience(state) { return state.experience; },
     resets(state) { return state.resets; },
     buildings(state) { return buildings; },
+    infrastructure(state) { return infrastructure.filter(obj => obj.reqlevel <= state.citylevel)},
+    infrastructurelevels(state) { return state.infrastructure; },
     buildinglevels(state) { return state.buildings; },
     tickrate(state) { return state.tickrate; },
     towntype(state) { return citynames[state.citylevel]; },
@@ -273,14 +295,22 @@ export default new Vuex.Store({
         }
       }
     },
+    buyinfrastrucutre(state, {building, count}) {
+      if(state.infrastructure[building.name] === undefined)
+        Vue.set(state.infrastructure, building.name, 0);
+      for(let i=0;i<count;i++){
+        const cost = building.cost.base*Math.pow(building.cost.rate,state.infrastructure[building.name]);
+        if(cost < state.resource) {
+          state.resource -= cost;
+          state.infrastructure[building.name] += 1;
+        }
+      }
+    },
     hardreset(state) {
       // Hard Reset: Delete State
       localStorage.removeItem(storagename);
       // Reload page
       location.reload();
-    },
-    cheat(state) {
-      updateresources(state, state.resource);
     }
   },
   actions: {
@@ -295,6 +325,9 @@ export default new Vuex.Store({
     },
     buybuilding({commit}, payload) {
       commit('buybuilding', payload);
+    },
+    buyinfrastructure({commit}, payload) {
+      commit('buyinfrastrucutre', payload);
     },
     softreset({commit}, payload) {
       commit('softreset', payload);

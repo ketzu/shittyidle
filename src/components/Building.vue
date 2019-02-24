@@ -13,11 +13,11 @@
             </v-list-tile-title>
 
             <v-list-tile-sub-title>
-              {{formatresource(mul*type.gain*level*1000/tickrate)}} per second ({{format(mul*type.gain*level*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
+              {{formatresource(production*1000/tickrate)}} per second ({{format(production*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
             </v-list-tile-sub-title>
 
             <v-list-tile-sub-title>
-              <span v-if="nextupgrade==='∞'">Max upgrades.</span> Next {{count>1? count : ''}} level{{count>1?'s':''}}: {{formatresource(cost)}}.
+              <span v-if="nextupgrade==='∞'">Max upgrades.</span> Next {{buycount>1? buycount : ''}} level{{buycount>1?'s':''}}: {{formatresource(cost)}}.
             </v-list-tile-sub-title>
           </span>
           <v-card>
@@ -49,8 +49,12 @@
                     level until next upgrade
                   </v-flex>
                   <v-flex md4 offset-md1 xs10 offset-xs1>
-                    <h2 class="stat">{{format(mul*type.gain*level*100/(resourcegain>0.1?resourcegain-0.1:1))}}%</h2>
+                    <h2 class="stat">{{format(production*100/(resourcegain>0.1?resourcegain-0.1:1))}}%</h2>
                     of current production
+                  </v-flex>
+                  <v-flex md9 offset-md1 xs10 offset-xs1>
+                    <h2 class="stat">{{format(affecting)}}x</h2>
+                    by infrastructure
                   </v-flex>
                   <v-flex xs12>
                     <v-list two-line>
@@ -100,7 +104,7 @@
 <script>
   export default {
     name: "Building",
-    props: ['type', 'count'],
+    props: ['type'],
     data() {
       return {
         dialog: false
@@ -142,12 +146,24 @@
           return this.$store.getters.multiplier;
         }
       },
+      affecting() {
+        const inflevels = this.$store.getters.infrastructurelevels;
+        let mult = 1;
+        for(let infra of this.infrastructure.filter(inf => inf.affected.includes(this.type.name))) {
+          if(inflevels[infra.name] !== undefined)
+            mult *= Math.pow(infra.basemult, inflevels[infra.name]);
+        }
+        return mult;
+      },
+      production() {
+        return this.mul*this.type.gain*this.level*this.affecting;
+      },
       cost() {
-        if (this.count === 1) {
+        if (this.buycount === 1) {
           return this.type.cost.base * Math.pow(this.type.cost.rate, this.level);
         } else {
           const rtos = Math.pow(this.type.cost.rate, this.level);
-          const rtogms = Math.pow(this.type.cost.rate, this.count);
+          const rtogms = Math.pow(this.type.cost.rate, this.buycount);
           return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
         }
       },
@@ -158,7 +174,7 @@
     methods: {
       buy() {
         if (this.buyable)
-          this.$store.dispatch('buybuilding', {building: this.type, count: this.count});
+          this.$store.dispatch('buybuilding', {building: this.type, count: this.buycount});
       }
     }
   }

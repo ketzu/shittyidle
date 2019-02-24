@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.7</span>
+        <span class="grey--text">Current Version: 0.8</span>
       </div>
     </v-card-title>
 
@@ -32,7 +32,6 @@
             <br>
             <ul>
               <li>Research</li>
-              <li>Support buildings</li>
               <li>Actual gamescreen</li>
               <li>Feedback options</li>
               <li>Cross computer storage</li>
@@ -48,6 +47,12 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
+            <br>
+            Version 0.8
+            <ul>
+              <li>First promotion introduced!</li>
+              <li>Support buildings can be unlocked</li>
+            </ul>
             <br>
             Version 0.7.1
             <ul>

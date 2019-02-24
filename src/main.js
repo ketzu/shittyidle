@@ -39,6 +39,11 @@ Vue.mixin({
 new Vue({
   store,
   render: h => h(App),
+  data() {
+    return {
+      buyamount: 1
+    }
+  },
   beforeCreate() {
     this.$store.commit('initstore');
   },
