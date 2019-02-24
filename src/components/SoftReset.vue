@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <transition name="fade">
   <v-dialog v-model="dialog" max-width="600">
     <v-btn slot="activator" flat color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
     <v-card>
@@ -92,7 +92,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  </div>
+  </transition>
 </template>
 
 <script>

@@ -45,16 +45,18 @@
           <v-flex md12>
             <h2>Changelog</h2>
 
-            <div slot="header">Version 0.8.2</div>
+            <div slot="header">Version 0.8.3</div>
             <ul>
-              <li>Feedback directly on the side.</li>
-              <li>Changelog expandable and reduction to main versions.</li>
-              <li>Notifications now stack instead of overwrite.</li>
+              <li>City name can now be changed.</li>
+              <li>Preview for City Grid included, major feature of 0.9.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.8</div>
                 <ul>
+                  <li>Feedback directly on the side.</li>
+                  <li>Changelog expandable and reduction to main versions.</li>
+                  <li>Notifications now stack instead of overwrite.</li>
                   <li>Bug removed from infrastructure.</li>
                   <li>Notifications for upgrades added.</li>
                   <li>First promotion introduced!</li>
