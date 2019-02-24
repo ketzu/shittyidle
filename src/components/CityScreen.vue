@@ -94,8 +94,4 @@
 </script>
 
 <style scoped>
-.welcomename {
-  font-size: 70px;
-  z-index: 1;
-}
 </style>

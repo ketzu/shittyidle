@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a25a887e-cf11-4128-9c87-23905d5e1f09" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/components/Changelog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Changelog.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CityGrid.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CityGrid.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/CityScreen.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CityScreen.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Help.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Help.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/data.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/welcome.afdesign" beforeDir="false" afterPath="$PROJECT_DIR$/welcome.afdesign" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -48,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/CityScreen.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+            <state relative-caret-position="445">
+              <caret line="95" column="14" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
               <folding>
                 <element signature="n#style#0;n#v-card-title#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
@@ -346,12 +340,12 @@
       <workItem from="1550998014780" duration="14637000" />
       <workItem from="1551013420911" duration="8756000" />
       <workItem from="1551023199936" duration="2067000" />
-      <workItem from="1551034026963" duration="8902000" />
+      <workItem from="1551034026963" duration="8991000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="117573000" />
+    <option name="totallyTimeSpent" value="117662000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -571,8 +565,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/CityScreen.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="82" column="43" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+        <state relative-caret-position="445">
+          <caret line="95" column="14" selection-start-line="95" selection-start-column="14" selection-end-line="95" selection-end-column="14" />
           <folding>
             <element signature="n#style#0;n#v-card-title#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
