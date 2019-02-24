@@ -4,7 +4,7 @@
       <v-flex :key="i" md4 v-for="i in 5">
         <v-layout column>
           <v-flex :key="j" md4 v-for="j in 5" style="padding:1px;">
-            <v-card :color="plotsavailable(i,j)?'green darken-4':'#364a38'" dark min-height="100px" flat @click="plotsavailable(i,j)?dialog = true:'';di=i;dj=j">
+            <v-card :color="plotsavailable(i,j)?'green darken-4':'#364a38'" dark min-height="100px" flat @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
               <v-card-text class="text-md-center">
                 <v-icon x-large v-if="grid[i-1][j-1]!==''" style="margin-bottom:-30px;">fas {{grid[i-1][j-1]}}</v-icon>
                 <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
@@ -119,7 +119,7 @@
       },
       plotusable() {
         return (i, j) => {
-          if (this.plotsavailable(i,j) && this.grid[i-1,j-1]==='')
+          if (this.plotsavailable(i,j) && this.grid[i-1][j-1]==='')
             return true;
           return false;
         }

@@ -175,9 +175,9 @@
             .then(({success}) => {
               if(success) {
                 this.feedbacktext = "";
-                this.bus.$emit('notification', "Message succesfully sent.");
+                this.bus.$emit('notification', "Message succesfully sent! Thank you for helping us.");
               }else{
-                this.bus.$emit('notification', "Message could not be sent for some reason.");
+                this.bus.$emit('notification', "Message could not be sent for some reason, sorry! Maybe try e-mail or reddit.");
               }
             })
             .catch(error => console.error('Error:', error));

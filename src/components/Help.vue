@@ -16,7 +16,17 @@
         This project was created to show a friend JavaScript, we discuss and continue to work on it together. The aspirations for our first game are very high, as the name indicates.
       </v-flex>
       <v-flex xs10 offset-xs1>
+        The <b>first soft reset</b> is currently available at <b>100 gambling dens</b>.
+      </v-flex>
+      <v-flex xs10 offset-xs1>
         If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/u/ketzu">ask me on reddit</a>.
+      </v-flex>
+      <v-flex xs10 offset-xs1>
+        As a courtesy, you might want to change your city name:
+        <v-text-field
+            label="City name"
+            v-model="newcityname"
+        ></v-text-field>
       </v-flex>
     </v-layout>
   </v-container>
@@ -24,7 +34,17 @@
 
 <script>
   export default {
-    name: "Help"
+    name: "Help",
+    computed: {
+      newcityname: {
+        get() {
+          return this.cityname;
+        },
+        set(value) {
+          this.$store.dispatch('changecityname', value);
+        }
+      }
+    }
   }
 </script>
 

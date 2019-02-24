@@ -10,7 +10,7 @@ export default {
         this.$root.buyamount = value;
       }
     },
-    ...mapGetters(['resource', 'resourcegain','tickrate','basegain',
+    ...mapGetters(['resource', 'resourcegain','tickrate','basegain','cityname',
       'towntype','nexttowntype','title','currency',
       'citylevel', 'cityupgradeable',
       'infrastructure',

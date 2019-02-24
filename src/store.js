@@ -185,6 +185,7 @@ const cityupgradeable = (state) => {
 
 export default new Vuex.Store({
   state: {
+    cityname: "Shitty Idle",
     resets: 0,
     resetresource: 0,
     experience: 0,
@@ -198,6 +199,7 @@ export default new Vuex.Store({
     infrastructure: {}
   },
   getters: {
+    cityname(state) { return state.cityname; },
     resource(state) { return state.resource; },
     upgrades(state) { return upgrades; },
     basegain(state) { return bgain; },
@@ -315,6 +317,9 @@ export default new Vuex.Store({
       localStorage.removeItem(storagename);
       // Reload page
       location.reload();
+    },
+    changecityname(state, name) {
+      state.cityname=name;
     }
   },
   actions: {
@@ -332,6 +337,9 @@ export default new Vuex.Store({
     },
     softreset({commit}, payload) {
       commit('softreset', payload);
+    },
+    changecityname({commit}, name) {
+      commit('changecityname', name);
     }
   }
 })
