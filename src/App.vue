@@ -23,6 +23,13 @@
       <Changelog></Changelog>
     </v-navigation-drawer>
 
+    <v-snackbar v-model="notification" multi-line :timeout="4000" top right>
+      {{ notificationstext }}
+      <v-btn dark flat @click="notification = false">
+        Close
+      </v-btn>
+    </v-snackbar>
+
     <Game></Game>
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
@@ -53,10 +60,22 @@ export default {
   },
   data() {
     return {
-      sidemenu: false
+      sidemenu: false,
+      notification: false,
+      notificationstext: ""
     }
   },
   methods: {
+  },
+  created() {
+    const self = this;
+    this.bus.$on('upgrade', ({building, upgrade}) => {
+      self.notificationstext = upgrade.gain+"x upgrade for "+building;
+      self.notification = true;
+    });
+  },
+  beforeDestroy() {
+    this.bus.$off('upgrade');
   },
   mixins: [Data]
 }

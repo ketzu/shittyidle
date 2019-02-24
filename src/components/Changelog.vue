@@ -48,6 +48,12 @@
           <v-flex md12>
             <h2>Changelog</h2>
             <br>
+            Version 0.8.1
+            <ul>
+              <li>Bug removed from infrastructure.</li>
+              <li>Notifications for upgrades added.</li>
+            </ul>
+            <br>
             Version 0.8
             <ul>
               <li>First promotion introduced!</li>

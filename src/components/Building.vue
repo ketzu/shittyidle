@@ -52,7 +52,7 @@
                     <h2 class="stat">{{format(production*100/(resourcegain>0.1?resourcegain-0.1:1))}}%</h2>
                     of current production
                   </v-flex>
-                  <v-flex md9 offset-md1 xs10 offset-xs1>
+                  <v-flex md9 offset-md1 xs10 offset-xs1 v-if="citylevel>0">
                     <h2 class="stat">{{format(affecting)}}x</h2>
                     by infrastructure
                   </v-flex>

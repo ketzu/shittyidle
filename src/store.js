@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
+export const eventBus = new Vue();
+
 const storagename = 'cidle-v1';
 
 const bbcost = 10;
@@ -116,6 +118,7 @@ const upgrade = (buildingid, level) => {
     return;
   let tempgain = buildings[index].gain * upgrades[buildingid][level].gain;
   buildings[index] = {...buildings[index], ...upgrades[buildingid][level], gain: tempgain};
+  eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
 };
 
 const allupgrades = (buildingid, level) => {
@@ -272,6 +275,7 @@ export default new Vuex.Store({
 
         // Reset run specific stats
         state.buildings = {};
+        state.infrastructure = {};
         state.resource = 0;
         state.resetresource = 0;
 
@@ -314,9 +318,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    cheat({commit}) {
-      commit('cheat');
-    },
     spendresource({commit}, payload) {
       commit('spendresource', payload);
     },

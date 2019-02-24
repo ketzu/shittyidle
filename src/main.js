@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import store from './store'
+import store,{eventBus} from './store'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
@@ -16,6 +16,13 @@ store.subscribe((mutation, state) => {
 import Data from './components/data'
 Vue.mixin(Data);
 
+Vue.mixin({
+  computed: {
+    bus() {
+      return eventBus;
+    }
+  }
+});
 
 Vue.mixin({
   methods: {
