@@ -10,7 +10,6 @@
       <h2>{{formatresource(resource)}}</h2>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
-
       <v-spacer></v-spacer>
 
       <ImportExport></ImportExport>
@@ -23,14 +22,10 @@
       <Changelog></Changelog>
     </v-navigation-drawer>
 
-    <v-snackbar v-model="notification" multi-line :timeout="4000" top right>
-      {{ notificationstext }}
-      <v-btn dark flat @click="notification = false">
-        Close
-      </v-btn>
-    </v-snackbar>
+    <Notification v-on:done="done(index)" :key="index" :text="notification" v-for="(notification, index) in notifications"></Notification>
 
     <Game></Game>
+
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
         <v-spacer></v-spacer>
@@ -46,6 +41,7 @@
 <script>
 import Game from './components/Game.vue';
 import Changelog from "./components/Changelog.vue";
+import Notification from "./components/Notification.vue";
 import HardReset from "./components/HardReset.vue";
 import ImportExport from "./components/ImportExport.vue";
 import Data from './components/data';
@@ -56,26 +52,28 @@ export default {
     Game,
     Changelog,
     ImportExport,
-    HardReset
+    HardReset,
+    Notification
   },
   data() {
     return {
       sidemenu: false,
-      notification: false,
-      notificationstext: ""
+      notifications: []
     }
   },
   methods: {
+    done(index) {
+      this.notifications.splice(index,1);
+    }
   },
   created() {
     const self = this;
     this.bus.$on('upgrade', ({building, upgrade}) => {
-      self.notificationstext = upgrade.gain+"x upgrade for "+building;
-      self.notification = true;
+      console.log("Upgrade notification");
+      self.notifications.push(upgrade.gain+"x upgrade for "+building);
     });
     this.bus.$on('notification', text => {
-      self.notificationstext = text;
-      self.notification = true;
+      self.notifications.push(text);
     });
   },
   beforeDestroy() {

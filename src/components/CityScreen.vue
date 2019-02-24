@@ -31,6 +31,10 @@
           </v-container>
         </v-tab-item>
 
+        <v-tab-item>
+          <CityGrid></CityGrid>
+        </v-tab-item>
+
         <v-tab-item v-if="tabs.includes('Infrastructure')">
           <Infrastructure></Infrastructure>
         </v-tab-item>
@@ -44,9 +48,9 @@
       </v-tabs-items>
     </v-card-text>
 
-    <v-card-actions :style="resettable?'background-color: #3E2723;':''">
+    <v-card-actions>
       <v-spacer></v-spacer>
-      <h4 style="color:white;">You have new messages.</h4>
+
     </v-card-actions>
   </v-card>
 </template>
@@ -55,6 +59,7 @@
   import Help from "./Help.vue";
   import Stats from "./Stats.vue";
   import SoftReset from "./SoftReset.vue";
+  import CityGrid from "./CityGrid.vue";
   import Infrastructure from "./Infrastructure.vue";
 
   export default {
@@ -64,7 +69,8 @@
       Stats,
       SoftReset,
       Help,
-      Infrastructure
+      Infrastructure,
+      CityGrid
     },
     data() {
       return {
@@ -74,7 +80,7 @@
     computed: {
       tabs: {
         get() {
-          let entries = ['Main'];
+          let entries = ['Main', 'City'];
 
           if(this.citylevel>0)
             entries.push('Infrastructure');

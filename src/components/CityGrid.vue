@@ -1,0 +1,138 @@
+<template>
+  <v-container fluid>
+    <v-layout row>
+      <v-flex :key="i" md4 v-for="i in 5">
+        <v-layout column>
+          <v-flex :key="j" md4 v-for="j in 5" style="padding:1px;">
+            <v-card :color="plotsavailable(i,j)?'green darken-4':'#364a38'" dark min-height="100px" flat @click="plotsavailable(i,j)?dialog = true:'';di=i;dj=j">
+              <v-card-text class="text-md-center">
+                <v-icon x-large v-if="grid[i-1][j-1]!==''" style="margin-bottom:-30px;">fas {{grid[i-1][j-1]}}</v-icon>
+                <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
+                <v-icon x-large v-else-if="trees[i-1][j-1]===0" style="margin-bottom:-30px;">
+                  fas fa-tree
+                </v-icon>
+              </v-card-text>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
+    <v-dialog v-model="dialog" max-width="600px">
+      <v-card>
+        <v-card-title style="background-color: #2e7d32; color: white;">
+          <v-container fluid>
+            <v-layout>
+              <v-flex xs12 align-end flexbox>
+                    <span class="headline">
+                      <v-icon large color="white">fas fa-hammer</v-icon>
+                      Place a building, {{title}}!
+                    </span>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-lg>
+            <v-layout align-start justify-center row wrap>
+              <v-flex xs10 offset-xs1>
+                <v-list two-line>
+                  <transition name="fade" :key="index" v-for="(building, index) in buildings">
+
+                    <v-list-tile avatar>
+                      <v-list-tile-avatar>
+                        <v-icon large :color="building.iconcolor">fas {{building.icon}}</v-icon>
+                      </v-list-tile-avatar>
+
+                      <v-list-tile-content>
+                        <v-list-tile-title>
+                          {{building.title}}
+                        </v-list-tile-title>
+                      </v-list-tile-content>
+
+                      <v-list-tile-action>
+                        <v-btn icon ripple @click="build(di,dj,building);dialog=false">
+                          <v-icon color="blue darken-4">fas fa-hammer</v-icon>
+                        </v-btn>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                  </transition>
+                </v-list>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions style="background-color: #2e7d32;">
+          <v-spacer></v-spacer>
+          <v-btn color="white" flat @click="dialog = false">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
+</template>
+
+<script>
+  export default {
+    name: "CityGrid",
+    data() {
+      return {
+        grid: [
+          ['', '', '', '', ''],
+          ['', '', '', '', ''],
+          ['', '', '', '', ''],
+          ['', '', '', '', ''],
+          ['', '', '', '', '']
+        ],
+        dialog: false,
+        di: 3,
+        dj: 3
+      }
+    },
+    computed: {
+      trees() {
+        let result = [];
+        for(let i=0;i<5;i++) {
+          result.push([]);
+          for(let j=0;j<5;j++) {
+            result[i].push(Math.floor(Math.random()*4)%4);
+          }
+        }
+        return result;
+      },
+      buildings: {
+        get() {
+          return this.$store.getters.buildings;
+        }
+      },
+      radius() {
+        if (this.citylevel > 0)
+          return 1;
+        if (this.resets > 2)
+          return 1;
+        return 0;
+      },
+      plotsavailable() {
+        return (i, j) => {
+          if (Math.abs(i - 3) < this.radius && Math.abs(j - 3) < this.radius)
+            return true;
+          return false;
+        }
+      },
+      plotusable() {
+        return (i, j) => {
+          if (this.plotsavailable(i,j) && this.grid[i-1,j-1]==='')
+            return true;
+          return false;
+        }
+      }
+    },
+    methods: {
+      build(i,j,building){
+        this.grid[i-1][j-1] = building.icon;
+      }
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>

@@ -49,6 +49,7 @@
             <ul>
               <li>Feedback directly on the side.</li>
               <li>Changelog expandable and reduction to main versions.</li>
+              <li>Notifications now stack instead of overwrite.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
