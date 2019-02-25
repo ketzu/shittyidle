@@ -185,6 +185,7 @@ const cityupgradeable = (state) => {
 
 export default new Vuex.Store({
   state: {
+    startofgamedialog: true,
     version: "0.8.3",
     cityname: "Shitty Idle",
     resets: 0,
@@ -200,6 +201,7 @@ export default new Vuex.Store({
     infrastructure: {}
   },
   getters: {
+    startofgamedialog(state) { return state.startofgamedialog; },
     cityname(state) { return state.cityname; },
     resource(state) { return state.resource; },
     upgrades(state) { return upgrades; },
@@ -321,6 +323,9 @@ export default new Vuex.Store({
     },
     changecityname(state, name) {
       state.cityname=name;
+    },
+    startGame(state) {
+      state.startofgamedialog = false;
     }
   },
   actions: {
@@ -341,6 +346,9 @@ export default new Vuex.Store({
     },
     changecityname({commit}, name) {
       commit('changecityname', name);
+    },
+    startGame({commit}) {
+      commit('startGame');
     }
   }
 })

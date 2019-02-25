@@ -25,6 +25,8 @@
 
     <Notification v-on:done="done(index)" :key="index" :text="notification" v-for="(notification, index) in notifications"></Notification>
 
+    <WelcomeMessage></WelcomeMessage>
+
     <Game></Game>
 
     <v-footer app dark height="auto" absolute>
@@ -42,6 +44,7 @@
 <script>
 import Game from './components/Game.vue';
 import Changelog from "./components/Changelog.vue";
+import WelcomeMessage from "./components/WelcomeMessage.vue";
 import Notification from "./components/Notification.vue";
 import HardReset from "./components/HardReset.vue";
 import ImportExport from "./components/ImportExport.vue";
@@ -54,7 +57,8 @@ export default {
     Changelog,
     ImportExport,
     HardReset,
-    Notification
+    Notification,
+    WelcomeMessage
   },
   data() {
     return {
