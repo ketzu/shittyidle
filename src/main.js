@@ -48,7 +48,8 @@ new Vue({
   render: h => h(App),
   data() {
     return {
-      buyamount: 1
+      buyamount: 1,
+      buytoupg: false
     }
   },
   beforeCreate() {

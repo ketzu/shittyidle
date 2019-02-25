@@ -34,6 +34,7 @@
               <li>City screen</li>
               <li>Perks</li>
               <li>Cloud Saves</li>
+              <li>Multi buy till next upgrade</li>
             </ul>
             &nbsp; &nbsp;...
             <br>

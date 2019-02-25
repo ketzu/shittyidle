@@ -10,6 +10,7 @@
       <h2>{{formatresource(resource)}}</h2>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <h2 v-if="resets >= 1">{{formatexp(experience)}} Exp</h2>
+
       <v-spacer></v-spacer>
 
       <ImportExport></ImportExport>

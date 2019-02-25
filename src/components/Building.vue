@@ -17,7 +17,7 @@
             </v-list-tile-sub-title>
 
             <v-list-tile-sub-title>
-              <span v-if="nextupgrade==='∞'">Max upgrades.</span> Next {{buycount>1? buycount : ''}} level{{buycount>1?'s':''}}: {{formatresource(cost)}}.
+              <span v-if="nextupgrade==='∞'">Max upgrades.</span> Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
             </v-list-tile-sub-title>
           </span>
           <v-card>
@@ -120,6 +120,19 @@
           return level;
         }
       },
+      maxbuyable() {
+        return this.buycount;
+      },
+      compbuycount() {
+        if(this.buytoupgrade) {
+          if(this.nextupgrade === '∞') {
+            return this.maxbuyable;
+          }else{
+            return this.nextupgrade;
+          }
+        }
+        return this.buycount;
+      },
       nextupgrade: {
         get() {
           let possibleups = [];
@@ -159,11 +172,11 @@
         return this.mul*this.type.gain*this.level*this.affecting;
       },
       cost() {
-        if (this.buycount === 1) {
+        if (this.compbuycount === 1) {
           return this.type.cost.base * Math.pow(this.type.cost.rate, this.level);
         } else {
           const rtos = Math.pow(this.type.cost.rate, this.level);
-          const rtogms = Math.pow(this.type.cost.rate, this.buycount);
+          const rtogms = Math.pow(this.type.cost.rate, this.compbuycount);
           return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
         }
       },
@@ -174,7 +187,7 @@
     methods: {
       buy() {
         if (this.buyable)
-          this.$store.dispatch('buybuilding', {building: this.type, count: this.buycount});
+          this.$store.dispatch('buybuilding', {building: this.type, count: this.compbuycount});
       }
     }
   }

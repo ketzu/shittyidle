@@ -99,9 +99,9 @@ const upgrades = {
 };
 
 const infrastructure = [
-  {name: "Roads", title: "Roads", icon: "fa-road", reqlevel: 1, basemult: 1.01, affected: ['Farm', 'Store', 'Factory'], cost: {base: Math.pow(10,5), rate: 1.1}},
-  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.0125, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}},
-  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.015, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}},
+  {name: "Roads", title: "Roads", icon: "fa-road", reqlevel: 1, basemult: 1.015, affected: ['Farm', 'Store', 'Factory'], cost: {base: Math.pow(10,5), rate: 1.1}},
+  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.025, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}},
+  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.04, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}},
   {name: "University", title: "University", icon: "fa-graduation-cap ", reqlevel: 2, basemult: 1.02, affected: [], cost: {base: Math.pow(10,15), rate: 1.1}},
   {name: "Lighting", title: "Lighting", icon: "fa-lightbulb", reqlevel: 2, basemult: 1.02, affected: [], cost: {base: Math.pow(10,20), rate: 1.1}},
   {name: "Internet", title: "Internet", icon: "fa-wifi", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,25), rate: 1.1}},
@@ -185,6 +185,7 @@ const cityupgradeable = (state) => {
 
 export default new Vuex.Store({
   state: {
+    version: "0.8.3",
     cityname: "Shitty Idle",
     resets: 0,
     resetresource: 0,

@@ -8,9 +8,16 @@
               <v-card-text class="text-md-center">
                 <v-icon x-large v-if="grid[i-1][j-1]!==''" style="margin-bottom:-30px;">fas {{grid[i-1][j-1]}}</v-icon>
                 <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
-                <v-icon x-large v-else-if="trees[i-1][j-1]===0" style="margin-bottom:-30px;">
+                <v-icon x-large v-else-if="trees[i-1][j-1]===0 || trees[i-1][j-1]===1" style="margin-bottom:-30px;">
                   fas fa-tree
                 </v-icon>
+                <span v-else-if="trees[i-1][j-1]===2">
+                <v-icon x-large style="margin-bottom:-30px;">fas fa-tree</v-icon>
+                  &nbsp;
+                <v-icon x-large style="margin-bottom:-30px;">fas fa-tree</v-icon>
+                  &nbsp;
+                <v-icon x-large style="margin-bottom:-30px;">fas fa-tree</v-icon>
+                </span>
               </v-card-text>
             </v-card>
           </v-flex>
@@ -93,7 +100,7 @@
         for(let i=0;i<5;i++) {
           result.push([]);
           for(let j=0;j<5;j++) {
-            result[i].push(Math.floor(Math.random()*4)%4);
+            result[i].push(Math.floor(Math.random()*7)%7);
           }
         }
         return result;
