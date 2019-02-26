@@ -7,8 +7,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a25a887e-cf11-4128-9c87-23905d5e1f09" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/src/components/Changelog.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Changelog.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Settings.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Settings.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -96,8 +94,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/Changelog.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="52" column="167" selection-start-line="52" selection-start-column="167" selection-end-line="52" selection-end-column="167" />
+            <state relative-caret-position="206">
+              <caret line="54" column="72" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
               <folding>
                 <element signature="n#style#0;n#v-container#0;n#v-card-text#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
               </folding>
@@ -355,12 +353,12 @@
       <workItem from="1551034026963" duration="9695000" />
       <workItem from="1551043858811" duration="606000" />
       <workItem from="1551117934577" duration="7204000" />
-      <workItem from="1551203260570" duration="11501000" />
+      <workItem from="1551203260570" duration="11576000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137677000" />
+    <option name="totallyTimeSpent" value="137752000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -639,8 +637,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Changelog.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="52" column="167" selection-start-line="52" selection-start-column="167" selection-end-line="52" selection-end-column="167" />
+        <state relative-caret-position="206">
+          <caret line="54" column="72" selection-start-line="54" selection-start-column="72" selection-end-line="54" selection-end-column="72" />
           <folding>
             <element signature="n#style#0;n#v-container#0;n#v-card-text#0;n#v-card#0;n#template#0;n#!!top" expanded="true" />
           </folding>

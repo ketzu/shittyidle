@@ -51,9 +51,8 @@
               <li>Removed preview as it was causing confusion.</li>
               <li>Added settings tab with number format and currency.</li>
               <li>Attempt at fixing running in inactive tabs, if your gain fully stops for any reason, please let me know and try the emergency button in the settings.</li>
-              <li>Removed preview as it was causing confusion.</li>
-              <li>Removed preview as it was causing confusion.</li>
-              <li>Removed preview as it was causing confusion.</li>
+              <li>Removed max upgrade text, now a small badge is shown on the icon of the building.</li>
+              <li>Added information i, indication a clickable part.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
