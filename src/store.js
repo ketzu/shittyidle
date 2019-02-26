@@ -290,6 +290,7 @@ export default new Vuex.Store({
           let ticks = Math.min(((new Date()).getTime()-deserialize["time"])/state.tickrate,25920000);
           const gain = resourcegain(state).reduce((a,b) => a*b);
           updateresources(state,ticks*gain);
+          setTimeout(()=>{ eventBus.$emit('offlineincome', gain)}, 2500);
         }
       }
     },

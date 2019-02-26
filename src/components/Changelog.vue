@@ -53,6 +53,7 @@
               <li>Attempt at fixing running in inactive tabs, if your gain fully stops for any reason, please let me know and try the emergency button in the settings.</li>
               <li>Removed max upgrade text, now a small badge is shown on the icon of the building.</li>
               <li>Added information i, indication a clickable part.</li>
+              <li>Notification for online income.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>

@@ -82,9 +82,13 @@ export default {
     this.bus.$on('notification', text => {
       self.notifications.push(text);
     });
+    this.bus.$on('offlineincome', gain => {
+      self.notifications.push("While you were offline, you gained "+this.formatresource(gain));
+    });
   },
   beforeDestroy() {
     this.bus.$off('upgrade');
+    this.bus.$off('offlineincome');
     this.bus.$off('maxupgrade');
     this.bus.$off('notification');
   },
