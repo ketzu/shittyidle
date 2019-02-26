@@ -31,6 +31,12 @@
             v-model="newcityname"
         ></v-text-field>
       </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
+        <v-btn @click="$store.dispatch('restartsim')">
+          Click if the game broke.
+        </v-btn>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>

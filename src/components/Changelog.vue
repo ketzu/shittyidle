@@ -46,17 +46,22 @@
           <v-flex md12>
             <h2>Changelog</h2>
 
-            <div slot="header">Version 0.8.4</div>
+            <div slot="header">Version 0.8.5 (Quality of life)</div>
             <ul>
-              <li>Multi buy until next update+rework</li>
-              <li>Starting Picture Font change</li>
-              <li>Welcome screen for new players</li>
-              <li>Still: Preview for City Grid included, major feature of 0.9.</li>
+              <li>Removed preview as it was causing confusion.</li>
+              <li>Added settings tab with number format and currency.</li>
+              <li>Attempt at fixing running in inactive tabs, if your gain fully stops for any reason, please let me know and try the emergency button in the settings.</li>
+              <li>Removed preview as it was causing confusion.</li>
+              <li>Removed preview as it was causing confusion.</li>
+              <li>Removed preview as it was causing confusion.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.8</div>
                 <ul>
+                  <li>Multi buy until next update+rework</li>
+                  <li>Starting Picture Font change</li>
+                  <li>Welcome screen for new players</li>
                   <li>City name can now be changed.</li>
                   <li>Feedback directly on the side.</li>
                   <li>Changelog expandable and reduction to main versions.</li>

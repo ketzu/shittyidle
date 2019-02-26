@@ -200,6 +200,7 @@ const cityupgradeable = (state) => {
 
 let mainloop = undefined;
 const startsim = (state) => {
+  clearInterval(mainloop);
   mainloop = setInterval(() => {
     const gain = resourcegain(state).reduce((a,b) => a*b);
     updateresources(state, gain);
@@ -379,6 +380,9 @@ export default new Vuex.Store({
     },
     startGame(state) {
       state.startofgamedialog = false;
+    },
+    restartsim(state) {
+      startsim(state);
     }
   },
   actions: {
@@ -405,6 +409,9 @@ export default new Vuex.Store({
     },
     startGame({commit}) {
       commit('startGame');
+    },
+    restartsim({commit}) {
+      commit('restartsim');
     }
   }
 })
