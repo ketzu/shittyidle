@@ -109,10 +109,10 @@ const infrastructure = [
 ];
 
 const maxreached = (building, level) => {
-  for (var key in this.upgrades) {
+  for (var key in upgrades) {
     // check if the property/key is defined in the object itself, not in parent
-    if (this.upgrades.hasOwnProperty(key)) {
-      if (this.level < key) {
+    if (upgrades.hasOwnProperty(key)) {
+      if (level < key) {
         return false;
       }
     }
