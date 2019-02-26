@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="$store.getters.startofgamedialog" max-width="600">
+  <v-dialog v-model="$store.getters.startofgamedialog" max-width="600" persistent>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
         <v-icon large color="white">far fa-envelope</v-icon>
