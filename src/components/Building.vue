@@ -2,7 +2,7 @@
   <v-hover>
     <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
       <v-list-tile-avatar>
-        <v-badge right overlap color="white">
+        <v-badge left overlap color="white">
           <v-icon small color="amber darken-3" slot="badge" v-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
           <v-icon large :color="type.iconcolor" style="width:40px;">fas {{type.icon}}</v-icon>
         </v-badge>

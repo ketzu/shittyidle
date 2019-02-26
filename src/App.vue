@@ -74,11 +74,9 @@ export default {
   created() {
     const self = this;
     this.bus.$on('upgrade', ({building, upgrade}) => {
-      console.log("Upgrade notification");
       self.notifications.push(upgrade.gain+"x upgrade for "+building);
     });
     this.bus.$on('maxupgrade', ({building, upgrade}) => {
-      console.log("Upgrade notification");
       self.notifications.push("Last upgrade reached: "+upgrade.gain+"x upgrade for "+building);
     });
     this.bus.$on('notification', text => {

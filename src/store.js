@@ -198,6 +198,21 @@ const cityupgradeable = (state) => {
   return false;
 };
 
+let mainloop = undefined;
+const startsim = (state) => {
+  mainloop = setInterval(() => {
+    const gain = resourcegain(state).reduce((a,b) => a*b);
+    updateresources(state, gain);
+  }, state.tickrate);
+};
+
+const stopsim = () => {
+  clearInterval(mainloop);
+};
+
+let visible = true;
+let lastActive = undefined;
+
 export default new Vuex.Store({
   state: {
     settings: {
@@ -278,10 +293,25 @@ export default new Vuex.Store({
       }
     },
     startgame(state) {
-      setInterval(() => {
-        const gain = resourcegain(state).reduce((a,b) => a*b);
-        updateresources(state, gain);
-      }, state.tickrate);
+      startsim(state);
+      // handle being put in the background
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopsim();
+          visible = false;
+          lastActive = (new Date()).getTime();
+        } else  {
+          if(visible == false) {
+            visible = true;
+            let timePassed = (new Date()).getTime()-lastActive;
+
+            let ticks = Math.min(timePassed/state.tickrate,25920000);
+            const gain = resourcegain(state).reduce((a,b) => a*b);
+            updateresources(state,ticks*gain);
+            startsim(state);
+          }
+        }
+      }, false);
     },
     updateresource(state, payload) {
       state.resource = payload.value;

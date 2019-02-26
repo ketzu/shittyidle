@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.config.productionTip = false;
 
+// Store the Vuex store in localstorage on changes
 store.subscribe((mutation, state) => {
   if(mutation.type === "hardreset") return;
   localStorage.setItem('cidle-v1', JSON.stringify({...state, time: (new Date()).getTime()}));
