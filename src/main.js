@@ -27,10 +27,23 @@ Vue.mixin({
 Vue.mixin({
   methods: {
     format(value) {
+      if(this.$store.getters.settings.numberview === 2) {
+        const letters = ['','K','M','B','T','Qd','Qi','Sx','Sp','Oc','No','De','UD','DD'];
+        let letter = Math.floor(Math.log(value) / Math.log(1000));
+        let output = (value/Math.pow(1000,letter)).toFixed(2);
+        if(letter>letters.length) {
+          letter-=letters.length;
+          let firstletter = String.fromCharCode(97 + letter/26);
+          let secondletter = String.fromCharCode(97 + letter%26);
+          return output+firstletter+secondletter;
+        }
+        return output+letters[letter];
+      }
+      // default format
       if(value < 1000*1000)
         return value.toFixed(2).toLocaleString();
       let values = value.toExponential().split('e').map(i => Number(i));
-      return values[0].toFixed(2)+" x10^"+values[1].toFixed(0);
+      return values[0].toFixed(2)+this.$store.getters.settings.numbersplitsymbol+values[1].toFixed(0);
     },
     formatresource(value) {
       return this.format(value)+this.$store.getters.currency;

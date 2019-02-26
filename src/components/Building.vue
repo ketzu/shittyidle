@@ -2,7 +2,10 @@
   <v-hover>
     <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
       <v-list-tile-avatar>
-        <v-icon large :color="type.iconcolor">fas {{type.icon}}</v-icon>
+        <v-badge right overlap :color="type.iconcolor">
+          <span slot="badge"><small>{{level}}</small></span>
+          <v-icon large :color="type.iconcolor">fas {{type.icon}}</v-icon>
+        </v-badge>
       </v-list-tile-avatar>
 
       <v-list-tile-content>
@@ -17,7 +20,7 @@
             </v-list-tile-sub-title>
 
             <v-list-tile-sub-title>
-              <span v-if="nextupgrade==='∞'">Max upgrades.</span> Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
+              Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
             </v-list-tile-sub-title>
           </span>
           <v-card>

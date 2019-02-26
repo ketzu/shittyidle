@@ -77,12 +77,17 @@ export default {
       console.log("Upgrade notification");
       self.notifications.push(upgrade.gain+"x upgrade for "+building);
     });
+    this.bus.$on('maxupgrade', ({building, upgrade}) => {
+      console.log("Upgrade notification");
+      self.notifications.push("Last upgrade reached: "+upgrade.gain+"x upgrade for "+building);
+    });
     this.bus.$on('notification', text => {
       self.notifications.push(text);
     });
   },
   beforeDestroy() {
     this.bus.$off('upgrade');
+    this.bus.$off('maxupgrade');
     this.bus.$off('notification');
   },
   mixins: [Data]

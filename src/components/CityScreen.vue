@@ -31,7 +31,7 @@
           </v-container>
         </v-tab-item>
 
-        <v-tab-item>
+        <v-tab-item v-if="tabs.includes('CityGrid')">
           <CityGrid></CityGrid>
         </v-tab-item>
 
@@ -41,6 +41,9 @@
 
         <v-tab-item>
           <Stats></Stats>
+        </v-tab-item>
+        <v-tab-item>
+          <Settings></Settings>
         </v-tab-item>
         <v-tab-item>
           <Help></Help>
@@ -60,6 +63,7 @@
   import Stats from "./Stats.vue";
   import SoftReset from "./SoftReset.vue";
   import CityGrid from "./CityGrid.vue";
+  import Settings from "./Settings.vue";
   import Infrastructure from "./Infrastructure.vue";
 
   export default {
@@ -69,8 +73,8 @@
       Stats,
       SoftReset,
       Help,
-      Infrastructure,
-      CityGrid
+      CityGrid,
+      Settings
     },
     data() {
       return {
@@ -80,12 +84,15 @@
     computed: {
       tabs: {
         get() {
-          let entries = ['Main', 'Preview: City'];
+          let entries = ['Main'];
+
+          if(this.citylevel>1)
+            entries.push('CityGrid');
 
           if(this.citylevel>0)
             entries.push('Infrastructure');
 
-          entries.push('Statistics','Help');
+          entries.push('Statistics','Settings','Help');
           return entries;
         }
       }

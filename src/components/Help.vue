@@ -21,30 +21,13 @@
       <v-flex xs10 offset-xs1>
         If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/u/ketzu">ask me on reddit</a>.
       </v-flex>
-      <v-flex xs10 offset-xs1>
-        As a courtesy, you might want to change your city name:
-        <v-text-field
-            label="City name"
-            v-model="newcityname"
-        ></v-text-field>
-      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
   export default {
-    name: "Help",
-    computed: {
-      newcityname: {
-        get() {
-          return this.cityname;
-        },
-        set(value) {
-          this.$store.dispatch('changecityname', value);
-        }
-      }
-    }
+    name: "Help"
   }
 </script>
 

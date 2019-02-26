@@ -108,6 +108,18 @@ const infrastructure = [
   {name: "Airport", title: "Airport", icon: "fa-plane-departure ", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,30), rate: 1.1}}
 ];
 
+const maxreached = (building, level) => {
+  for (var key in this.upgrades) {
+    // check if the property/key is defined in the object itself, not in parent
+    if (this.upgrades.hasOwnProperty(key)) {
+      if (this.level < key) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
 const upgrade = (buildingid, level) => {
   if(upgrades[buildingid] === undefined)
     return;
@@ -118,7 +130,10 @@ const upgrade = (buildingid, level) => {
     return;
   let tempgain = buildings[index].gain * upgrades[buildingid][level].gain;
   buildings[index] = {...buildings[index], ...upgrades[buildingid][level], gain: tempgain};
-  eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
+  if(maxreached(buildingid, level))
+    eventBus.$emit('maxupgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
+  else
+    eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
 };
 
 const allupgrades = (buildingid, level) => {
@@ -185,9 +200,14 @@ const cityupgradeable = (state) => {
 
 export default new Vuex.Store({
   state: {
+    settings: {
+      currency: "₡",
+      numbersplitsymbol: " x10^",
+      numberview: 1,
+      cityname: "Shitty Idle"
+    },
     startofgamedialog: true,
-    version: "0.8.3",
-    cityname: "Shitty Idle",
+    version: "0.8.4",
     resets: 0,
     resetresource: 0,
     experience: 0,
@@ -195,14 +215,14 @@ export default new Vuex.Store({
     alltime: 0,
     tickrate: 100,
     title: "mayor",
-    currency: "₡",
     citylevel: 0,
     buildings: {},
     infrastructure: {}
   },
   getters: {
+    settings(state) { return state.settings; },
     startofgamedialog(state) { return state.startofgamedialog; },
-    cityname(state) { return state.cityname; },
+    cityname(state) { return state.settings.cityname; },
     resource(state) { return state.resource; },
     upgrades(state) { return upgrades; },
     basegain(state) { return bgain; },
@@ -221,7 +241,7 @@ export default new Vuex.Store({
     nexttowntype(state) { return citynames[state.citylevel+1]; },
     cityupgradeable(state) { return cityupgradeable(state); },
     citylevel(state) { return state.citylevel; },
-    currency(state) { return "₡"; },
+    currency(state) { return state.settings.currency; },
     resettable(state) { return resettable(state); },
     title(state) { return state.title; },
     multiplier(state) {
@@ -322,7 +342,10 @@ export default new Vuex.Store({
       location.reload();
     },
     changecityname(state, name) {
-      state.cityname=name;
+      state.settings.cityname=name;
+    },
+    updatesettings(state, settings) {
+      state.settings = settings;
     },
     startGame(state) {
       state.startofgamedialog = false;
@@ -346,6 +369,9 @@ export default new Vuex.Store({
     },
     changecityname({commit}, name) {
       commit('changecityname', name);
+    },
+    updatesettings({commit}, settings) {
+      commit('updatesettings', settings);
     },
     startGame({commit}) {
       commit('startGame');
