@@ -30,7 +30,7 @@ Vue.mixin({
     format(value) {
       if(this.$store.getters.settings.numberview === 2) {
         const letters = ['','K','M','B','T','Qd','Qi','Sx','Sp','Oc','No','De','UD','DD'];
-        let letter = Math.floor(Math.log(value) / Math.log(1000));
+        let letter = Math.max(Math.floor(Math.log(value) / Math.log(1000)),0);
         let output = (value/Math.pow(1000,letter)).toFixed(2);
         if(letter>letters.length) {
           letter-=letters.length;

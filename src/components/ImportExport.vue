@@ -22,7 +22,7 @@
             <v-flex xs10>
               <v-text-field
                   ref="exportfield"
-                  :value="exportstate"
+                  :value="exportstate()"
                   label="Export"
                   readonly
               ></v-text-field>
@@ -57,22 +57,18 @@
         importstate: ""
       }
     },
-    computed: {
-      exportstate: {
-        get() {
-          return btoa(encodeURIComponent(localStorage.getItem('cidle-v1')).replace(/%([0-9A-F]{2})/g,
-            (match, p1) => {
-              return String.fromCharCode('0x' + p1);
-          }));
-        }
-      }
-    },
     methods: {
       completeimport() {
         localStorage['cidle-v1'] = decodeURIComponent(atob(this.importstate).split('').map(function(c) {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         location.reload();
+      },
+      exportstate() {
+        return btoa(encodeURIComponent(localStorage.getItem('cidle-v1')).replace(/%([0-9A-F]{2})/g,
+          (match, p1) => {
+            return String.fromCharCode('0x' + p1);
+          }));
       }
     }
   }

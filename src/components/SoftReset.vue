@@ -1,6 +1,6 @@
 <template>
-  <transition name="fade">
-  <v-dialog v-model="dialog" max-width="600">
+  <transition-group name="fade">
+  <v-dialog v-model="dialog" max-width="600" key="expreset">
     <v-btn slot="activator" flat color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
@@ -46,8 +46,8 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="promodialog" max-width="600" v-if="cityupgradeable">
-    <v-btn slot="activator" flat color="white" v-if="resettable">A promotion offer!</v-btn>
+  <v-dialog v-model="promodialog" max-width="600" key="levelreset">
+    <v-btn slot="activator" flat color="white" v-if="cityupgradeable">A promotion offer!</v-btn>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
         <v-icon large color="white">far fa-envelope</v-icon>
@@ -92,7 +92,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  </transition>
+  </transition-group>
 </template>
 
 <script>

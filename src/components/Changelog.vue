@@ -46,19 +46,23 @@
           <v-flex md12>
             <h2>Changelog</h2>
 
-            <div slot="header">Version 0.8.5 (Quality of life)</div>
+            <div slot="header">Version 0.8.6 (Bugfixes)</div>
             <ul>
-              <li>Removed preview as it was causing confusion.</li>
-              <li>Added settings tab with number format and currency.</li>
-              <li>Attempt at fixing running in inactive tabs, if your gain fully stops for any reason, please let me know and try the emergency button in the settings.</li>
-              <li>Removed max upgrade text, now a small badge is shown on the icon of the building.</li>
-              <li>Added information i, indication a clickable part.</li>
-              <li>Notification for online income.</li>
+              <li>Notifications for upgrades are not only "last upgrade reached".</li>
+              <li>Maybe fixed export bug only once refreshing the state.</li>
+              <li>Promotions should show up again.</li>
+              <li>Fixed unit number format giving undefined for small values.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.8</div>
                 <ul>
+                  <li>Removed preview as it was causing confusion.</li>
+                  <li>Added settings tab with number format and currency.</li>
+                  <li>Attempt at fixing running in inactive tabs, if your gain fully stops for any reason, please let me know and try the emergency button in the settings.</li>
+                  <li>Removed max upgrade text, now a small badge is shown on the icon of the building.</li>
+                  <li>Added information i, indication a clickable part.</li>
+                  <li>Notification for online income.</li>
                   <li>Multi buy until next update+rework</li>
                   <li>Starting Picture Font change</li>
                   <li>Welcome screen for new players</li>

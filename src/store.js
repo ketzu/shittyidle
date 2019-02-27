@@ -109,9 +109,9 @@ const infrastructure = [
 ];
 
 const maxreached = (building, level) => {
-  for (var key in upgrades) {
+  for (var key in upgrades[building]) {
     // check if the property/key is defined in the object itself, not in parent
-    if (upgrades.hasOwnProperty(key)) {
+    if (upgrades[building].hasOwnProperty(key)) {
       if (level < key) {
         return false;
       }
@@ -130,10 +130,11 @@ const upgrade = (buildingid, level) => {
     return;
   let tempgain = buildings[index].gain * upgrades[buildingid][level].gain;
   buildings[index] = {...buildings[index], ...upgrades[buildingid][level], gain: tempgain};
-  if(maxreached(buildingid, level))
+  if(maxreached(buildingid, level)){
     eventBus.$emit('maxupgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
-  else
+  }else{
     eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
+  }
 };
 
 const allupgrades = (buildingid, level) => {
@@ -223,7 +224,7 @@ export default new Vuex.Store({
       cityname: "Shitty Idle"
     },
     startofgamedialog: true,
-    version: "0.8.4",
+    version: "0.8.6",
     resets: 0,
     resetresource: 0,
     experience: 0,
