@@ -43,6 +43,8 @@ if($password=="FUCKOFF666") {
         echo "<div class='row'>0 results</div>";
     }
     $mysqli->close();
+}else{
+            echo "<div class='row' style='margin:15px;'><div class='.col-md-6 .offset-md-3'><a href='feedback.html' style='color:white;'>You seem to be on the wrong page.</a></div></div>";
 }
     ?>
     </div>
