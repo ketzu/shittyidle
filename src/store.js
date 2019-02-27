@@ -42,7 +42,7 @@ const basebuildings = [
   {name: "Bank", title: "Bank", type: "Generator", icon: "fa-university", cost: {base: bcost['Bank'], rate: 1.1}, gain: bgain['Bank'], mult: 1.00, iconcolor: "grey darken-4"},
   {name: "Datacenter", title: "Datacenter", type: "Generator", icon: "fa-satellite-dish", cost: {base: bcost['Datacenter'], rate: 1.1}, gain: bgain['Datacenter'], mult: 1.00, iconcolor: "blue darken-4"},
   {name: "Factory", title: "Factory", type: "Generator", icon: "fa-industry", cost: {base: bcost['Factory'], rate: 1.1}, gain: bgain['Factory'], mult: 1.00, iconcolor: "teal darken-4"},
-  {name: "Energy", title: "Coal Plant", type: "Generator", icon: "fa-burn", cost: {base: bcost['Energy'], rate: 1.1}, gain: bgain['Energy'], mult: 1.00, iconcolor: "deep-orange"},
+  {name: "Energy", title: "Power Plant", type: "Generator", icon: "fa-burn", cost: {base: bcost['Energy'], rate: 1.1}, gain: bgain['Energy'], mult: 1.00, iconcolor: "deep-orange"},
   {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.095}, gain: bgain['Casino'], mult: 1.00, iconcolor: "purple darken-2"}
 ];
 
@@ -58,24 +58,24 @@ const upgrades = {
     200: {gain:18, uname: "Bio Farming", title: "Bio Farm"}
     },
   Inn:  {
-    30: {gain: 3, title: "Tavern"},
-    60: {gain: 3, title: "Minibars"},
-    90: {gain: 12, title: "Hotel"},
-    120:{gain: 15, title: "Spa"},
-    150:{gain: 12, title: "Bar"}
+    30: {gain: 3, uname: "Happy Hour"},
+    60: {gain: 3, title: "Hotel"},
+    90: {gain: 12, uname: "Spa"},
+    120:{gain: 15, uname: "Minibar"},
+    150:{gain: 12, uname: "Rebranding", title: "Bar"}
     },
   Store: {
-    15: {gain: 4, title: "Shop"},
+    15: {gain: 4, uname: "Delivery Service"},
     40: {gain: 4, title: "Market"},
-    80: {gain: 5, title: "Farming Market"},
-    140: {gain:11, title: "Mall"}
+    80: {gain: 5, title: "Farmers Market"},
+    140: {gain:11, title: "Mall", uname: "Expansion"}
     },
   Bank: {
-    35: {gain: 5, title: "Online bank"},
+    35: {gain: 5, uname: "Online banking"},
     70: {gain: 8, title: "Loan Shark"},
     105: {gain: 4, title: "Investment Bank"},
     140: {gain: 9, title: "Highspeed Trader"},
-    180: {gain: 13, title: "Money Launderer"}
+    180: {gain: 13, uname: "Money Laundering"}
     },
   Datacenter: {
     40: {gain: 4, title: "Bitcoin Mining"},
@@ -84,28 +84,58 @@ const upgrades = {
     160: {gain:9, title: "Smart Grid"}
     },
   Factory: {
-    10: {gain: 3, title: "Outsourcing"},
-    40: {gain: 4, title: "Automatic Factory"},
-    80: {gain: 8, title: "Self Replicating Goods"}
+    10: {gain: 3, uname: "Outsourcing"},
+    40: {gain: 4, uname: "Automation", title: "Automatic Factory"},
+    80: {gain: 8, uname: "Self Replicating Goods"}
     },
   Energy: {
-    50: {gain: 3, title: "Nuclear Reactor"},
-    90: {gain: 8, title: "Renewable Energy"}
+    50: {gain: 3, uname: "Nuclear Reactor"},
+    90: {gain: 8, uname: "Renewable Energy"}
     },
   Casino: {
-    75: {gain: 2, title: "Casino"},
-    150: {gain: 4, title: "Las Vegas"}
+    75: {gain: 2, title: "Casino", uname: "Gamling License"},
+    150: {gain: 4, title: "Las Vegas", uname: "Gambling Addiction"}
     },
 };
 
-const infrastructure = [
-  {name: "Roads", title: "Roads", icon: "fa-road", reqlevel: 1, basemult: 1.015, affected: ['Farm', 'Store', 'Factory'], cost: {base: Math.pow(10,5), rate: 1.1}},
-  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.025, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}},
-  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.04, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}},
-  {name: "University", title: "University", icon: "fa-graduation-cap ", reqlevel: 2, basemult: 1.02, affected: [], cost: {base: Math.pow(10,15), rate: 1.1}},
-  {name: "Lighting", title: "Lighting", icon: "fa-lightbulb", reqlevel: 2, basemult: 1.02, affected: [], cost: {base: Math.pow(10,20), rate: 1.1}},
-  {name: "Internet", title: "Internet", icon: "fa-wifi", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,25), rate: 1.1}},
-  {name: "Airport", title: "Airport", icon: "fa-plane-departure ", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,30), rate: 1.1}}
+const baseinfrastructure = [
+  {name: "Roads", title: "Roads", icon: "fa-road", reqlevel: 1, basemult: 1.015, affected: ['Farm', 'Store', 'Factory'], cost: {base: Math.pow(10,5), rate: 1.1}, iconcolor: "teal darken-4"},
+  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.025, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}, iconcolor: "amber darken-4"},
+  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.04, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}, iconcolor: "red darken-2"},
+  {name: "Lighting", title: "Lighting", icon: "fa-lightbulb", reqlevel: 2, basemult: 1.04, affected: ['Farm', 'Inn', 'Store'], cost: {base: Math.pow(10,18), rate: 1.1}, iconcolor: "deep-orange"},
+  {name: "University", title: "University", icon: "fa-graduation-cap ", reqlevel: 2, basemult: 1.02, affected: ['Factory', 'Datacenter', 'Energy'], cost: {base: Math.pow(10,23), rate: 1.1}, iconcolor: "brown darken-3"},
+  {name: "Airport", title: "Airport", icon: "fa-plane-departure ", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,30), rate: 1.1}, iconcolor: "purple darken-2"},
+  {name: "Internet", title: "Internet", icon: "fa-wifi", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,40), rate: 1.1}, iconcolor: "grey darken-4"}
+];
+
+let infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
+
+const research = [
+  {citylevel: 2, title: "Material Science", cost: 1000, options: [
+      {name: "Better Roads", icon: "cat ", iconcolor: "", modification: () => { infrastructure[0].basemult=1.05 }},
+      {name: "Roads to more Buildings", icon: "cat ", iconcolor: "", modification: () => { infrastructure[0] = ['Farm', 'Store', 'Factory', 'Inn', 'Casino', 'Bank'] }},
+      {name: "Cheaper Roads", icon: "cat ", iconcolor: "", modification: () => { infrastructure[0].cost.rate=1.09 }}
+    ]},
+  {citylevel: 2, title: "Electrical Engineering", cost: 5000, options: [
+      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[1].basemult=1.05 }},
+      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[1].push('Inn') }},
+      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[1].cost.rate=1.09 }}
+    ]},
+  {citylevel: 2, title: "Psychology", cost: 20000, options: [
+      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[2].basemult=1.05 }},
+      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[2].push('Inn') }},
+      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[2].cost.rate=1.09 }}
+    ]},
+  {citylevel: 2, title: "Civil Engineering", cost: 50000, options: [
+      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[3].basemult=1.05 }},
+      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[3].push('Inn') }},
+      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[3].cost.rate=1.09 }}
+    ]},
+  {citylevel: 2, title: "Educational Science", cost: 100000, options: [
+      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[4].basemult=1.05 }},
+      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[4].push('Inn') }},
+      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[4].cost.rate=1.09 }}
+    ]}
 ];
 
 const maxreached = (building, level) => {
@@ -196,6 +226,9 @@ const cityupgradeable = (state) => {
   if(state.citylevel === 0 && state.experience+expgain(state) >= 1000) {
     return true;
   }
+  if(state.citylevel === 1 && state.experience+expgain(state) >= 100000) {
+    return true;
+  }
   return false;
 };
 
@@ -238,6 +271,7 @@ export default new Vuex.Store({
   },
   getters: {
     settings(state) { return state.settings; },
+    research(state) { return research;}, //.filter(obj => obj.citylevel <= state.citylevel); },
     startofgamedialog(state) { return state.startofgamedialog; },
     cityname(state) { return state.settings.cityname; },
     resource(state) { return state.resource; },

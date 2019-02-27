@@ -39,6 +39,10 @@
           <Infrastructure></Infrastructure>
         </v-tab-item>
 
+        <v-tab-item v-if="tabs.includes('Research')">
+          <Research></Research>
+        </v-tab-item>
+
         <v-tab-item>
           <Stats></Stats>
         </v-tab-item>
@@ -64,6 +68,7 @@
   import SoftReset from "./SoftReset.vue";
   import CityGrid from "./CityGrid.vue";
   import Settings from "./Settings.vue";
+  import Research from "./Research.vue";
   import Infrastructure from "./Infrastructure.vue";
 
   export default {
@@ -74,7 +79,8 @@
       SoftReset,
       Help,
       CityGrid,
-      Settings
+      Settings,
+      Research
     },
     data() {
       return {
@@ -86,11 +92,14 @@
         get() {
           let entries = ['Main'];
 
-          if(this.citylevel>1)
+          if(this.citylevel>2)
             entries.push('CityGrid');
 
           if(this.citylevel>0)
             entries.push('Infrastructure');
+
+          if(this.citylevel>0)
+            entries.push('Research');
 
           entries.push('Statistics','Settings','Help');
           return entries;
