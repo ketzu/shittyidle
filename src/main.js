@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import store,{eventBus} from './store'
+import store,{eventBus,buildings, upgrades, infrastructure} from './store'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
@@ -52,7 +52,7 @@ Vue.mixin({
     formatexp(value) {
       if(value < 1000*1000)
         return value.toFixed(0).toLocaleString();
-      return format(value);
+      return this.format(value);
     }
   }
 });
@@ -63,11 +63,13 @@ new Vue({
   data() {
     return {
       buyamount: 1,
-      buytoupg: false
+      buytoupg: false,
+      _buildings: {},
+      _infrastructure: {}
     }
   },
   beforeCreate() {
-    this.$store.commit('initstore');
+    this.$store.commit('initstore', this);
   },
   mounted() {
     this.$store.commit('startgame');

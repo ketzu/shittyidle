@@ -46,8 +46,6 @@ const basebuildings = [
   {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.095}, gain: bgain['Casino'], mult: 1.00, iconcolor: "purple darken-2"}
 ];
 
-let buildings = JSON.parse(JSON.stringify(basebuildings));
-
 const upgrades = {
   Farm: {
     25: {gain: 3, uname: "Crop Rotation"},
@@ -74,7 +72,7 @@ const upgrades = {
     35: {gain: 5, uname: "Online banking"},
     70: {gain: 8, title: "Loan Shark"},
     105: {gain: 4, title: "Investment Bank"},
-    140: {gain: 9, title: "Highspeed Trader"},
+    140: {gain: 9, uname: "Highspeed Trading"},
     180: {gain: 13, uname: "Money Laundering"}
     },
   Datacenter: {
@@ -100,41 +98,39 @@ const upgrades = {
 
 const baseinfrastructure = [
   {name: "Roads", title: "Roads", icon: "fa-road", reqlevel: 1, basemult: 1.015, affected: ['Farm', 'Store', 'Factory'], cost: {base: Math.pow(10,5), rate: 1.1}, iconcolor: "teal darken-4"},
-  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.025, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}, iconcolor: "amber darken-4"},
-  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.04, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}, iconcolor: "red darken-2"},
-  {name: "Lighting", title: "Lighting", icon: "fa-lightbulb", reqlevel: 2, basemult: 1.04, affected: ['Farm', 'Inn', 'Store'], cost: {base: Math.pow(10,18), rate: 1.1}, iconcolor: "deep-orange"},
+  {name: "Electricity" , title: "Electricity Grid", icon: "fa-plug", reqlevel: 1, basemult: 1.025, affected: ['Energy', 'Datacenter', 'Bank'], cost: {base: Math.pow(10,8), rate: 1.1}, iconcolor: "deep-orange"},
+  {name: "Transport", title: "Public Transport", icon: "fa-bus-alt", reqlevel: 1, basemult: 1.04, affected: ['Casino', 'Inn'], cost: {base: Math.pow(10,11), rate: 1.1}, iconcolor: "red darken-4"},
+  {name: "Lighting", title: "Lighting", icon: "fa-lightbulb", reqlevel: 2, basemult: 1.04, affected: ['Farm', 'Inn', 'Store'], cost: {base: Math.pow(10,18), rate: 1.1}, iconcolor: "amber"},
   {name: "University", title: "University", icon: "fa-graduation-cap ", reqlevel: 2, basemult: 1.02, affected: ['Factory', 'Datacenter', 'Energy'], cost: {base: Math.pow(10,23), rate: 1.1}, iconcolor: "brown darken-3"},
   {name: "Airport", title: "Airport", icon: "fa-plane-departure ", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,30), rate: 1.1}, iconcolor: "purple darken-2"},
   {name: "Internet", title: "Internet", icon: "fa-wifi", reqlevel: 3, basemult: 1.02, affected: [], cost: {base: Math.pow(10,40), rate: 1.1}, iconcolor: "grey darken-4"}
 ];
 
-let infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
-
 const research = [
   {citylevel: 2, title: "Material Science", cost: 1000, options: [
-      {name: "Better Roads", icon: "cat ", iconcolor: "", modification: () => { infrastructure[0].basemult=1.05 }},
-      {name: "Roads to more Buildings", icon: "cat ", iconcolor: "", modification: () => { infrastructure[0] = ['Farm', 'Store', 'Factory', 'Inn', 'Casino', 'Bank'] }},
-      {name: "Cheaper Roads", icon: "cat ", iconcolor: "", modification: () => { infrastructure[0].cost.rate=1.09 }}
+      {name: "Better Roads", icon: "cat ", iconcolor: "red darken-3", modification: () => { infrastructure[0].basemult=1.025 }, desc: "Increase the multiplier of roads to 2.5% (from 1.5%)."},
+      {name: "Roads to more Buildings", icon: "cat ", iconcolor: "blue darken-3", modification: () => { infrastructure[0].affected = ['Farm', 'Store', 'Factory', 'Inn', 'Casino', 'Bank'] }, desc: "Make roads affect all buildings, besides power plants and datacenters."},
+      {name: "Cheaper Roads", icon: "cat ", iconcolor: "green darken-3", modification: () => { infrastructure[0].cost.rate=1.09 }, desc: "Reduce cost increase of roads from 10% to 9%."}
     ]},
-  {citylevel: 2, title: "Electrical Engineering", cost: 5000, options: [
-      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[1].basemult=1.05 }},
-      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[1].push('Inn') }},
-      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[1].cost.rate=1.09 }}
+  {citylevel: 2, title: "Electrical Engineering", cost: 50000, options: [
+      {name: "Improved Grid", icon: "cat ", iconcolor: "red darken-3", modification: () => { infrastructure[1].basemult=1.035 }, desc: "Increase the multiplier of electricity to 3.5% (from 2.5%)."},
+      {name: "Overclock Buildings", icon: "cat ", iconcolor: "blue darken-3", modification: () => { buildings = buildings.map(build => {build.mult=1.01; return build; })}, desc: "Improve production of all buildings."},
+      {name: "Outsource Grid Maintenance", icon: "cat ", iconcolor: "green darken-3", modification: () => { infrastructure[1].cost.rate=1.09 }, desc: "Reduce cost increase of electricity from 10% to 9%."}
     ]},
-  {citylevel: 2, title: "Psychology", cost: 20000, options: [
-      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[2].basemult=1.05 }},
-      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[2].push('Inn') }},
-      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[2].cost.rate=1.09 }}
+  {citylevel: 2, title: "Psychology", cost: 200000, options: [
+      {name: "Motivational Speeches", icon: "cat ", iconcolor: "red darken-3", modification: () => { infrastructure[2].basemult=1.045 }, desc: "Increase the multiplier of transport to 4.5% (from 4%)."},
+      {name: "Peace of Mind", icon: "cat ", iconcolor: "blue darken-3", modification: () => { }, desc: "Everything is the same."},
+      {name: "Layoff Coaching", icon: "cat ", iconcolor: "green darken-3", modification: () => { infrastructure[2].cost.rate=1.09 }, desc: "Reduce cost increase of transport from 10% to 9%."}
     ]},
-  {citylevel: 2, title: "Civil Engineering", cost: 50000, options: [
-      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[3].basemult=1.05 }},
-      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[3].push('Inn') }},
-      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[3].cost.rate=1.09 }}
+  {citylevel: 2, title: "Civil Engineering", cost: 500000, options: [
+      {name: "Add Street Lamps", icon: "cat ", iconcolor: "red darken-3", modification: () => { infrastructure[3].basemult=1.045 }, desc: "Increase the multiplier of lighting to 4.5% (from 4%)."},
+      {name: "Nothing", icon: "cat ", iconcolor: "blue darken-3", modification: () => { }, desc: ""},
+      {name: "Remove Street Lamps", icon: "cat ", iconcolor: "green darken-3", modification: () => { infrastructure[3].cost.rate=1.09 }, desc: "Reduce cost increase of lighting from 10% to 9%."}
     ]},
-  {citylevel: 2, title: "Educational Science", cost: 100000, options: [
-      {name: "A", icon: "cat", iconcolor: "", modification: () => { infrastructure[4].basemult=1.05 }},
-      {name: "B", icon: "cat", iconcolor: "", modification: () => { infrastructure[4].push('Inn') }},
-      {name: "C", icon: "cat", iconcolor: "", modification: () => { infrastructure[4].cost.rate=1.09 }}
+  {citylevel: 2, title: "Educational Science", cost: 1000000, options: [
+      {name: "Pay Teachers more", icon: "cat ", iconcolor: "red darken-3", modification: () => { infrastructure[4].basemult=1.03 }, desc: "Increase the multiplier of university to 3% (from 2%)."},
+      {name: "Nothing", icon: "cat ", iconcolor: "blue darken-3", modification: () => {  }, desc: ""},
+      {name: "Prohibit Strikes", icon: "cat ", iconcolor: "green darken-3", modification: () => { infrastructure[4].cost.rate=1.09 }, desc: "Reduce cost increase of university from 10% to 9%."}
     ]}
 ];
 
@@ -152,19 +148,20 @@ const maxreached = (building, level) => {
 
 const upgrade = (buildingid, level) => {
   if(upgrades[buildingid] === undefined)
-    return;
+    return false;
   if(upgrades[buildingid][level] === undefined)
-    return;
+    return false;
   let index = buildings.findIndex(element => element.name === buildingid);
   if(index === undefined)
-    return;
+    return false;
   let tempgain = buildings[index].gain * upgrades[buildingid][level].gain;
-  buildings[index] = {...buildings[index], ...upgrades[buildingid][level], gain: tempgain};
+  Vue.set(buildings,index,{...buildings[index], ...upgrades[buildingid][level], gain: tempgain});
   if(maxreached(buildingid, level)){
     eventBus.$emit('maxupgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
   }else{
     eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
   }
+  return true;
 };
 
 const allupgrades = (buildingid, level) => {
@@ -190,8 +187,7 @@ const resourcegain = (state) => {
     let level = state.buildings[current['name']];
     if(level === undefined)
       continue;
-    multiplier *= Math.pow(current.mult,level);
-    gain += current.gain * level*affecting(current, state.infrastructure);
+    gain += current.gain * level * affecting(current, state.infrastructure) * (current.mult*level-1);
   }
   return [gain,multiplier];
 };
@@ -212,7 +208,7 @@ const expgain = (state) => {
   return Math.sqrt(state.resetresource/(2*Math.pow(10,10)));
 };
 const expmult = (state) => {
-  return 0.04*state.experience;
+  return 0.04*(state.experience-state.lockedexp);
 };
 
 const citynames = [
@@ -247,6 +243,8 @@ const stopsim = () => {
 
 let visible = true;
 let lastActive = undefined;
+let infrastructure;
+let buildings;
 
 export default new Vuex.Store({
   state: {
@@ -261,29 +259,31 @@ export default new Vuex.Store({
     resets: 0,
     resetresource: 0,
     experience: 0,
+    lockedexp: 0,
     resource: 0,
     alltime: 0,
     tickrate: 100,
     title: "mayor",
     citylevel: 0,
     buildings: {},
-    infrastructure: {}
+    infrastructure: {},
+    research: {}
   },
   getters: {
     settings(state) { return state.settings; },
-    research(state) { return research;}, //.filter(obj => obj.citylevel <= state.citylevel); },
+    upgrades(state) { return upgrades; },
+    research(state) { return research.filter(obj => obj.citylevel <= state.citylevel); },
+    researchselection(state) { return state.research; },
     startofgamedialog(state) { return state.startofgamedialog; },
     cityname(state) { return state.settings.cityname; },
     resource(state) { return state.resource; },
-    upgrades(state) { return upgrades; },
     basegain(state) { return bgain; },
     expgain(state) { return expgain(state); },
     expmult(state) { return expmult(state); },
     alltime(state) { return state.alltime; },
     resetresource(state) { return state.resetresource; },
-    experience(state) { return state.experience; },
+    experience(state) { return state.experience-state.lockedexp; },
     resets(state) { return state.resets; },
-    buildings(state) { return buildings; },
     infrastructure(state) { return infrastructure.filter(obj => obj.reqlevel <= state.citylevel)},
     infrastructurelevels(state) { return state.infrastructure; },
     buildinglevels(state) { return state.buildings; },
@@ -303,8 +303,14 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    initstore(state) {
+    initstore(state, vm) {
+      vm._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
+      vm._buildings = JSON.parse(JSON.stringify(basebuildings));
+      buildings = vm._buildings;
+      infrastructure = vm._infrastructure;
+
       // Check if the ID exists
+      console.log(localStorage.getItem(storagename));
       if (localStorage.getItem(storagename)) {
         let deserialize = JSON.parse(localStorage.getItem(storagename));
         // Replace the state object with the stored item
@@ -316,6 +322,13 @@ export default new Vuex.Store({
         for (let [key, value] of Object.entries(state.buildings)) {
           if (state.buildings.hasOwnProperty(key)) {
             allupgrades(key, value);
+          }
+        }
+
+        // reapply researches
+        for (let [key, value] of Object.entries(state.research)) {
+          if (state.research.hasOwnProperty(key) && value !== undefined) {
+            research[key].options[value].modification(state);
           }
         }
 
@@ -368,6 +381,9 @@ export default new Vuex.Store({
         // Reset run specific stats
         state.buildings = {};
         state.infrastructure = {};
+        state.research ={};
+
+        state.lockedexp = 0;
         state.resource = 0;
         state.resetresource = 0;
 
@@ -402,6 +418,18 @@ export default new Vuex.Store({
         }
       }
     },
+    selectresearch(state, {level, selection}) {
+      if(state.experience-state.lockedexp < research[level].cost)
+        return;
+      state.lockedexp += research[level].cost;
+      if(state.research[level] === undefined)
+        Vue.set(state.research, level, selection);
+      else {
+        if(state.research[level]>3 || state.research[level]<0)
+          state.research[level] = selection;
+      }
+      research[level].options[selection].modification(state);
+    },
     hardreset(state) {
       // Hard Reset: Delete State
       localStorage.removeItem(storagename);
@@ -433,6 +461,9 @@ export default new Vuex.Store({
     },
     buyinfrastructure({commit}, payload) {
       commit('buyinfrastrucutre', payload);
+    },
+    selectresearch({commit}, payload) {
+      commit('selectresearch', payload);
     },
     softreset({commit}, payload) {
       commit('softreset', payload);

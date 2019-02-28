@@ -98,7 +98,7 @@
           if(this.citylevel>0)
             entries.push('Infrastructure');
 
-          if(this.citylevel>0)
+          if(this.citylevel>2)
             entries.push('Research');
 
           entries.push('Statistics','Settings','Help');
