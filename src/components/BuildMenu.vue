@@ -46,13 +46,6 @@
         buycountstore: 0
       }
     },
-    computed: {
-      buildings: {
-        get() {
-          return this.$store.getters.buildings;
-        }
-      }
-    },
     methods: {
       cycleCount() {
         switch (this.buycount) {

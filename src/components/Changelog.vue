@@ -28,28 +28,30 @@
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
-            <Future title="More promotions" state="notstarted"></Future>
-            <Future title="Research" state="alpha"></Future>
-            <Future title="City screen" state="alpha"></Future>
-            <Future title="Perks" state="notstarted"></Future>
-            <Future title="Cloud" state="notstarted"></Future>
-            <Future title="Perks" state="notstarted"></Future>
+            <Future name="More promotions" state="notstarted"></Future>
+            <Future name="Research" state="alpha"></Future>
+            <Future name="City screen" state="alpha"></Future>
+            <Future name="Perks" state="notstarted"></Future>
+            <Future name="Cloud" state="notstarted"></Future>
+            <Future name="Perks" state="notstarted"></Future>
           </v-flex>
 
           <v-flex md12>
             <h2>Changelog</h2>
 
-            <div slot="header">Version 0.8.6 (Bugfixes)</div>
+            <div slot="header">Version 0.8.7 (Bugfixes)</div>
             <ul>
-              <li>Notifications for upgrades are not only "last upgrade reached".</li>
-              <li>Maybe fixed export bug only once refreshing the state.</li>
-              <li>Promotions should show up again.</li>
-              <li>Fixed unit number format giving undefined for small values.</li>
+              <li>Exp over 1M crashed the game.</li>
+              <li>City upgrade to large city is possible for two more infrastructures, more features soon.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.8</div>
                 <ul>
+                  <li>Notifications for upgrades are not only "last upgrade reached".</li>
+                  <li>Maybe fixed export bug only once refreshing the state.</li>
+                  <li>Promotions should show up again.</li>
+                  <li>Fixed unit number format giving undefined for small values.</li>
                   <li>Removed preview as it was causing confusion.</li>
                   <li>Added settings tab with number format and currency.</li>
                   <li>Attempt at fixing running in inactive tabs, if your gain fully stops for any reason, please let me know and try the emergency button in the settings.</li>

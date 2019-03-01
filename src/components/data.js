@@ -18,10 +18,19 @@ export default {
         this.$root.buytoupg = value;
       }
     },
+    buildings: {
+      get() {
+        return this.$root._buildings;
+      }
+    },
+    infrastructure: {
+      get() {
+        return this.$root._infrastructure.filter(obj => obj.reqlevel<=this.citylevel);
+      }
+    },
     ...mapGetters(['resource', 'resourcegain','tickrate','basegain','cityname',
       'towntype','nexttowntype','title','currency',
       'citylevel', 'cityupgradeable',
-      'infrastructure',
       'alltime','resetresource',
       'resettable','resets',
       'experience','expgain','expmult'])

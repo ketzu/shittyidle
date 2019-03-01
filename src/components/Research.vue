@@ -1,12 +1,17 @@
 <template>
   <v-container grid-list-xs fluid>
-    <v-layout :key="science.title" row wrap v-for="science in research">
+    <v-layout :key="science.title" row wrap v-for="(science,id) in research">
       <v-flex md12>
-        {{science.title}} {{science.cost}}
+        <div class="headline">{{science.title}}</div>
+        <span class="grey--text">{{science.cost}} Experience</span>
       </v-flex>
-      <v-flex :key="option.name" md4 v-for="option in science.options">
-        {{option.name}}
-        <v-icon large :color="option.iconcolor">fas fa-{{option.icon}}</v-icon>
+      <v-flex :key="option.name" md4 v-for="(option,pos) in science.options" class="text-md-center">
+        <v-layout column align-center>
+          <v-btn fab large @click="buy(id,pos)">
+            <v-icon large :color="selected(id,pos)||selectable(id,pos)?option.iconcolor:'grey'" style="margin-bottom:-30px;">fas fa-{{option.icon}}</v-icon>
+          </v-btn>
+          <h3 style="font-weight: 400;">{{option.name}}</h3>
+        </v-layout>
       </v-flex>
     </v-layout>
   </v-container>
@@ -20,6 +25,32 @@
         get() {
           return this.$store.getters.research;
         }
+      },
+      selections: {
+        get() {
+          return this.$store.getters.researchselection;
+        }
+      }
+    },
+    methods: {
+      selectable(x, y) {
+        if(this.research[x].cost > this.experience)
+          return false;
+        if(this.selections[x] === undefined)
+          return true;
+        if(this.selections[x] !== y)
+          return false;
+        return true;
+      },
+      selected(x,y) {
+        if(this.selections[x] === undefined)
+          return false;
+        if(this.selections[x] === y)
+          return true;
+        return false;
+      },
+      buy(x,y) {
+        this.$store.dispatch('selectresearch',{level: x, selection: y});
       }
     }
   }

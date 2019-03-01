@@ -136,17 +136,23 @@
         }
         return this.buycount;
       },
-      nextupgrade: {
+      possibleups: {
         get() {
           let possibleups = [];
           for (var key in this.upgrades) {
             // check if the property/key is defined in the object itself, not in parent
             if (this.upgrades.hasOwnProperty(key)) {
               if (this.level < key) {
-                possibleups.push(key - this.level);
+                possibleups.push(key);
               }
             }
           }
+          return possibleups;
+        }
+      },
+      nextupgrade: {
+        get() {
+          let possibleups = this.possibleups.map(uplevel => uplevel-this.level);
           if (possibleups.length === 0)
             return "∞";
           return Math.min(...possibleups);
@@ -189,8 +195,9 @@
     },
     methods: {
       buy() {
-        if (this.buyable)
+        if (this.buyable) {
           this.$store.dispatch('buybuilding', {building: this.type, count: this.compbuycount});
+        }
       }
     }
   }
