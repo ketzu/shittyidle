@@ -24,6 +24,15 @@
         </v-layout>
       </v-flex>
     </v-layout>
+    <v-layout row>
+      <v-flex md12>
+        Effect Strength:
+        <v-spacer></v-spacer>
+        Commercial: {{format(gridvalues[0])}}x
+        Residential: {{format(gridvalues[1])}}x
+        Industrial: {{format(gridvalues[2])}}x
+      </v-flex>
+    </v-layout>
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title style="background-color: #2e7d32; color: white;">
@@ -78,6 +87,8 @@
 </template>
 
 <script>
+  import {evalGrid} from "../store";
+
   export default {
     name: "CityGrid",
     data() {
@@ -103,6 +114,12 @@
           return this.$store.getters.citygrid;
         }
       },
+      gridvalues: {
+        get() {
+          let cache = this.grid;
+          return evalGrid(cache);
+        }
+      },
       zones() {
         return this.$store.getters.zones;
       },
@@ -126,7 +143,7 @@
         return (i, j) => {
           if (this.plotavailable(i,j) && this.grid[i-1][j-1]===0)
             return true;
-          return false;
+          return true;//false
         }
       }
     },

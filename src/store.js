@@ -93,9 +93,9 @@ const residentialEffect = (grid, x, y) => {
     if (pn === 2) {
       rescounter += 1;
       if (rescounter < 4)
-        effect *= 1.5;
+        effect *= 2.3;
       else
-        effect *= 1.2;
+        effect *= 1.5;
     }
     if (pn === 1) {
       comcounter += 1;
@@ -109,14 +109,14 @@ const residentialEffect = (grid, x, y) => {
     if (xn === 2) {
       rescounter += 1;
       if (rescounter < 3)
-        effect *= 1.5;
+        effect *= 2.2;
       else
-        effect *= 1.2;
+        effect *= 1.4;
     }
     if (xn === 1) {
       comcounter += 1;
       if (comcounter < 3)
-        effect *= 2;
+        effect *= 2.3;
       else
         effect *= 0.9;
     }
@@ -149,7 +149,7 @@ const industrialEffect = (grid, x, y) => {
   return effect;
 };
 
-const evalGrid = (grid) => {
+export const evalGrid = (grid) => {
   let values = [1,1,1];
   for(let x=0;x<5;x+=1) {
     for(let y=0;y<5;y+=1) {
@@ -550,7 +550,7 @@ export default new Vuex.Store({
       startsim(state);
     },
     buildzone(state, {x, y, zone}) {
-      state.citygrid[x][y] = zone;
+      Vue.set(state.citygrid[x], y, zone);
     }
   },
   actions: {

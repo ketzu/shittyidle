@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import store,{eventBus,buildings, upgrades, infrastructure} from './store'
+import store,{eventBus, evalGrid} from './store'
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
