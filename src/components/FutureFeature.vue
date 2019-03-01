@@ -1,12 +1,10 @@
 <template>
-  <div>{{name}}
+  <div>{{name}}: {{textvalue}}
   <v-progress-linear
       :color="color"
-      height="20"
+      height="30"
       :value="value"
-  >
-    {{textvalue}}
-  </v-progress-linear></div>
+  ></v-progress-linear></div>
 </template>
 
 <script>
