@@ -31,7 +31,7 @@
           </v-container>
         </v-tab-item>
 
-        <v-tab-item v-if="tabs.includes('CityGrid')">
+        <v-tab-item v-if="tabs.includes('City')">
           <CityGrid></CityGrid>
         </v-tab-item>
 
@@ -92,8 +92,8 @@
         get() {
           let entries = ['Main'];
 
-          if(this.citylevel>2)
-            entries.push('CityGrid');
+          if(this.citylevel>1)
+            entries.push('City');
 
           if(this.citylevel>0)
             entries.push('Infrastructure');

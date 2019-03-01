@@ -178,7 +178,7 @@
         return mult;
       },
       production() {
-        return this.mul*this.type.gain*this.level*this.affecting;
+        return this.mul*this.type.gain*this.level*this.affecting*this.type.mult;
       },
       cost() {
         if (this.compbuycount === 1) {

@@ -4,9 +4,9 @@
       <v-flex :key="i" md4 v-for="i in 5">
         <v-layout column>
           <v-flex :key="j" md4 v-for="j in 5" style="padding:1px;">
-            <v-card :color="plotsavailable(i,j)?'green darken-4':'#364a38'" dark min-height="100px" flat @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
+            <v-card :color="color(i,j)" dark min-height="100px" flat @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
               <v-card-text class="text-md-center">
-                <v-icon x-large v-if="grid[i-1][j-1]!==''" style="margin-bottom:-30px;">fas {{grid[i-1][j-1]}}</v-icon>
+                <v-icon x-large v-if="grid[i-1][j-1]!==0" style="margin-bottom:-30px;">{{icon(i,j)}}</v-icon>
                 <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
                 <v-icon x-large v-else-if="trees[i-1][j-1]===0 || trees[i-1][j-1]===1" style="margin-bottom:-30px;">
                   fas fa-tree
@@ -43,21 +43,21 @@
             <v-layout align-start justify-center row wrap>
               <v-flex xs10 offset-xs1>
                 <v-list two-line>
-                  <transition name="fade" :key="index" v-for="(building, index) in buildings">
+                  <transition name="fade" :key="index" v-for="(zone, index) in zones.slice(1)">
 
                     <v-list-tile avatar>
                       <v-list-tile-avatar>
-                        <v-icon large :color="building.iconcolor">fas {{building.icon}}</v-icon>
+                        <v-icon large :color="zone.color">{{zone.icons[0]}}</v-icon>
                       </v-list-tile-avatar>
 
                       <v-list-tile-content>
                         <v-list-tile-title>
-                          {{building.title}}
+                          {{zone.name}}
                         </v-list-tile-title>
                       </v-list-tile-content>
 
                       <v-list-tile-action>
-                        <v-btn icon ripple @click="build(di,dj,building);dialog=false">
+                        <v-btn icon ripple @click="build(di,dj,index+1);dialog=false">
                           <v-icon color="blue darken-4">fas fa-hammer</v-icon>
                         </v-btn>
                       </v-list-tile-action>
@@ -82,13 +82,6 @@
     name: "CityGrid",
     data() {
       return {
-        grid: [
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', ''],
-          ['', '', '', '', '']
-        ],
         dialog: false,
         di: 3,
         dj: 3
@@ -105,19 +98,24 @@
         }
         return result;
       },
-      buildings: {
+      grid: {
         get() {
-          return this.$store.getters.buildings;
+          return this.$store.getters.citygrid;
         }
       },
+      zones() {
+        return this.$store.getters.zones;
+      },
       radius() {
-        if (this.citylevel > 0)
-          return 1;
-        if (this.resets > 2)
+        if (this.citylevel > 2)
+          return 3;
+        if (this.citylevel > 1)
+          return 2;
+        if (this.resets > 3)
           return 1;
         return 0;
       },
-      plotsavailable() {
+      plotavailable() {
         return (i, j) => {
           if (Math.abs(i - 3) < this.radius && Math.abs(j - 3) < this.radius)
             return true;
@@ -126,15 +124,25 @@
       },
       plotusable() {
         return (i, j) => {
-          if (this.plotsavailable(i,j) && this.grid[i-1][j-1]==='')
+          if (this.plotavailable(i,j) && this.grid[i-1][j-1]===0)
             return true;
           return false;
         }
       }
     },
     methods: {
-      build(i,j,building){
-        this.grid[i-1][j-1] = building.icon;
+      build(i,j,zoneindex){
+        this.$store.dispatch('buildzone', {x:(i-1),y:(j-1),zone:zoneindex});
+      },
+      color(i,j) {
+        if(this.plotavailable(i,j))
+          return this.zones[this.grid[i-1][j-1]].color;
+        return '#364a38';
+      },
+      icon(i,j) {
+        let random = this.trees[i-1][j-1];
+        let icons = this.zones[this.grid[i-1][j-1]].icons;
+        return icons[random%icons.length];
       }
     }
   }

@@ -1,11 +1,167 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {baseinfrastructure, basebuildings, upgrades, research, storagename, bgain, bcost} from './statics.js'
+import {basebuildings, baseinfrastructure, bgain, research, storagename, upgrades, zones} from './statics.js'
 
 Vue.use(Vuex);
 
 export const eventBus = new Vue();
 
+const getPlusNeighbors = (grid, x, y) => {
+  let neighbors = [];
+  if (x !== 0) {
+    neighbors.push(grid[x - 1][y]);
+  }
+  if (x !== 4) {
+    neighbors.push(grid[x + 1][y]);
+  }
+  if (y !== 0) {
+    neighbors.push(grid[x][y - 1]);
+  }
+  if (y !== 4) {
+    neighbors.push(grid[x][y + 1]);
+  }
+  return neighbors;
+};
+const getXNeighbors = (grid, x, y) => {
+  let neighbors = [];
+  if (x !== 0 && y !== 0) {
+    neighbors.push(grid[x - 1][y - 1]);
+  }
+  if (x !== 4 && y !== 4) {
+    neighbors.push(grid[x + 1][y + 1]);
+  }
+  if (x !== 4 && y !== 0) {
+    neighbors.push(grid[x + 1][y - 1]);
+  }
+  if (x !== 0 && y !== 4) {
+    neighbors.push(grid[x - 1][y + 1]);
+  }
+  return neighbors;
+};
+
+const commercialEffect = (grid, x, y) => {
+  let effect = 1;
+  let rescounter = 0;
+  let indcounter = 0;
+  let comcounter = 0;
+  for (let pn of getPlusNeighbors(grid, x, y)) {
+    if (pn === 3){
+      indcounter+=1;
+      if(indcounter<4)
+        effect *=1.8;
+      else
+        effect *= 0.6;
+    }
+    if (pn === 2) {
+      rescounter += 1;
+      if (rescounter < 4)
+        effect *= 2.2;
+      else
+        effect *= 3.5;
+    }
+    if (pn === 1) {
+      comcounter += 1;
+      if (comcounter < 3)
+        effect *= 2;
+      else
+        effect *= 0.75;
+    }
+  }
+  for (let xn of getXNeighbors(grid, x, y)) {
+    if (xn === 2) {
+      rescounter += 1;
+      if (rescounter < 3)
+        effect *= 1.5;
+      else
+        effect *= 1.2;
+    }
+    if (xn === 1) {
+      comcounter += 1;
+      if (comcounter < 3)
+        effect *= 2.5;
+    }
+  }
+  return effect;
+};
+const residentialEffect = (grid, x, y) => {
+  let effect = 1;
+  let rescounter = 0;
+  let comcounter = 0;
+  for (let pn of getPlusNeighbors(grid, x, y)) {
+    if (pn === 3)
+      effect /= 2;
+    if (pn === 2) {
+      rescounter += 1;
+      if (rescounter < 4)
+        effect *= 1.5;
+      else
+        effect *= 1.2;
+    }
+    if (pn === 1) {
+      comcounter += 1;
+      if (comcounter < 3)
+        effect *= 3;
+      else
+        effect *= 0.8;
+    }
+  }
+  for (let xn of getXNeighbors(grid, x, y)) {
+    if (xn === 2) {
+      rescounter += 1;
+      if (rescounter < 3)
+        effect *= 1.5;
+      else
+        effect *= 1.2;
+    }
+    if (xn === 1) {
+      comcounter += 1;
+      if (comcounter < 3)
+        effect *= 2;
+      else
+        effect *= 0.9;
+    }
+  }
+  return effect;
+};
+const industrialEffect = (grid, x, y) => {
+  let effect = 1;
+  let rescounter = 0;
+  let comcounter = 0;
+  for (let pn of [...getPlusNeighbors(grid, x, y),...getXNeighbors(grid, x, y)]) {
+    if (pn === 3) {
+      effect *= 1.3;
+    }
+    if (pn === 2) {
+      rescounter += 1;
+      if (rescounter < 3)
+        effect *= 4;
+      else
+        effect *= 1.9;
+    }
+    if (pn === 1) {
+      comcounter += 1;
+      if (comcounter < 3)
+        effect *= 3;
+      else
+        effect *= 0.7;
+    }
+  }
+  return effect;
+};
+
+const evalGrid = (grid) => {
+  let values = [1,1,1];
+  for(let x=0;x<5;x+=1) {
+    for(let y=0;y<5;y+=1) {
+      switch(grid[x][y]){
+        case 1: values[0] *= commercialEffect(grid,x,y); break;
+        case 2: values[1] *= residentialEffect(grid,x,y); break;
+        case 3: values[2] *= industrialEffect(grid,x,y); break;
+      }
+    }
+  }
+  return values;
+};
 
 const maxreached = (building, level) => {
   for (var key in upgrades[building]) {
@@ -20,33 +176,33 @@ const maxreached = (building, level) => {
 };
 
 const upgrade = (buildingid, level) => {
-  if(upgrades[buildingid] === undefined)
+  if (upgrades[buildingid] === undefined)
     return false;
-  if(upgrades[buildingid][level] === undefined)
+  if (upgrades[buildingid][level] === undefined)
     return false;
-  let index = buildings.findIndex(element => element.name === buildingid);
-  if(index === undefined)
+  let index = root._buildings.findIndex(element => element.name === buildingid);
+  if (index === undefined)
     return false;
-  let tempgain = buildings[index].gain * upgrades[buildingid][level].gain;
-  Vue.set(buildings,index,{...buildings[index], ...upgrades[buildingid][level], gain: tempgain});
-  if(maxreached(buildingid, level)){
+  let tempgain = root._buildings[index].gain * upgrades[buildingid][level].gain;
+  Vue.set(root._buildings, index, {...root._buildings[index], ...upgrades[buildingid][level], gain: tempgain});
+  if (maxreached(buildingid, level)) {
     eventBus.$emit('maxupgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
-  }else{
+  } else {
     eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
   }
   return true;
 };
 
 const allupgrades = (buildingid, level) => {
-  for(let i = 0; i <= level; i++) {
+  for (let i = 0; i <= level; i++) {
     upgrade(buildingid, i);
   }
 };
 
 const affecting = (building, inflevels) => {
   let mult = 1;
-  for(let infra of infrastructure.filter(inf => inf.affected.includes(building.name))) {
-    if(inflevels[infra.name] !== undefined)
+  for (let infra of root._infrastructure.filter(inf => inf.affected.includes(building.name))) {
+    if (inflevels[infra.name] !== undefined)
       mult *= Math.pow(infra.basemult, inflevels[infra.name]);
   }
   return mult;
@@ -55,14 +211,18 @@ const affecting = (building, inflevels) => {
 const resourcegain = (state) => {
   // base generation
   let gain = 0.1;
-  let multiplier = 1+expmult(state);
-  for(let current of buildings) {
+
+  let grideffects = evalGrid(state.citygrid);
+
+  // base multiplier = 1 ; experience gives multiplicative bonus
+  let multiplier = 1 + expmult(state);
+  for (let current of root._buildings) {
     let level = state.buildings[current['name']];
-    if(level === undefined)
+    if (level === undefined)
       continue;
-    gain += current.gain * level * affecting(current, state.infrastructure);
+    gain += current.gain * level * affecting(current, state.infrastructure) * current.mult;
   }
-  return [gain,multiplier];
+  return [gain, multiplier];
 };
 
 const updateresources = (state, gain) => {
@@ -72,16 +232,16 @@ const updateresources = (state, gain) => {
 };
 
 const resettable = (state) => {
-  if(state.buildings['Casino'] >= 100)
+  if (state.buildings['Casino'] >= 100)
     return true;
   return false;
 };
 
 const expgain = (state) => {
-  return Math.sqrt(state.resetresource/(2*Math.pow(10,10)));
+  return Math.sqrt(state.resetresource / (2 * Math.pow(10, 10)));
 };
 const expmult = (state) => {
-  return 0.04*(state.experience-state.lockedexp);
+  return 0.04 * (state.experience - state.lockedexp);
 };
 
 const citynames = [
@@ -92,10 +252,10 @@ const citynames = [
 ];
 
 const cityupgradeable = (state) => {
-  if(state.citylevel === 0 && state.experience+expgain(state) >= 1000) {
+  if (state.citylevel === 0 && state.experience + expgain(state) >= 1000) {
     return true;
   }
-  if(state.citylevel === 1 && state.experience+expgain(state) >= 100000) {
+  if (state.citylevel === 1 && state.experience + expgain(state) >= 100000) {
     return true;
   }
   return false;
@@ -105,7 +265,7 @@ let mainloop = undefined;
 const startsim = (state) => {
   clearInterval(mainloop);
   mainloop = setInterval(() => {
-    const gain = resourcegain(state).reduce((a,b) => a*b);
+    const gain = resourcegain(state).reduce((a, b) => a * b);
     updateresources(state, gain);
   }, state.tickrate);
 };
@@ -116,8 +276,7 @@ const stopsim = () => {
 
 let visible = true;
 let lastActive = undefined;
-let infrastructure;
-let buildings;
+let root;
 
 export default new Vuex.Store({
   state: {
@@ -140,47 +299,106 @@ export default new Vuex.Store({
     citylevel: 0,
     buildings: {},
     infrastructure: {},
-    research: {}
+    research: {},
+    citygrid: [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0]
+    ],
   },
   getters: {
-    settings(state) { return state.settings; },
-    upgrades(state) { return upgrades; },
-    research(state) { return research.filter(obj => obj.citylevel <= state.citylevel); },
-    researchselection(state) { return state.research; },
-    startofgamedialog(state) { return state.startofgamedialog; },
-    cityname(state) { return state.settings.cityname; },
-    resource(state) { return state.resource; },
-    basegain(state) { return bgain; },
-    expgain(state) { return expgain(state); },
-    expmult(state) { return expmult(state); },
-    alltime(state) { return state.alltime; },
-    resetresource(state) { return state.resetresource; },
-    experience(state) { return state.experience-state.lockedexp; },
-    resets(state) { return state.resets; },
-    infrastructure(state) { return infrastructure.filter(obj => obj.reqlevel <= state.citylevel)},
-    infrastructurelevels(state) { return state.infrastructure; },
-    buildinglevels(state) { return state.buildings; },
-    tickrate(state) { return state.tickrate; },
-    towntype(state) { return citynames[state.citylevel]; },
-    nexttowntype(state) { return citynames[state.citylevel+1]; },
-    cityupgradeable(state) { return cityupgradeable(state); },
-    citylevel(state) { return state.citylevel; },
-    currency(state) { return state.settings.currency; },
-    resettable(state) { return resettable(state); },
-    title(state) { return state.title; },
+    citygrid(state) {
+      return state.citygrid;
+    },
+    settings(state) {
+      return state.settings;
+    },
+    upgrades(state) {
+      return upgrades;
+    },
+    zones(state) {
+      return zones;
+    },
+    research(state) {
+      return research.filter(obj => obj.citylevel <= state.citylevel);
+    },
+    researchselection(state) {
+      return state.research;
+    },
+    startofgamedialog(state) {
+      return state.startofgamedialog;
+    },
+    cityname(state) {
+      return state.settings.cityname;
+    },
+    resource(state) {
+      return state.resource;
+    },
+    basegain(state) {
+      return bgain;
+    },
+    expgain(state) {
+      return expgain(state);
+    },
+    expmult(state) {
+      return expmult(state);
+    },
+    alltime(state) {
+      return state.alltime;
+    },
+    resetresource(state) {
+      return state.resetresource;
+    },
+    experience(state) {
+      return state.experience - state.lockedexp;
+    },
+    resets(state) {
+      return state.resets;
+    },
+    infrastructurelevels(state) {
+      return state.infrastructure;
+    },
+    buildinglevels(state) {
+      return state.buildings;
+    },
+    tickrate(state) {
+      return state.tickrate;
+    },
+    towntype(state) {
+      return citynames[state.citylevel];
+    },
+    nexttowntype(state) {
+      return citynames[state.citylevel + 1];
+    },
+    cityupgradeable(state) {
+      return cityupgradeable(state);
+    },
+    citylevel(state) {
+      return state.citylevel;
+    },
+    currency(state) {
+      return state.settings.currency;
+    },
+    resettable(state) {
+      return resettable(state);
+    },
+    title(state) {
+      return state.title;
+    },
     multiplier(state) {
       return resourcegain(state)[1];
     },
     resourcegain(state) {
-      return resourcegain(state).reduce((a,b) => a*b);
+      return resourcegain(state).reduce((a, b) => a * b);
     }
   },
   mutations: {
     initstore(state, vm) {
-      vm._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
-      vm._buildings = JSON.parse(JSON.stringify(basebuildings));
-      buildings = vm._buildings;
-      infrastructure = vm._infrastructure;
+      root = vm;
+      root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
+      root._buildings = JSON.parse(JSON.stringify(basebuildings));
 
       // Check if the ID exists
       if (localStorage.getItem(storagename)) {
@@ -205,12 +423,14 @@ export default new Vuex.Store({
         }
 
         // offline ticks
-        if(deserialize["time"] !== undefined) {
+        if (deserialize["time"] !== undefined) {
           // at most 25920000 ticks = 30 Days worth of offline time
-          let ticks = Math.min(((new Date()).getTime()-deserialize["time"])/state.tickrate,25920000);
-          const gain = resourcegain(state).reduce((a,b) => a*b);
-          updateresources(state,ticks*gain);
-          setTimeout(()=>{ eventBus.$emit('offlineincome', gain)}, 2500);
+          let ticks = Math.min(((new Date()).getTime() - deserialize["time"]) / state.tickrate, 25920000);
+          const gain = resourcegain(state).reduce((a, b) => a * b);
+          updateresources(state, ticks * gain);
+          setTimeout(() => {
+            eventBus.$emit('offlineincome', gain)
+          }, 2500);
         }
       }
     },
@@ -222,14 +442,14 @@ export default new Vuex.Store({
           stopsim();
           visible = false;
           lastActive = (new Date()).getTime();
-        } else  {
-          if(visible == false) {
+        } else {
+          if (visible == false) {
             visible = true;
-            let timePassed = (new Date()).getTime()-lastActive;
+            let timePassed = (new Date()).getTime() - lastActive;
 
-            let ticks = Math.min(timePassed/state.tickrate,25920000);
-            const gain = resourcegain(state).reduce((a,b) => a*b);
-            updateresources(state,ticks*gain);
+            let ticks = Math.min(timePassed / state.tickrate, 25920000);
+            const gain = resourcegain(state).reduce((a, b) => a * b);
+            updateresources(state, ticks * gain);
             startsim(state);
           }
         }
@@ -246,33 +466,42 @@ export default new Vuex.Store({
       state.title = title;
     },
     softreset(state, {upgrade}) {
-      if(resettable(state)){
+      if (resettable(state)) {
         state.resets += 1;
         state.experience += expgain(state);
 
         // Reset run specific stats
         state.buildings = {};
         state.infrastructure = {};
-        state.research ={};
+        state.research = {};
 
         state.lockedexp = 0;
         state.resource = 0;
         state.resetresource = 0;
+        state.citygrid = [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]
+        ];
 
         // Reset buildings array
-        Object.assign(buildings, JSON.parse(JSON.stringify(basebuildings)));
+        this.replaceState();
+        root._buildings = JSON.parse(JSON.stringify(basebuildings));
+        root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
       }
-      if(upgrade && cityupgradeable(state)){
+      if (upgrade && cityupgradeable(state)) {
         state.experience = 0;
         state.citylevel += 1;
       }
     },
     buybuilding(state, {building, count}) {
-      if(state.buildings[building.name] === undefined)
+      if (state.buildings[building.name] === undefined)
         Vue.set(state.buildings, building.name, 0);
-      for(let i=0;i<count;i++){
-        const cost = building.cost.base*Math.pow(building.cost.rate,state.buildings[building.name]);
-        if(cost < state.resource) {
+      for (let i = 0; i < count; i++) {
+        const cost = building.cost.base * Math.pow(building.cost.rate, state.buildings[building.name]);
+        if (cost < state.resource) {
           state.resource -= cost;
           state.buildings[building.name] += 1;
           upgrade(building.name, state.buildings[building.name]);
@@ -280,24 +509,24 @@ export default new Vuex.Store({
       }
     },
     buyinfrastrucutre(state, {building, count}) {
-      if(state.infrastructure[building.name] === undefined)
+      if (state.infrastructure[building.name] === undefined)
         Vue.set(state.infrastructure, building.name, 0);
-      for(let i=0;i<count;i++){
-        const cost = building.cost.base*Math.pow(building.cost.rate,state.infrastructure[building.name]);
-        if(cost < state.resource) {
+      for (let i = 0; i < count; i++) {
+        const cost = building.cost.base * Math.pow(building.cost.rate, state.infrastructure[building.name]);
+        if (cost < state.resource) {
           state.resource -= cost;
           state.infrastructure[building.name] += 1;
         }
       }
     },
     selectresearch(state, {level, selection}) {
-      if(state.experience-state.lockedexp < research[level].cost)
+      if (state.experience - state.lockedexp < research[level].cost)
         return;
       state.lockedexp += research[level].cost;
-      if(state.research[level] === undefined)
+      if (state.research[level] === undefined)
         Vue.set(state.research, level, selection);
       else {
-        if(state.research[level]>3 || state.research[level]<0)
+        if (state.research[level] > 3 || state.research[level] < 0)
           state.research[level] = selection;
       }
       research[level].options[selection].modification(state);
@@ -309,7 +538,7 @@ export default new Vuex.Store({
       location.reload();
     },
     changecityname(state, name) {
-      state.settings.cityname=name;
+      state.settings.cityname = name;
     },
     updatesettings(state, settings) {
       state.settings = settings;
@@ -319,6 +548,9 @@ export default new Vuex.Store({
     },
     restartsim(state) {
       startsim(state);
+    },
+    buildzone(state, {x, y, zone}) {
+      state.citygrid[x][y] = zone;
     }
   },
   actions: {
@@ -351,6 +583,9 @@ export default new Vuex.Store({
     },
     restartsim({commit}) {
       commit('restartsim');
+    },
+    buildzone({commit}, payload) {
+      commit('buildzone', payload);
     }
   }
 })

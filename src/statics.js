@@ -126,3 +126,10 @@ export const research = [
       {name: "Prohibit Strikes", icon: "cat ", iconcolor: "green darken-3", modification: () => { infrastructure[4].cost.rate=1.09 }, desc: "Reduce cost increase of university from 10% to 9%."}
     ]}
 ];
+
+export const zones = [
+  {name: 'Free', color: 'green darken-4', icons: ['']},
+  {name: 'Comercial', color: 'blue darken-4', icons: ['fas fa-glass-martini ','fas fa-beer','fas fa-hotel']},
+  {name: 'Residential', color: 'light-green darken-2', icons: ['fas fa-home', 'fas fa-building', 'fas fa-place-of-worship']},
+  {name: 'Industrial', color: 'yellow accent-4', icons: ['fas fa-industry', 'fas fa-warehouse']}
+];
