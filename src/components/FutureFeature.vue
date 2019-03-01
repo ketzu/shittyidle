@@ -1,10 +1,11 @@
 <template>
-  $END$
+  <span>{{title}} {{state}}</span>
 </template>
 
 <script>
   export default {
-    name: "FutureFeature"
+    name: "FutureFeature",
+    props: ['title', 'state']
   }
 </script>
 

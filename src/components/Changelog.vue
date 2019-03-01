@@ -28,19 +28,12 @@
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
-            <ul>
-              <li>More promotions</li>
-              <li>Research</li>
-              <li>City screen</li>
-              <li>Perks</li>
-              <li>Cloud Saves</li>
-              <li>Multi buy till next upgrade</li>
-            </ul>
-            &nbsp; &nbsp;...
-            <br>
-            <ul>
-              <li>Balancing lol</li>
-            </ul>
+            <Future title="More promotions" state="notstarted"></Future>
+            <Future title="Research" state="alpha"></Future>
+            <Future title="City screen" state="alpha"></Future>
+            <Future title="Perks" state="notstarted"></Future>
+            <Future title="Cloud" state="notstarted"></Future>
+            <Future title="Perks" state="notstarted"></Future>
           </v-flex>
 
           <v-flex md12>
@@ -171,8 +164,13 @@
 </template>
 
 <script>
+  import Future from "./FutureFeature.vue";
+
   export default {
     name: "Changelog",
+    components: {
+      Future
+    },
     data() {
       return {
         feedbacktext: ""
