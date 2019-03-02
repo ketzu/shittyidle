@@ -309,6 +309,23 @@ const stopsim = () => {
   clearInterval(mainloop);
 };
 
+const submitBuildingStats = (state) => {
+  let buildinglevels = state.buildings;
+  let count = 0;
+  for(let b in buildinglevels){
+    if(buildinglevels.hasOwnProperty(b)) {
+      count+=buildinglevels[b];
+    }
+  }
+  let infralevels = state.infrastructure;
+  for(let i in infralevels){
+    if(infralevels.hasOwnProperty(i)) {
+      count+=infralevels[i];
+    }
+  }
+  root.kongapi.stats.submit("Buildings", count);
+};
+
 let visible = true;
 let lastActive = undefined;
 let root;
@@ -522,6 +539,7 @@ export default new Vuex.Store({
     softreset(state, {upgrade}) {
       if (resettable(state)) {
         state.resets += 1;
+        root.kongapi.stats.submit("Resets", state.resets);
         state.experience += expgain(state);
 
         state.resettime = Date.now();
@@ -562,6 +580,7 @@ export default new Vuex.Store({
           upgrade(building.name, state.buildings[building.name]);
         }
       }
+      submitBuildingStats(state);
     },
     buyinfrastrucutre(state, {building, count}) {
       if (state.infrastructure[building.name] === undefined)
@@ -573,6 +592,7 @@ export default new Vuex.Store({
           state.infrastructure[building.name] += 1;
         }
       }
+      submitBuildingStats(state);
     },
     selectresearch(state, {level, selection}) {
       if (state.experience - state.lockedexp < research[level].cost)
