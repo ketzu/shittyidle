@@ -29,7 +29,7 @@
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Research" state="alpha"></Future>
-            <Future name="City screen" state="alpha"></Future>
+            <Future name="City screen" state="beta"></Future>
             <Future name="More promotions" state="beta"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
@@ -43,6 +43,8 @@
             <div slot="header">Version 0.9</div>
             <ul>
               <li>Feature release indicator</li>
+              <li>City Grid (Beta)</li>
+              <li>Time tracking statistics</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
