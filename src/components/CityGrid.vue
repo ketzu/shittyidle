@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+    <h2>Beta feature: Feel free to experiment. More info on the effect will be added.</h2>
     <v-layout row>
       <v-flex :key="i" md4 v-for="i in 5">
         <v-layout column>

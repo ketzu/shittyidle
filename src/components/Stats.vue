@@ -73,7 +73,7 @@
     methods: {
       timediff(time) {
         const elapsed = new Date(this.now - time);
-        let timestring = this.pad(elapsed.getHours())+":"+this.pad(elapsed.getMinutes())+":"+this.pad(elapsed.getSeconds());
+        let timestring = this.pad(elapsed.getHours()-1)+":"+this.pad(elapsed.getMinutes())+":"+this.pad(elapsed.getSeconds());
         let days = elapsed.getTime() / (1000*60*60*24);
         if(days>=1)
           timestring = (days%365).toFixed(0)+"days "+timestring;
