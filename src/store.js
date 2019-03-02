@@ -282,7 +282,6 @@ const updateGridResults = (state) => {
   let mult = [1,1,1,1,1,1,1,1];
   for(let i=0; i<3;i+=1) {
     const value = Math.log(improvements[i])+1;
-    console.log(i+">"+value);
     for(let se of alleffects[i].strong){
       const effectstrength = (1-Math.pow(0.93,value));
       mult[se] *= effectstrength;
@@ -544,7 +543,6 @@ export default new Vuex.Store({
         ];
 
         // Reset buildings array
-        this.replaceState();
         root._buildings = JSON.parse(JSON.stringify(basebuildings));
         root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
       }
