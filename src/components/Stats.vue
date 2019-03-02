@@ -62,7 +62,6 @@
     },
     methods: {
       timediff(time) {
-        console.log(time);
         const elapsed = new Date(this.now - time);
         let timestring = this.pad(elapsed.getHours())+":"+this.pad(elapsed.getMinutes())+":"+this.pad(elapsed.getSeconds());
         let days = elapsed.getTime() / (1000*60*60*24);
