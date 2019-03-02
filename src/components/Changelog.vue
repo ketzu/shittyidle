@@ -3,28 +3,13 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.8</span>
+        <span class="grey--text">Current Version: {{$store.getters.version}} (Kong)</span>
       </div>
     </v-card-title>
 
     <v-card-text>
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
-          <v-flex md12>
-            <h2>Feedback and Ideas</h2>
-            <v-textarea
-                name="feedback"
-                box
-                v-model="feedbacktext"
-                label="Message to the authors."
-                auto-grow
-                value=""
-            ></v-textarea>
-            <v-btn @click="submitFeedback()">
-              Submit
-            </v-btn>
-          </v-flex>
-
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
@@ -175,32 +160,6 @@
     name: "Changelog",
     components: {
       Future
-    },
-    data() {
-      return {
-        feedbacktext: ""
-      }
-    },
-    methods: {
-      submitFeedback() {
-        if(this.feedbacktext !== "") {
-          let data = new FormData();
-          data.append( "feedback", this.feedbacktext);
-          fetch("http://shittyidle.com/feedback.php", {
-            method: 'POST',
-            body: data
-          }).then(res => res.json())
-            .then(({success}) => {
-              if(success) {
-                this.feedbacktext = "";
-                this.bus.$emit('notification', "Message succesfully sent! Thank you for helping us.");
-              }else{
-                this.bus.$emit('notification', "Message could not be sent for some reason, sorry! Maybe try e-mail or reddit.");
-              }
-            })
-            .catch(error => console.error('Error:', error));
-        }
-      }
     }
   }
 </script>
