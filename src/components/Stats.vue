@@ -32,6 +32,16 @@
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
+        <h2 class="stat">{{$store.getters.oldversion}}</h2>
+        <span class="subitem">first version you saw</span>
+      </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
+        <h2 class="stat">{{$store.getters.version}}</h2>
+        <span class="subitem">current version</span>
+      </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <h2 class="stat">{{timeall}}</h2>
         <span class="subitem">time played</span>
       </v-flex>

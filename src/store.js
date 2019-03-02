@@ -259,6 +259,9 @@ const cityupgradeable = (state) => {
   if (state.citylevel === 1 && state.experience + expgain(state) >= 100000) {
     return true;
   }
+/*  if (state.citylevel === 2 && state.experience + expgain(state) >= 100000000) {
+    return true;
+  }*/
   return false;
 };
 
@@ -311,6 +314,8 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
+const version = "0.9"
+
 export default new Vuex.Store({
   state: {
     settings: {
@@ -322,7 +327,7 @@ export default new Vuex.Store({
     startofgamedialog: true,
     starttime: Date.now(),
     resettime: Date.now(),
-    version: "0.8.8",
+    version: version,
     resets: 0,
     resetresource: 0,
     experience: 0,
@@ -344,6 +349,12 @@ export default new Vuex.Store({
     ],
   },
   getters: {
+    version(state) {
+      return version;
+    },
+    oldversion(state) {
+      return state.version;
+    },
     timeall(state) {
       return state.starttime;
     },

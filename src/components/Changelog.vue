@@ -39,8 +39,7 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
-
-            <div slot="header">Version 0.9</div>
+            <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
               <li>Feature release indicator</li>
               <li>City Grid (Beta)</li>

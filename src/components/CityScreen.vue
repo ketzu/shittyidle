@@ -92,13 +92,13 @@
         get() {
           let entries = ['Main'];
 
-          if(this.citylevel>1)
+          if(this.resets>3)
             entries.push('City');
 
           if(this.citylevel>0)
             entries.push('Infrastructure');
 
-          if(this.citylevel>1)
+          if(this.citylevel>2)
             entries.push('Research');
 
           entries.push('Statistics','Settings','Help');
