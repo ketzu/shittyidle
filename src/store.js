@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {basebuildings, baseinfrastructure, bgain, research, storagename, upgrades, zones} from './statics.js'
+import {bcost} from "./statics";
 
 Vue.use(Vuex);
 
@@ -40,7 +41,7 @@ const getXNeighbors = (grid, x, y) => {
 };
 
 const commercialEffect = (grid, x, y) => {
-  let effect = 1;
+  let effect = 1.1;
   let rescounter = 0;
   let indcounter = 0;
   let comcounter = 0;
@@ -84,7 +85,7 @@ const commercialEffect = (grid, x, y) => {
   return effect;
 };
 const residentialEffect = (grid, x, y) => {
-  let effect = 1;
+  let effect = 1.1;
   let rescounter = 0;
   let comcounter = 0;
   for (let pn of getPlusNeighbors(grid, x, y)) {
@@ -124,7 +125,7 @@ const residentialEffect = (grid, x, y) => {
   return effect;
 };
 const industrialEffect = (grid, x, y) => {
-  let effect = 1;
+  let effect = 1.1;
   let rescounter = 0;
   let comcounter = 0;
   for (let pn of [...getPlusNeighbors(grid, x, y),...getXNeighbors(grid, x, y)]) {
@@ -259,6 +260,38 @@ const cityupgradeable = (state) => {
     return true;
   }
   return false;
+};
+
+const updateGridResults = (state) => {
+  const improvements = evalGrid(state.citygrid);
+  if(improvements.reduce((a,b)=>a+b) === 3)
+    return;
+  // Farm -> 0, Inn -> 1, Store -> 2, Bank -> 3, Data -> 4, Factory -> 5, Energy -> 6, Casino -> 7
+  const allweak = [0, 4];
+  const comeffect = {strong: [2, 3], weak: [...[1, 6],...allweak]};
+  const reseffect = {strong: [1, 7], weak: [...[5, 2],...allweak]};
+  const indeffect = {strong: [5, 6], weak: [...[3, 7],...allweak]};
+  const alleffects = [comeffect, reseffect, indeffect];
+
+  const basecost =  basebuildings.map(building => building.cost.rate);
+
+  const basereduction = 0.05; // base: 1.1 or 1.095
+  let mult = [1,1,1,1,1,1,1,1];
+  for(let i=0; i<3;i+=1) {
+    const value = Math.log(improvements[i])+1;
+    console.log(i+">"+value);
+    for(let se of alleffects[i].strong){
+      const effectstrength = (1-Math.pow(0.93,value));
+      mult[se] *= effectstrength;
+    }
+    for(let we of alleffects[i].weak) {
+      const effectstrength = (1-Math.pow(0.97,value));
+      mult[we] *= effectstrength;
+    }
+  }
+  for(let i=0;i<8;i+=1) {
+    Vue.set(root._buildings,i, {...root._buildings[i], cost: {...root._buildings[i].cost, rate:basecost[i]-basereduction*mult[i]}});
+  }
 };
 
 let mainloop = undefined;
@@ -430,6 +463,9 @@ export default new Vuex.Store({
           }
         }
 
+        // reapply grid results
+        updateGridResults(state);
+
         // offline ticks
         if (deserialize["time"] !== undefined) {
           // at most 25920000 ticks = 30 Days worth of offline time
@@ -561,6 +597,7 @@ export default new Vuex.Store({
     },
     buildzone(state, {x, y, zone}) {
       Vue.set(state.citygrid[x], y, zone);
+      updateGridResults(state);
     }
   },
   actions: {

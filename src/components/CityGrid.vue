@@ -24,15 +24,6 @@
         </v-layout>
       </v-flex>
     </v-layout>
-    <v-layout row>
-      <v-flex md12>
-        Effect Strength:
-        <v-spacer></v-spacer>
-        Commercial: {{format(gridvalues[0])}}x
-        Residential: {{format(gridvalues[1])}}x
-        Industrial: {{format(gridvalues[2])}}x
-      </v-flex>
-    </v-layout>
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title style="background-color: #2e7d32; color: white;">
