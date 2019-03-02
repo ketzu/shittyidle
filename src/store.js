@@ -287,8 +287,8 @@ export default new Vuex.Store({
       cityname: "Shitty Idle"
     },
     startofgamedialog: true,
-    starttime: (new Date()).getTime(),
-    resettime: (new Date()).getTime(),
+    starttime: Date.now(),
+    resettime: Date.now(),
     version: "0.8.8",
     resets: 0,
     resetresource: 0,
@@ -314,7 +314,7 @@ export default new Vuex.Store({
     timeall(state) {
       return state.starttime;
     },
-    timerun(state) {
+    timereset(state) {
       return state.resettime;
     },
     citygrid(state) {
@@ -477,6 +477,8 @@ export default new Vuex.Store({
       if (resettable(state)) {
         state.resets += 1;
         state.experience += expgain(state);
+
+        state.resettime = Date.now();
 
         // Reset run specific stats
         state.buildings = {};

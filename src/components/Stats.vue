@@ -30,13 +30,59 @@
         <h2 class="stat">{{formatexp(expgain)}}</h2>
         <span class="subitem">experience gain</span>
       </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
+        <h2 class="stat">{{timeall}}</h2>
+        <span class="subitem">time played</span>
+      </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
+        <h2 class="stat">{{timereset}}</h2>
+        <span class="subitem">time since last reset</span>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
   export default {
-    name: "Stats"
+    name: "Stats",
+    data() {
+      return {
+        now: Date.now()
+      }
+    },
+    computed: {
+      timereset() {
+        return this.timediff(this.$store.getters.timereset);
+      },
+      timeall() {
+        return this.timediff(this.$store.getters.timeall);
+      }
+    },
+    methods: {
+      timediff(time) {
+        console.log(time);
+        const elapsed = new Date(this.now - time);
+        let timestring = this.pad(elapsed.getHours())+":"+this.pad(elapsed.getMinutes())+":"+this.pad(elapsed.getSeconds());
+        let days = elapsed.getTime() / (1000*60*60*24);
+        if(days>=1)
+          timestring = (days%365).toFixed(0)+"days "+timestring;
+        if(days>365)
+          timestring = (days/365).toFixed(0)+"years "+timestring;
+        return timestring;
+      },
+      pad(value) {
+        if(value<10)
+          return "0"+value;
+        return value;
+      }
+    },
+    created() {
+      setInterval(()=>{
+        this.now = Date.now();
+      },1000);
+    }
   }
 </script>
 
