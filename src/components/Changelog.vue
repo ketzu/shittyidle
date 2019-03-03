@@ -3,7 +3,7 @@
     <v-card-title primary-title>
       <div>
         <div class="headline">Game Development - watch the game improve</div>
-        <span class="grey--text">Current Version: 0.8</span>
+        <span class="grey--text">Current Version: {{$store.getters.version}}</span>
       </div>
     </v-card-title>
 
@@ -33,19 +33,20 @@
             <Future name="More promotions" state="beta"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
-            <Future name="Achivements" state="notstarted"></Future>
+            <Future name="Achivements" state="beta"></Future>
           </v-flex>
 
           <v-flex md12>
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
+              <li>Achievements beta.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
                   <li>Feature release indicator</li>
                   <li>City Grid (Beta)</li>
                   <li>Time tracking statistics</li>

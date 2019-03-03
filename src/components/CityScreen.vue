@@ -47,6 +47,9 @@
           <Stats></Stats>
         </v-tab-item>
         <v-tab-item>
+          <Achievements></Achievements>
+        </v-tab-item>
+        <v-tab-item>
           <Settings></Settings>
         </v-tab-item>
         <v-tab-item>
@@ -70,10 +73,12 @@
   import Settings from "./Settings.vue";
   import Research from "./Research.vue";
   import Infrastructure from "./Infrastructure.vue";
+  import Achievements from "./Achievements";
 
   export default {
     name: "CityScreen",
     components: {
+      Achievements,
       Infrastructure,
       Stats,
       SoftReset,
@@ -101,7 +106,7 @@
           if(this.citylevel>2)
             entries.push('Research');
 
-          entries.push('Statistics','Settings','Help');
+          entries.push('Statistics','Achievements','Settings','Help');
           return entries;
         }
       }

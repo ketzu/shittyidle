@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {basebuildings, baseinfrastructure, bgain, research, storagename, upgrades, zones} from './statics.js'
+import {basebuildings, baseinfrastructure, bgain, research, storagename, upgrades, zones, achievements} from './statics.js'
 import {bcost} from "./statics";
 
 Vue.use(Vuex);
@@ -313,7 +313,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.9.1"
+const version = "0.9.2";
 
 export default new Vuex.Store({
   state: {
@@ -322,6 +322,9 @@ export default new Vuex.Store({
       numbersplitsymbol: " x10^",
       numberview: 1,
       cityname: "Shitty Idle"
+    },
+    achievements: {
+
     },
     startofgamedialog: true,
     starttime: Date.now(),
@@ -348,6 +351,9 @@ export default new Vuex.Store({
     ],
   },
   getters: {
+    achievements(state) {
+      return state.achievements;
+    },
     version(state) {
       return version;
     },
@@ -524,6 +530,23 @@ export default new Vuex.Store({
         state.resets += 1;
         state.experience += expgain(state);
 
+        // evaluate achivements time
+        if(state.resets>=1) {
+          Vue.set(state.achievements,'beginner',true);
+          if(state.resets==1)
+            eventBus.$emit('achievement', achievements['beginner']);
+        }
+        if(state.buildings['Inn']===0
+         && state.buildings['Store']===0
+         && state.buildings['Bank']===0
+         && state.buildings['Datacenter']===0
+         && state.buildings['Factory']===0
+         && state.buildings['Energy']===0) {
+          Vue.set(state.achievements,'workfun', true);
+          if(state.resets==1)
+            eventBus.$emit('achievement', achievements['workfun']);
+        }
+
         state.resettime = Date.now();
 
         // Reset run specific stats
@@ -546,9 +569,17 @@ export default new Vuex.Store({
         root._buildings = JSON.parse(JSON.stringify(basebuildings));
         root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
       }
+      if(state.citylevel>=1)
+        Vue.set(state.achievements, 'advancer', true);
+      if(state.citylevel>=2)
+        Vue.set(state.achievements,'prof', true);
       if (upgrade && cityupgradeable(state)) {
         state.experience = 0;
         state.citylevel += 1;
+        if(state.citylevel==1)
+          eventBus.$emit('achievement', achievements['advancer']);
+        if(state.citylevel==2)
+          eventBus.$emit('achievement', achievements['prof']);
       }
     },
     buybuilding(state, {building, count}) {
