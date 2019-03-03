@@ -26,11 +26,18 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Feature release indicator</li>
-              <li>City Grid (Beta)</li>
-              <li>Time tracking statistics</li>
+              <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
             </ul>
             <v-expansion-panel>
+              <v-expansion-panel-content>
+                <div slot="header">Version 0.9</div>
+                <ul>
+                  <li>Feature release indicator</li>
+                  <li>City Grid (Beta)</li>
+                  <li>Time tracking statistics</li>
+                </ul>
+              </v-expansion-panel-content>
+
               <v-expansion-panel-content>
                 <div slot="header">Version 0.8</div>
                 <ul>

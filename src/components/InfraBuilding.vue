@@ -15,7 +15,7 @@
         </v-list-tile-sub-title>
 
         <v-list-tile-sub-title>
-          Next {{buycount>1? buycount : ''}} level{{buycount>1?'s':''}}: {{formatresource(cost)}}.
+          Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
         </v-list-tile-sub-title>
       </v-list-tile-content>
 
@@ -47,13 +47,22 @@
           return level;
         }
       },
+      maxbuyable() {
+        let c=10;
+        while(this.costof(c+10)<this.resource) c+=10;
+        return c;
+      },
+      compbuycount() {
+        if(this.buytoupgrade) {
+          return this.maxbuyable;
+        }
+        return this.buycount;
+      },
       cost() {
-        if (this.buycount === 1) {
+        if (this.compbuycount === 1) {
           return this.type.cost.base * Math.pow(this.type.cost.rate, this.level);
         } else {
-          const rtos = Math.pow(this.type.cost.rate, this.level);
-          const rtogms = Math.pow(this.type.cost.rate, this.buycount);
-          return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
+          return this.costof(this.compbuycount);
         }
       },
       buyable() {
@@ -66,7 +75,12 @@
     methods: {
       buy() {
         if (this.buyable)
-          this.$store.dispatch('buyinfrastructure', {building: this.type, count: this.buycount});
+          this.$store.dispatch('buyinfrastructure', {building: this.type, count: this.compbuycount});
+      },
+      costof(value) {
+        const rtos = Math.pow(this.type.cost.rate, this.level);
+        const rtogms = Math.pow(this.type.cost.rate, value);
+        return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
       }
     }
   }

@@ -124,7 +124,9 @@
         }
       },
       maxbuyable() {
-        return this.buycount;
+        let c=10;
+        while(this.costof(c+10)<this.resource) c+=10;
+        return c;
       },
       compbuycount() {
         if(this.buytoupgrade) {
@@ -184,9 +186,7 @@
         if (this.compbuycount === 1) {
           return this.type.cost.base * Math.pow(this.type.cost.rate, this.level);
         } else {
-          const rtos = Math.pow(this.type.cost.rate, this.level);
-          const rtogms = Math.pow(this.type.cost.rate, this.compbuycount);
-          return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
+          return this.costof(this.compbuycount);
         }
       },
       buyable() {
@@ -198,6 +198,11 @@
         if (this.buyable) {
           this.$store.dispatch('buybuilding', {building: this.type, count: this.compbuycount});
         }
+      },
+      costof(value) {
+        const rtos = Math.pow(this.type.cost.rate, this.level);
+        const rtogms = Math.pow(this.type.cost.rate, value);
+        return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
       }
     }
   }

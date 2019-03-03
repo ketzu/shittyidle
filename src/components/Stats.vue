@@ -72,9 +72,12 @@
     },
     methods: {
       timediff(time) {
-        const elapsed = new Date(this.now - time);
-        let timestring = this.pad(elapsed.getHours()-1)+":"+this.pad(elapsed.getMinutes())+":"+this.pad(elapsed.getSeconds());
-        let days = elapsed.getTime() / (1000*60*60*24);
+        const elapsed = this.now - time;
+        const seconds = (elapsed / 1000) % 60;
+        const minutes = (elapsed/1000/60)%60;
+        const hours = (elapsed/1000/60/60) % 24;
+        const days = (elapsed/1000/60/60/24);
+        let timestring = this.pad(hours.toFixed(0))+":"+this.pad(minutes.toFixed(0))+":"+this.pad(seconds.toFixed(0));
         if(days>=1)
           timestring = (days%365).toFixed(0)+"days "+timestring;
         if(days>365)
