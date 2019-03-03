@@ -18,7 +18,6 @@
             <Future name="More promotions" state="beta"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
-            <Future name="Perks" state="notstarted"></Future>
             <Future name="Achivements" state="notstarted"></Future>
           </v-flex>
 
