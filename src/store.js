@@ -49,37 +49,37 @@ const commercialEffect = (grid, x, y) => {
     if (pn === 3){
       indcounter+=1;
       if(indcounter<4)
-        effect *=1.8;
+        effect *=2.35;
       else
-        effect *= 0.6;
+        effect *= 0.9;
     }
     if (pn === 2) {
       rescounter += 1;
       if (rescounter < 4)
-        effect *= 2.2;
+        effect *= 2.3;
       else
-        effect *= 3.5;
+        effect *= 3.75;
     }
     if (pn === 1) {
       comcounter += 1;
       if (comcounter < 3)
-        effect *= 2;
+        effect *= 2.52;
       else
-        effect *= 0.75;
+        effect *= 0.83;
     }
   }
   for (let xn of getXNeighbors(grid, x, y)) {
     if (xn === 2) {
       rescounter += 1;
       if (rescounter < 3)
-        effect *= 1.5;
+        effect *= 1.8;
       else
         effect *= 1.2;
     }
     if (xn === 1) {
       comcounter += 1;
       if (comcounter < 3)
-        effect *= 2.5;
+        effect *= 2.6;
     }
   }
   return effect;
@@ -94,14 +94,14 @@ const residentialEffect = (grid, x, y) => {
     if (pn === 2) {
       rescounter += 1;
       if (rescounter < 4)
-        effect *= 2.3;
+        effect *= 2.4;
       else
-        effect *= 1.5;
+        effect *= 1.6;
     }
     if (pn === 1) {
       comcounter += 1;
       if (comcounter < 3)
-        effect *= 3;
+        effect *= 3.2;
       else
         effect *= 0.8;
     }
@@ -135,14 +135,14 @@ const industrialEffect = (grid, x, y) => {
     if (pn === 2) {
       rescounter += 1;
       if (rescounter < 3)
-        effect *= 4;
+        effect *= 3.3;
       else
-        effect *= 1.9;
+        effect *= 1.5;
     }
     if (pn === 1) {
       comcounter += 1;
       if (comcounter < 3)
-        effect *= 3;
+        effect *= 2.6;
       else
         effect *= 0.7;
     }
@@ -155,9 +155,9 @@ export const evalGrid = (grid) => {
   for(let x=0;x<5;x+=1) {
     for(let y=0;y<5;y+=1) {
       switch(grid[x][y]){
-        case 1: values[0] *= commercialEffect(grid,x,y); break;
-        case 2: values[1] *= residentialEffect(grid,x,y); break;
-        case 3: values[2] *= industrialEffect(grid,x,y); break;
+        case 1: values[0] += commercialEffect(grid,x,y); break;
+        case 2: values[1] += residentialEffect(grid,x,y); break;
+        case 3: values[2] += industrialEffect(grid,x,y); break;
       }
     }
   }
@@ -265,6 +265,13 @@ const cityupgradeable = (state) => {
   return false;
 };
 
+const effectstrength = (value) => {
+  if(value <3) return 0.05;
+  if(value < 550) return 0.05+value/550*0.2;
+  if(value<1500) return 0.25+value/1500*0.74;
+  return 0.99+(0.01)*(1-(Math.pow(0.99,value)));
+};
+
 const updateGridResults = (state) => {
   const improvements = evalGrid(state.citygrid);
   if(improvements.reduce((a,b)=>a+b) === 3)
@@ -279,20 +286,18 @@ const updateGridResults = (state) => {
   const basecost =  basebuildings.map(building => building.cost.rate);
 
   const basereduction = 0.05; // base: 1.1 or 1.095
-  let mult = [1,1,1,1,1,1,1,1];
+  let values = [1,1,1,1,1,1,1,1];
   for(let i=0; i<3;i+=1) {
-    const value = Math.log(improvements[i])+1;
     for(let se of alleffects[i].strong){
-      const effectstrength = (1-Math.pow(0.93,value));
-      mult[se] *= effectstrength;
+      values[se] += effectstrength(improvements[i]) * 2;
     }
     for(let we of alleffects[i].weak) {
-      const effectstrength = (1-Math.pow(0.97,value));
-      mult[we] *= effectstrength;
+      values[we] += effectstrength(improvements[i]);
     }
   }
+  values = values.map(e=>e/3);
   for(let i=0;i<8;i+=1) {
-    Vue.set(root._buildings,i, {...root._buildings[i], cost: {...root._buildings[i].cost, rate:basecost[i]-basereduction*mult[i]}});
+    Vue.set(root._buildings,i, {...root._buildings[i], cost: {...root._buildings[i].cost, rate:basecost[i]-basereduction*values[i]}});
   }
 };
 
