@@ -536,15 +536,15 @@ export default new Vuex.Store({
           if(state.resets==1)
             eventBus.$emit('achievement', achievements['beginner']);
         }
-        if(state.buildings['Inn']===0
-         && state.buildings['Store']===0
-         && state.buildings['Bank']===0
-         && state.buildings['Datacenter']===0
-         && state.buildings['Factory']===0
-         && state.buildings['Energy']===0) {
-          Vue.set(state.achievements,'workfun', true);
-          if(state.resets==1)
+        if(state.buildings['Inn']===undefined
+         && state.buildings['Store']===undefined
+         && state.buildings['Bank']===undefined
+         && state.buildings['Datacenter']===undefined
+         && state.buildings['Factory']===undefined
+         && state.buildings['Energy']===undefined) {
+          if(state.achievements['workfun'] !== true)
             eventBus.$emit('achievement', achievements['workfun']);
+          Vue.set(state.achievements,'workfun', true);
         }
 
         state.resettime = Date.now();
@@ -569,10 +569,6 @@ export default new Vuex.Store({
         root._buildings = JSON.parse(JSON.stringify(basebuildings));
         root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
       }
-      if(state.citylevel>=1)
-        Vue.set(state.achievements, 'advancer', true);
-      if(state.citylevel>=2)
-        Vue.set(state.achievements,'prof', true);
       if (upgrade && cityupgradeable(state)) {
         state.experience = 0;
         state.citylevel += 1;
@@ -581,6 +577,10 @@ export default new Vuex.Store({
         if(state.citylevel==2)
           eventBus.$emit('achievement', achievements['prof']);
       }
+      if(state.citylevel>=1)
+        Vue.set(state.achievements, 'advancer', true);
+      if(state.citylevel>=2)
+        Vue.set(state.achievements, 'prof', true);
     },
     buybuilding(state, {building, count}) {
       if (state.buildings[building.name] === undefined)

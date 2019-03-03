@@ -85,8 +85,8 @@ export default {
     this.bus.$on('offlineincome', gain => {
       self.notifications.push("While you were offline, you gained "+this.formatresource(gain));
     });
-    this.bus.$on('achievement', ({title,icon,iconcolor}) => {
-      self.notifications.push("<v-icon color='"+iconcolor+"'>"+icon+"</v-icon> Achievement reached: "+title);
+    this.bus.$on('achievement', ({title}) => {
+      self.notifications.push("Achievement reached: "+title);
     });
   },
   beforeDestroy() {
