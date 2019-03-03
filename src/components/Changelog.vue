@@ -11,21 +11,6 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
-            <h2>Feedback and Ideas</h2>
-            <v-textarea
-                name="feedback"
-                box
-                v-model="feedbacktext"
-                label="Message to the authors."
-                auto-grow
-                value=""
-            ></v-textarea>
-            <v-btn @click="submitFeedback()">
-              Submit
-            </v-btn>
-          </v-flex>
-
-          <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Research" state="alpha"></Future>
