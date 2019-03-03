@@ -133,3 +133,10 @@ export const zones = [
   {name: 'Residential', color: 'light-green darken-2', icons: ['fas fa-home', 'fas fa-building', 'fas fa-place-of-worship']},
   {name: 'Industrial', color: 'yellow accent-4', icons: ['fas fa-industry', 'fas fa-warehouse']}
 ];
+
+export const achievements = {
+  beginner: {desc: "Change your job once.", title: "Beginner", icon: "fas fa-cat", iconcolor: "orange accent-4"},
+  advancer: {desc: "Get promoted.", title: "Advancer", icon: "fas fa-cat", iconcolor: "blue-grey lighten-2"},
+  prof: {desc: "Get another promotion.", title: "Professional", icon: "fas fa-cat", iconcolor: "amber"},
+  workfun: {desc: "Reset with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2"}
+};

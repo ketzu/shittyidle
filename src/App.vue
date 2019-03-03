@@ -85,12 +85,16 @@ export default {
     this.bus.$on('offlineincome', gain => {
       self.notifications.push("While you were offline, you gained "+this.formatresource(gain));
     });
+    this.bus.$on('achievement', ({title}) => {
+      self.notifications.push("Achievement reached: "+title);
+    });
   },
   beforeDestroy() {
     this.bus.$off('upgrade');
     this.bus.$off('offlineincome');
     this.bus.$off('maxupgrade');
     this.bus.$off('notification');
+    this.bus.$off('achievement');
   },
   mixins: [Data]
 }

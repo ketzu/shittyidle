@@ -11,6 +11,21 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
+            <h2>Feedback and Ideas</h2>
+            <v-textarea
+                name="feedback"
+                box
+                v-model="feedbacktext"
+                label="Message to the authors."
+                auto-grow
+                value=""
+            ></v-textarea>
+            <v-btn @click="submitFeedback()">
+              Submit
+            </v-btn>
+          </v-flex>
+
+          <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Research" state="alpha"></Future>
@@ -18,20 +33,20 @@
             <Future name="More promotions" state="beta"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
-            <Future name="Achivements" state="notstarted"></Future>
+            <Future name="Achivements" state="beta"></Future>
           </v-flex>
 
           <v-flex md12>
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
-              <li>(Kong) leaderbord for insignificant digits: Log10 of all time earnings.</li>
+              <li>Achievements beta.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
                   <li>Feature release indicator</li>
                   <li>City Grid (Beta)</li>
                   <li>Time tracking statistics</li>
@@ -167,6 +182,32 @@
     name: "Changelog",
     components: {
       Future
+    },
+    data() {
+      return {
+        feedbacktext: ""
+      }
+    },
+    methods: {
+      submitFeedback() {
+        if(this.feedbacktext !== "") {
+          let data = new FormData();
+          data.append( "feedback", this.feedbacktext);
+          fetch("http://shittyidle.com/feedback.php", {
+            method: 'POST',
+            body: data
+          }).then(res => res.json())
+            .then(({success}) => {
+              if(success) {
+                this.feedbacktext = "";
+                this.bus.$emit('notification', "Message succesfully sent! Thank you for helping us.");
+              }else{
+                this.bus.$emit('notification', "Message could not be sent for some reason, sorry! Maybe try e-mail or reddit.");
+              }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+      }
     }
   }
 </script>
