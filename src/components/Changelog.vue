@@ -40,12 +40,13 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Achievements beta.</li>
+              <li>Citygrid should provide more noticable cost reduction, but there is a bug that prevents the cost values from updating.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Achievements beta.</li>
                   <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
                   <li>Feature release indicator</li>
                   <li>City Grid (Beta)</li>

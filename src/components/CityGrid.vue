@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <h2>Beta feature: Feel free to experiment. More info on the effect will be added.</h2>
     <v-layout row>
       <v-flex :key="i" md4 v-for="i in 5">
         <v-layout column>
@@ -25,6 +24,15 @@
         </v-layout>
       </v-flex>
     </v-layout>
+    <v-layout row>
+      <v-flex md12 class="text-md-center">
+        <v-icon color="#364a38">fas fa-square</v-icon>
+        Zone not yet available.
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <v-icon color="green darken-4">fas fa-square</v-icon>
+        Zone available
+      </v-flex>
+    </v-layout>
     <v-dialog v-model="dialog" max-width="600px">
       <v-card>
         <v-card-title style="background-color: #2e7d32; color: white;">
@@ -32,8 +40,8 @@
             <v-layout>
               <v-flex xs12 align-end flexbox>
                     <span class="headline">
-                      <v-icon large color="white">fas fa-hammer</v-icon>
-                      Place a building, {{title}}!
+                      <v-icon large color="white">fas fa-map-marked </v-icon>
+                      Select an appropriate zone, {{title}}!
                     </span>
               </v-flex>
             </v-layout>
@@ -42,6 +50,11 @@
         <v-card-text>
           <v-container grid-list-lg>
             <v-layout align-start justify-center row wrap>
+              <v-flex xs10 offset-xs1>
+                Zoning can improve your city. The availability of land has an <b>effect on cost</b> of buildings.
+                All zones affect farms and datacenters, as everyone needs food, and datacenters just don't care.
+                But be aware: Neighboring, diagonally and normal, affect other zones effect.
+              </v-flex>
               <v-flex xs10 offset-xs1>
                 <v-list two-line>
                   <transition name="fade" :key="index" v-for="(zone, index) in zones.slice(1)">
@@ -55,11 +68,18 @@
                         <v-list-tile-title>
                           {{zone.name}}
                         </v-list-tile-title>
+
+                        <v-list-tile-sub-title>
+                          Strongly affects: {{zone.strong}}
+                        </v-list-tile-sub-title>
+                        <v-list-tile-sub-title>
+                          Weakly affects: {{zone.weak}}
+                        </v-list-tile-sub-title>
                       </v-list-tile-content>
 
                       <v-list-tile-action>
                         <v-btn icon ripple @click="build(di,dj,index+1);dialog=false">
-                          <v-icon color="blue darken-4">fas fa-hammer</v-icon>
+                          <v-icon color="blue darken-4">fas fa-map-marker-alt</v-icon>
                         </v-btn>
                       </v-list-tile-action>
                     </v-list-tile>
@@ -152,38 +172,6 @@
         let random = this.trees[i-1][j-1];
         let icons = this.zones[this.grid[i-1][j-1]].icons;
         return icons[random%icons.length];
-      }
-    },
-    mounted() {
-
-      const effectstrength = (value) => {
-        if(value <3) return 0.05;
-        if(value < 550) return 0.05+value/550*0.2;
-        if(value<1500) return 0.25+value/1500*0.74;
-        return 0.99+(0.01)*(1-(Math.pow(0.99,value)));
-      };
-
-      for(let j=1;j<2100;j*=2){
-        const improvements = [j,j,j];
-        // Farm -> 0, Inn -> 1, Store -> 2, Bank -> 3, Data -> 4, Factory -> 5, Energy -> 6, Casino -> 7
-        const allweak = [0, 4];
-        const comeffect = {strong: [2, 3], weak: [...[1, 6],...allweak]};
-        const reseffect = {strong: [1, 7], weak: [...[5, 2],...allweak]};
-        const indeffect = {strong: [5, 6], weak: [...[3, 7],...allweak]};
-        const alleffects = [comeffect, reseffect, indeffect];
-
-        const basereduction = 0.05; // base: 1.1 or 1.095
-        let values = [0,0,0,0,0,0,0,0];
-        for(let i=0; i<3;i+=1) {
-          for(let se of alleffects[i].strong){
-            values[se] += effectstrength(improvements[i])*2;
-          }
-          for(let we of alleffects[i].weak) {
-            values[we] += effectstrength(improvements[i]);
-          }
-        }
-        console.log("j = "+j);
-        console.log(values.map(e=>e/3));
       }
     }
   }
