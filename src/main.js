@@ -12,7 +12,6 @@ Vue.config.productionTip = false;
 store.subscribe((mutation, state) => {
   if(mutation.type === "hardreset") return;
   localStorage.setItem('cidle-v1', JSON.stringify({...state, time: (new Date()).getTime()}));
-  root.kongapi.stats.submit("Zeros", Math.log10(state.alltime));
 });
 
 import Data from './components/data'

@@ -324,6 +324,7 @@ const submitBuildingStats = (state) => {
     }
   }
   root.kongapi.stats.submit("Buildings", count);
+  root.kongapi.stats.submit("Zeros", Math.log10(state.alltime));
 };
 
 let visible = true;
