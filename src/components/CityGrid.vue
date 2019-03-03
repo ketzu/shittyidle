@@ -135,7 +135,7 @@
         return (i, j) => {
           if (this.plotavailable(i,j) && this.grid[i-1][j-1]===0)
             return true;
-          return false;
+          return true; // false
         }
       }
     },
@@ -152,6 +152,38 @@
         let random = this.trees[i-1][j-1];
         let icons = this.zones[this.grid[i-1][j-1]].icons;
         return icons[random%icons.length];
+      }
+    },
+    mounted() {
+
+      const effectstrength = (value) => {
+        if(value <3) return 0.05;
+        if(value < 550) return 0.05+value/550*0.2;
+        if(value<1500) return 0.25+value/1500*0.74;
+        return 0.99+(0.01)*(1-(Math.pow(0.99,value)));
+      };
+
+      for(let j=1;j<2100;j*=2){
+        const improvements = [j,j,j];
+        // Farm -> 0, Inn -> 1, Store -> 2, Bank -> 3, Data -> 4, Factory -> 5, Energy -> 6, Casino -> 7
+        const allweak = [0, 4];
+        const comeffect = {strong: [2, 3], weak: [...[1, 6],...allweak]};
+        const reseffect = {strong: [1, 7], weak: [...[5, 2],...allweak]};
+        const indeffect = {strong: [5, 6], weak: [...[3, 7],...allweak]};
+        const alleffects = [comeffect, reseffect, indeffect];
+
+        const basereduction = 0.05; // base: 1.1 or 1.095
+        let values = [0,0,0,0,0,0,0,0];
+        for(let i=0; i<3;i+=1) {
+          for(let se of alleffects[i].strong){
+            values[se] += effectstrength(improvements[i])*2;
+          }
+          for(let we of alleffects[i].weak) {
+            values[we] += effectstrength(improvements[i]);
+          }
+        }
+        console.log("j = "+j);
+        console.log(values.map(e=>e/3));
       }
     }
   }
