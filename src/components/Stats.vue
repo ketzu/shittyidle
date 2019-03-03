@@ -79,9 +79,9 @@
         const days = (elapsed/1000/60/60/24);
         let timestring = this.pad(hours.toFixed(0))+":"+this.pad(minutes.toFixed(0))+":"+this.pad(seconds.toFixed(0));
         if(days>=1)
-          timestring = (days%365).toFixed(0)+"day"+(days>1?'s':'')+" "+timestring;
+          timestring = (days%365).toFixed(0)+" day"+(days%365>=2?'s':'')+" "+timestring;
         if(days>365)
-          timestring = (days/365).toFixed(0)+"year"+(days>730?'s':'')+" "+timestring;
+          timestring = (days/365).toFixed(0)+" year"+(days>730?'s':'')+" "+timestring;
         return timestring;
       },
       pad(value) {
