@@ -155,7 +155,7 @@
         return (i, j) => {
           if (this.plotavailable(i,j) && this.grid[i-1][j-1]===0)
             return true;
-          return true; // false
+          return false;
         }
       }
     },
