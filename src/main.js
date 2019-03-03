@@ -12,6 +12,7 @@ Vue.config.productionTip = false;
 store.subscribe((mutation, state) => {
   if(mutation.type === "hardreset") return;
   localStorage.setItem('cidle-v1', JSON.stringify({...state, time: (new Date()).getTime()}));
+  root.kongapi.stats.submit("Zeros", Math.log10(state.alltime));
 });
 
 import Data from './components/data'
@@ -88,8 +89,9 @@ new Vue({
           count+=infralevels[i];
         }
       }
-      self.kongapi.stats.submit("Resets", this.$store.getters.resets);
+      self.kongapi.stats.submit("Resets", self.$store.getters.resets);
       self.kongapi.stats.submit("Buildings", count);
+      self.kongapi.stats.submit("Zeros", Math.log10(self.$store.getters.alltime));
 
     });
   },

@@ -27,6 +27,7 @@
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
               <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
+              <li>(Kong) leaderbord for insignificant digits: Log10 of all time earnings.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
