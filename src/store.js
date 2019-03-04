@@ -593,6 +593,8 @@ export default new Vuex.Store({
       if (state.buildings[building.name] === undefined)
         Vue.set(state.buildings, building.name, 0);
       for (let i = 0; i < count; i++) {
+        if(state.buildings[building.name]>=7000)
+          return;
         const cost = building.cost.base * Math.pow(building.cost.rate, state.buildings[building.name]);
         if (cost < state.resource) {
           state.resource -= cost;
