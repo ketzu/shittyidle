@@ -234,7 +234,7 @@ const updateresources = (state, gain) => {
 };
 
 const resettable = (state) => {
-  if (state.buildings['Casino'] >= 100)
+  if (state.buildings['Casino'] >= 85)
     return true;
   return false;
 };

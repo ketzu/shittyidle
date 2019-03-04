@@ -25,6 +25,7 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
+              <li>Soft reset requirement is now 85 gambling dens.</li>
               <li>Maybe the visual bug for >100% and non updating info on upgrades is gone now. Please please be gone.</li>
               <li>Hard nerf for experience gain starting at 100k experience gained.</li>
               <li>Experimental buildings limit to 7000 per Building.</li>
