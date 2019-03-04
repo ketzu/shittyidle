@@ -180,12 +180,6 @@
         return mult;
       },
       production() {
-        console.log("--------");
-        console.log(this.mul);
-        console.log(this.type.gain);
-        console.log(this.level);
-        console.log(this.affecting);
-        console.log(this.type.mult);
         return this.mul*this.type.gain*this.level*this.affecting*this.type.mult;
       },
       cost() {
