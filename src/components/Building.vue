@@ -201,7 +201,7 @@
       },
       costof(value) {
         const rtos = Math.pow(this.type.cost.rate, this.level);
-        const rtogms = Math.pow(this.type.cost.rate, value);
+        const rtogms = Math.pow(this.type.cost.rate, value-1);
         return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
       }
     }
