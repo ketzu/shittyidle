@@ -126,7 +126,7 @@
       maxbuyable() {
         let c=10;
         while(this.costof(c+10)<this.resource) c+=10;
-        return c;
+        return Math.min(c,7000-this.level);
       },
       compbuycount() {
         if(this.buytoupgrade) {
@@ -190,7 +190,7 @@
         }
       },
       buyable() {
-        return this.cost <= this.resource;
+        return (this.cost <= this.resource) && (this.level <= 7000);
       }
     },
     methods: {
@@ -201,7 +201,7 @@
       },
       costof(value) {
         const rtos = Math.pow(this.type.cost.rate, this.level);
-        const rtogms = Math.pow(this.type.cost.rate, value);
+        const rtogms = Math.pow(this.type.cost.rate, value-1);
         return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
       }
     }

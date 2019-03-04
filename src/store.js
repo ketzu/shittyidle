@@ -176,16 +176,17 @@ const maxreached = (building, level) => {
   return true;
 };
 
-const upgrade = (buildingid, level) => {
+const upgrade = (buildingid, level, show) => {
   if (upgrades[buildingid] === undefined)
     return false;
   if (upgrades[buildingid][level] === undefined)
     return false;
-  let index = root._buildings.findIndex(element => element.name === buildingid);
+  let index = root.store_buildings.findIndex(element => element.name === buildingid);
   if (index === undefined)
     return false;
-  let tempgain = root._buildings[index].gain * upgrades[buildingid][level].gain;
-  Vue.set(root._buildings, index, {...root._buildings[index], ...upgrades[buildingid][level], gain: tempgain});
+  let tempgain = root.store_buildings[index].gain * upgrades[buildingid][level].gain;
+  Vue.set(root.store_buildings, index, {...root.store_buildings[index], ...upgrades[buildingid][level], gain: tempgain});
+  if(show === false) return true;
   if (maxreached(buildingid, level)) {
     eventBus.$emit('maxupgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
   } else {
@@ -194,15 +195,15 @@ const upgrade = (buildingid, level) => {
   return true;
 };
 
-const allupgrades = (buildingid, level) => {
+const allupgrades = (buildingid, level, show) => {
   for (let i = 0; i <= level; i++) {
-    upgrade(buildingid, i);
+    upgrade(buildingid, i, show);
   }
 };
 
 const affecting = (building, inflevels) => {
   let mult = 1;
-  for (let infra of root._infrastructure.filter(inf => inf.affected.includes(building.name))) {
+  for (let infra of root.store_infrastructure.filter(inf => inf.affected.includes(building.name))) {
     if (inflevels[infra.name] !== undefined)
       mult *= Math.pow(infra.basemult, inflevels[infra.name]);
   }
@@ -217,7 +218,7 @@ const resourcegain = (state) => {
 
   // base multiplier = 1 ; experience gives multiplicative bonus
   let multiplier = 1 + expmult(state);
-  for (let current of root._buildings) {
+  for (let current of root.store_buildings) {
     let level = state.buildings[current['name']];
     if (level === undefined)
       continue;
@@ -239,7 +240,9 @@ const resettable = (state) => {
 };
 
 const expgain = (state) => {
-  return Math.sqrt(state.resetresource / (2 * Math.pow(10, 10)));
+  if(state.resetresource<200000000000000000000)
+    return Math.sqrt(state.resetresource / (2 * Math.pow(10, 10)));
+  return 100000+Math.log10(state.resetresource);
 };
 const expmult = (state) => {
   return 0.04 * (state.experience - state.lockedexp);
@@ -297,7 +300,7 @@ const updateGridResults = (state) => {
   }
   values = values.map(e=>e/3);
   for(let i=0;i<8;i+=1) {
-    Vue.set(root._buildings,i, {...root._buildings[i], cost: {...root._buildings[i].cost, rate:basecost[i]-basereduction*values[i]}});
+    Vue.set(root.store_buildings,i, {...root.store_buildings[i], cost: {...root.store_buildings[i].cost, rate:basecost[i]-basereduction*values[i]}});
   }
 };
 
@@ -336,7 +339,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.9.2";
+const version = "0.9.3";
 
 export default new Vuex.Store({
   state: {
@@ -349,6 +352,8 @@ export default new Vuex.Store({
     achievements: {
 
     },
+    buycount: 1,
+    buytoupgrade: false,
     startofgamedialog: true,
     starttime: Date.now(),
     resettime: Date.now(),
@@ -374,6 +379,12 @@ export default new Vuex.Store({
     ],
   },
   getters: {
+    buycount(state) {
+      return state.buycount;
+    },
+    buytoupgrade(state) {
+      return state.buytoupgrade;
+    },
     achievements(state) {
       return state.achievements;
     },
@@ -477,8 +488,6 @@ export default new Vuex.Store({
   mutations: {
     initstore(state, vm) {
       root = vm;
-      root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
-      root._buildings = JSON.parse(JSON.stringify(basebuildings));
 
       // Check if the ID exists
       if (localStorage.getItem(storagename)) {
@@ -487,37 +496,38 @@ export default new Vuex.Store({
         this.replaceState(
           Object.assign(state, deserialize)
         );
-
-        // reapply upgrades
-        for (let [key, value] of Object.entries(state.buildings)) {
-          if (state.buildings.hasOwnProperty(key)) {
-            allupgrades(key, value);
-          }
-        }
-
-        // reapply researches
-        for (let [key, value] of Object.entries(state.research)) {
-          if (state.research.hasOwnProperty(key) && value !== undefined) {
-            research[key].options[value].modification(state);
-          }
-        }
-
-        // reapply grid results
-        updateGridResults(state);
-
-        // offline ticks
-        if (deserialize["time"] !== undefined) {
-          // at most 25920000 ticks = 30 Days worth of offline time
-          let ticks = Math.min(((new Date()).getTime() - deserialize["time"]) / state.tickrate, 25920000);
-          const gain = resourcegain(state).reduce((a, b) => a * b);
-          updateresources(state, ticks * gain);
-          setTimeout(() => {
-            eventBus.$emit('offlineincome', gain)
-          }, 2500);
-        }
       }
     },
     startgame(state) {
+
+      // reapply upgrades
+      for (let [key, value] of Object.entries(state.buildings)) {
+        if (state.buildings.hasOwnProperty(key)) {
+          allupgrades(key, value, false);
+        }
+      }
+
+      // reapply researches
+      for (let [key, value] of Object.entries(state.research)) {
+        if (state.research.hasOwnProperty(key) && value !== undefined) {
+          research[key].options[value].modification(state);
+        }
+      }
+
+      // reapply grid results
+      updateGridResults(state);
+
+      // offline ticks
+      if (state.time !== undefined) {
+        // at most 25920000 ticks = 30 Days worth of offline time
+        let ticks = Math.min(((new Date()).getTime() - state.time) / state.tickrate, 25920000);
+        const gain = resourcegain(state).reduce((a, b) => a * b);
+        updateresources(state, ticks * gain);
+        setTimeout(() => {
+          eventBus.$emit('offlineincome', gain)
+        }, 2500);
+      }
+
       startsim(state);
       // handle being put in the background
       document.addEventListener("visibilitychange", () => {
@@ -590,8 +600,8 @@ export default new Vuex.Store({
         ];
 
         // Reset buildings array
-        root._buildings = JSON.parse(JSON.stringify(basebuildings));
-        root._infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
+        Vue.set(root, store_buildings, JSON.parse(JSON.stringify(basebuildings)));
+        Vue.set(root, store_infrastructure, JSON.parse(JSON.stringify(baseinfrastructure)));
       }
       if (upgrade && cityupgradeable(state)) {
         state.experience = 0;
@@ -610,6 +620,8 @@ export default new Vuex.Store({
       if (state.buildings[building.name] === undefined)
         Vue.set(state.buildings, building.name, 0);
       for (let i = 0; i < count; i++) {
+        if(state.buildings[building.name]>=7000)
+          return;
         const cost = building.cost.base * Math.pow(building.cost.rate, state.buildings[building.name]);
         if (cost < state.resource) {
           state.resource -= cost;
@@ -664,6 +676,12 @@ export default new Vuex.Store({
     buildzone(state, {x, y, zone}) {
       Vue.set(state.citygrid[x], y, zone);
       updateGridResults(state);
+    },
+    setbuycount(state, value) {
+      state.buycount = value;
+    },
+    setbuytoupg(state, value) {
+      state.buytoupgrade = value;
     }
   },
   actions: {
@@ -699,6 +717,12 @@ export default new Vuex.Store({
     },
     buildzone({commit}, payload) {
       commit('buildzone', payload);
+    },
+    setbuycount({commit}, payload) {
+      commit('setbuycount', payload);
+    },
+    setbuytoupg({commit}, payload) {
+      commit('setbuytoupg', payload);
     }
   }
 })

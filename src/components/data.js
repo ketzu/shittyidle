@@ -4,28 +4,28 @@ export default {
   computed: {
     buycount: {
       get() {
-        return this.$root.buyamount;
+        return this.$store.getters.buycount;
       },
       set(value) {
-        this.$root.buyamount = value;
+        this.$store.dispatch('setbuycount', value);
       }
     },
     buytoupgrade: {
       get() {
-        return this.$root.buytoupg;
+        return this.$store.getters.buytoupgrade;
       },
       set(value) {
-        this.$root.buytoupg = value;
+        this.$store.dispatch('setbuytoupg', value);
       }
     },
     buildings: {
       get() {
-        return this.$root._buildings;
+        return this.$root.store_buildings;
       }
     },
     infrastructure: {
       get() {
-        return this.$root._infrastructure.filter(obj => obj.reqlevel<=this.citylevel);
+        return this.$root.store_infrastructure.filter(obj => obj.reqlevel<=this.citylevel);
       }
     },
     ...mapGetters(['resource', 'resourcegain','tickrate','basegain','cityname',

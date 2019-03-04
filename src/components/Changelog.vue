@@ -25,12 +25,16 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Citygrid should provide more noticable cost reduction, but there is a bug that prevents the cost values from updating.</li>
+              <li>Maybe the visual bug for >100% and non updating info on upgrades is gone now. Please please be gone.</li>
+              <li>Hard nerf for experience gain starting at 100k experience gained.</li>
+              <li>Experimental buildings limit to 7000 per Building.</li>
+              <li>Cost display bug (should now show and lockout with correct cost).</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Citygrid should provide more noticable cost reduction, but there is a bug that prevents the cost values from updating.</li>
                   <li>Achievements beta.</li>
                   <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
                   <li>Feature release indicator</li>
