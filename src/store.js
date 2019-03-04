@@ -581,8 +581,8 @@ export default new Vuex.Store({
         ];
 
         // Reset buildings array
-        Vue.set(root, store_buildings, JSON.parse(JSON.stringify(basebuildings)));
-        Vue.set(root, store_infrastructure, JSON.parse(JSON.stringify(baseinfrastructure)));
+        root.store_buildings = JSON.parse(JSON.stringify(basebuildings));
+        root.store_infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
       }
       if (upgrade && cityupgradeable(state)) {
         state.experience = 0;
