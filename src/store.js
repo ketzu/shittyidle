@@ -663,9 +663,11 @@ export default new Vuex.Store({
     },
     changecityname(state, name) {
       state.settings.cityname = name;
+      root.kongapi.stats.submit("Cityname", name);
     },
     updatesettings(state, settings) {
       state.settings = settings;
+      root.kongapi.stats.submit("Currency", settings.currency);
     },
     startGame(state) {
       state.startofgamedialog = false;
