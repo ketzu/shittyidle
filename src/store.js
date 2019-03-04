@@ -239,7 +239,9 @@ const resettable = (state) => {
 };
 
 const expgain = (state) => {
-  return Math.sqrt(state.resetresource / (2 * Math.pow(10, 10)));
+  if(state.resetresource<200000000000000000000)
+    return Math.sqrt(state.resetresource / (2 * Math.pow(10, 10)));
+  return 100000+Math.log10(state.resetresource);
 };
 const expmult = (state) => {
   return 0.04 * (state.experience - state.lockedexp);
