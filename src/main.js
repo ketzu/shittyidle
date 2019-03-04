@@ -2,7 +2,8 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import store,{eventBus, evalGrid} from './store'
+import store,{eventBus} from './store'
+import {basebuildings, baseinfrastructure} from "./statics";
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
@@ -62,8 +63,8 @@ new Vue({
   render: h => h(App),
   data() {
     return {
-      _buildings: {},
-      _infrastructure: {}
+      store_buildings: JSON.parse(JSON.stringify(basebuildings)),
+      store_infrastructure: JSON.parse(JSON.stringify(baseinfrastructure))
     }
   },
   beforeCreate() {

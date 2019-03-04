@@ -20,12 +20,12 @@ export default {
     },
     buildings: {
       get() {
-        return this.$root._buildings;
+        return this.$root.store_buildings;
       }
     },
     infrastructure: {
       get() {
-        return this.$root._infrastructure.filter(obj => obj.reqlevel<=this.citylevel);
+        return this.$root.store_infrastructure.filter(obj => obj.reqlevel<=this.citylevel);
       }
     },
     ...mapGetters(['resource', 'resourcegain','tickrate','basegain','cityname',
