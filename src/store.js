@@ -333,6 +333,8 @@ export default new Vuex.Store({
     achievements: {
 
     },
+    buycount: 1,
+    buytoupgrade: false,
     startofgamedialog: true,
     starttime: Date.now(),
     resettime: Date.now(),
@@ -358,6 +360,12 @@ export default new Vuex.Store({
     ],
   },
   getters: {
+    buycount(state) {
+      return state.buycount;
+    },
+    buytoupgrade(state) {
+      return state.buytoupgrade;
+    },
     achievements(state) {
       return state.achievements;
     },
@@ -647,6 +655,12 @@ export default new Vuex.Store({
     buildzone(state, {x, y, zone}) {
       Vue.set(state.citygrid[x], y, zone);
       updateGridResults(state);
+    },
+    setbuycount(state, value) {
+      state.buycount = value;
+    },
+    setbuytoupg(state, value) {
+      state.buytoupgrade = value;
     }
   },
   actions: {
@@ -682,6 +696,12 @@ export default new Vuex.Store({
     },
     buildzone({commit}, payload) {
       commit('buildzone', payload);
+    },
+    setbuycount({commit}, payload) {
+      commit('setbuycount', payload);
+    },
+    setbuytoupg({commit}, payload) {
+      commit('setbuytoupg', payload);
     }
   }
 })

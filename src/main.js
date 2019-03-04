@@ -62,8 +62,6 @@ new Vue({
   render: h => h(App),
   data() {
     return {
-      buyamount: 1,
-      buytoupg: false,
       _buildings: {},
       _infrastructure: {}
     }

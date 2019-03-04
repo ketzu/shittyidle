@@ -4,18 +4,18 @@ export default {
   computed: {
     buycount: {
       get() {
-        return this.$root.buyamount;
+        return this.$store.getters.buycount;
       },
       set(value) {
-        this.$root.buyamount = value;
+        this.$store.dispatch('setbuycount', value);
       }
     },
     buytoupgrade: {
       get() {
-        return this.$root.buytoupg;
+        return this.$store.getters.buytoupgrade;
       },
       set(value) {
-        this.$root.buytoupg = value;
+        this.$store.dispatch('setbuytoupg', value);
       }
     },
     buildings: {
