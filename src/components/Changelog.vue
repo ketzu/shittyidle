@@ -23,8 +23,9 @@
 
           <v-flex md12>
             <h2>Changelog</h2>
-            <div slot="header">Version {{$store.getters.version}}</div>
+            <div slot="header">Version {{$store.getters.version}} (Kong)</div>
             <ul>
+              <li>Removed experimental statistics again.</li>
               <li>Upgrades need to be bought now (for now only for a symbolic cost, the game needs to get worse step by step, not all at once!).</li>
               <li>New settings option: Upgrade indicator.</li>
               <li>Auto upgrades can be unlocked by resetting without any upgrades.</li>
