@@ -40,16 +40,19 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Soft reset requirement is now 85 gambling dens.</li>
-              <li>Maybe the visual bug for >100% and non updating info on upgrades is gone now. Please please be gone.</li>
-              <li>Hard nerf for experience gain starting at 100k experience gained.</li>
-              <li>Experimental buildings limit to 7000 per Building.</li>
-              <li>Cost display bug (should now show and lockout with correct cost).</li>
+              <li>Upgrades need to be bought now (for now only for a symbolic cost, the game needs to get worse step by step, not all at once!).</li>
+              <li>New settings option: Upgrade indicator.</li>
+              <li>Auto upgrades can be unlocked by resetting without any upgrades.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Soft reset requirement is now 85 gambling dens.</li>
+                  <li>Maybe the visual bug for >100% and non updating info on upgrades is gone now. Please please be gone.</li>
+                  <li>Hard nerf for experience gain starting at 100k experience gained.</li>
+                  <li>Experimental buildings limit to 7000 per Building.</li>
+                  <li>Cost display bug (should now show and lockout with correct cost).</li>
                   <li>Citygrid should provide more noticable cost reduction, but there is a bug that prevents the cost values from updating.</li>
                   <li>Achievements beta.</li>
                   <li>Buy to next upgrade buys to max in 10 increments if no upgrade is possible. (Including infrastructure)</li>
