@@ -46,6 +46,11 @@
         <span class="subitem">time played</span>
       </v-flex>
 
+      <v-flex md4 offset-md1 xs10 offset-xs1>
+        <h2 class="stat">{{format($store.getters.achievementmult*100)}}%</h2>
+        <span class="subitem">improvement by achievements</span>
+      </v-flex>
+
       <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
         <h2 class="stat">{{timereset}}</h2>
         <span class="subitem">time since last reset</span>

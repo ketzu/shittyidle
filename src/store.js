@@ -176,28 +176,34 @@ const maxreached = (building, level) => {
   return true;
 };
 
-const upgrade = (buildingid, level, show) => {
-  if (upgrades[buildingid] === undefined)
+const upgradereached = (building, level) => {
+  for (var key in upgrades[building]) {
+    // check if the property/key is defined in the object itself, not in parent
+    if (upgrades[building].hasOwnProperty(key)) {
+      if (level == key) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+const upgrade = (buildingid, level, state) => {
+  if (state.upgrades[buildingid] === undefined)
     return false;
-  if (upgrades[buildingid][level] === undefined)
+  if (state.upgrades[buildingid][level] === undefined)
     return false;
   let index = root.store_buildings.findIndex(element => element.name === buildingid);
   if (index === undefined)
     return false;
   let tempgain = root.store_buildings[index].gain * upgrades[buildingid][level].gain;
   Vue.set(root.store_buildings, index, {...root.store_buildings[index], ...upgrades[buildingid][level], gain: tempgain});
-  if(show === false) return true;
-  if (maxreached(buildingid, level)) {
-    eventBus.$emit('maxupgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
-  } else {
-    eventBus.$emit('upgrade', {building: buildingid, upgrade: upgrades[buildingid][level]});
-  }
   return true;
 };
 
-const allupgrades = (buildingid, level, show) => {
+const allupgrades = (buildingid, level, state) => {
   for (let i = 0; i <= level; i++) {
-    upgrade(buildingid, i, show);
+    upgrade(buildingid, i, state);
   }
 };
 
@@ -217,7 +223,7 @@ const resourcegain = (state) => {
   let grideffects = evalGrid(state.citygrid);
 
   // base multiplier = 1 ; experience gives multiplicative bonus
-  let multiplier = 1 + expmult(state);
+  let multiplier = 1 + expmult(state) + achievementmult(state);
   for (let current of root.store_buildings) {
     let level = state.buildings[current['name']];
     if (level === undefined)
@@ -246,6 +252,19 @@ const expgain = (state) => {
 };
 const expmult = (state) => {
   return 0.04 * (state.experience - state.lockedexp);
+};
+const achievementmult = (state) => {
+  let value = 0;
+
+  for (let key in achievements) {
+    // check if the property/key is defined in the object itself, not in parent
+    if (achievements.hasOwnProperty(key)) {
+      if (state.achievements[key] === true) {
+        value+=achievements[key].mult;
+      }
+    }
+  }
+  return value;
 };
 
 const citynames = [
@@ -304,6 +323,19 @@ const updateGridResults = (state) => {
   }
 };
 
+const buyupgrade = (state, building, level) => {
+  if(state.resource>=upgrades[building.name][level].upgcost){
+    state.resource -= upgrades[building.name][level].upgcost;
+
+    if(state.upgrades[building.name] === undefined)
+      Vue.set(state.upgrades,building.name,{});
+    Vue.set(state.upgrades[building.name], level, true);
+
+    // applies upgrade
+    upgrade(building.name, level, state);
+  }
+};
+
 let mainloop = undefined;
 const startsim = (state) => {
   clearInterval(mainloop);
@@ -329,7 +361,8 @@ export default new Vuex.Store({
       currency: "₡",
       numbersplitsymbol: " x10^",
       numberview: 1,
-      cityname: "Shitty Idle"
+      cityname: "Shitty Idle",
+      upgradeindicator: false
     },
     achievements: {
 
@@ -350,6 +383,7 @@ export default new Vuex.Store({
     title: "mayor",
     citylevel: 0,
     buildings: {},
+    upgrades: {},
     infrastructure: {},
     research: {},
     citygrid: [
@@ -361,6 +395,15 @@ export default new Vuex.Store({
     ],
   },
   getters: {
+    achievementmult(state) {
+      return achievementmult(state);
+    },
+    upgradeindicator(state) {
+      return state.settings.upgradeindicator;
+    },
+    boughtupgrades(state) {
+      return state.upgrades;
+    },
     buycount(state) {
       return state.buycount;
     },
@@ -479,13 +522,15 @@ export default new Vuex.Store({
           Object.assign(state, deserialize)
         );
       }
+      if(state.settings.upgradeindicator === undefined) {
+        Vue.set(state.settings,"upgradeindicator",false);
+      }
     },
     startgame(state) {
-
       // reapply upgrades
       for (let [key, value] of Object.entries(state.buildings)) {
         if (state.buildings.hasOwnProperty(key)) {
-          allupgrades(key, value, false);
+          allupgrades(key, value, state);
         }
       }
 
@@ -561,6 +606,11 @@ export default new Vuex.Store({
             eventBus.$emit('achievement', achievements['workfun']);
           Vue.set(state.achievements,'workfun', true);
         }
+        if(Object.keys(state.upgrades).length === 0) {
+          if(state.achievements['upgrades'] === undefined)
+            eventBus.$emit('achievement', achievements['upgrades']);
+          Vue.set(state.achievements,'upgrades',true);
+        }
 
         state.resettime = Date.now();
 
@@ -568,6 +618,7 @@ export default new Vuex.Store({
         state.buildings = {};
         state.infrastructure = {};
         state.research = {};
+        state.upgrades = {};
 
         state.lockedexp = 0;
         state.resource = 0;
@@ -607,7 +658,16 @@ export default new Vuex.Store({
         if (cost < state.resource) {
           state.resource -= cost;
           state.buildings[building.name] += 1;
-          upgrade(building.name, state.buildings[building.name]);
+        }
+        if(upgradereached(building.name, state.buildings[building.name])){
+          if(state.achievements['upgrades']!==undefined) {
+            buyupgrade(state, building, state.buildings[building.name]);
+          }
+          if (maxreached(building.name, state.buildings[building.name])) {
+            eventBus.$emit('maxupgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
+          }else{
+            eventBus.$emit('upgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
+          }
         }
       }
     },
@@ -661,6 +721,9 @@ export default new Vuex.Store({
     },
     setbuytoupg(state, value) {
       state.buytoupgrade = value;
+    },
+    buyupgrade(state, {building, level}) {
+      buyupgrade(state, building, level);
     }
   },
   actions: {
@@ -702,6 +765,9 @@ export default new Vuex.Store({
     },
     setbuytoupg({commit}, payload) {
       commit('setbuytoupg', payload);
+    },
+    buyupgrade({commit}, payload) {
+      commit('buyupgrade', payload);
     }
   }
 })
