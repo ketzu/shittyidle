@@ -33,6 +33,13 @@
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
+        <v-switch
+            v-model="indicateupgrades"
+            label="Indicate next upgrade level"
+        ></v-switch>
+      </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <v-btn @click="$store.dispatch('restartsim')">
           Click if the game stopped.
         </v-btn>
@@ -61,6 +68,14 @@
         },
         set(value) {
           this.$store.dispatch('changecityname', value);
+        }
+      },
+      indicateupgrades: {
+        get() {
+          return this.upgradeindicator;
+        },
+        set(value) {
+          this.$store.dispatch('updatesettings',  {...this.settings, upgradeindicator: value});
         }
       },
       currencychange: {

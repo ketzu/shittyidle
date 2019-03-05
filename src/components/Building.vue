@@ -2,8 +2,10 @@
   <v-hover>
     <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
       <v-list-tile-avatar>
-        <v-badge left overlap color="white">
-          <v-icon small color="amber darken-3" slot="badge" v-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
+        <v-badge left overlap :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'?'green darken-4':'white'">
+          <v-icon small color="blue darken-4" slot="badge" v-if="upgradeable" @click="dialog=true">fas fa-plus</v-icon>
+          <small style="color: white;" slot="badge" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}</small>
+          <v-icon small color="amber darken-3" slot="badge" v-else-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
           <v-icon large :color="type.iconcolor" style="width:40px;">fas {{type.icon}}</v-icon>
         </v-badge>
       </v-list-tile-avatar>
@@ -73,13 +75,15 @@
                           </v-list-tile-title>
 
                           <v-list-tile-sub-title>
-                            {{format(upgrade.gain)}}x
+                            {{format(upgrade.gain)}}x{{upgbought(index)?'':'cost: '+formatresource(upgrades[index].upgcost)}}
                           </v-list-tile-sub-title>
                         </v-list-tile-content>
 
                         <v-list-tile-action>
-                          <v-icon large color="green darken-3" v-if="level>=index">fas fa-check</v-icon>
-                          <v-icon large color="grey darken-2" v-else>fas fa-slash</v-icon>
+                          <v-icon large color="green darken-3" v-if="upgbought(index)">fas fa-check</v-icon>
+                          <v-btn v-else icon ripple @click="buyupgrade(index)" :disabled="!upgbuyable(index)">
+                            <v-icon large :color="upgbuyable(index)? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
+                          </v-btn>
                         </v-list-tile-action>
                       </v-list-tile>
                     </v-list>
@@ -122,6 +126,26 @@
           }
           return level;
         }
+      },
+      bupgs: {
+        get() {
+          return this.$store.getters.boughtupgrades[this.type.name];
+        }
+      },
+      upgradeable() {
+        for (let key in this.upgrades) {
+          // check if the property/key is defined in the object itself, not in parent
+          if (this.upgrades.hasOwnProperty(key)) {
+            if (this.level >= key) {
+              if(this.bupgs === undefined){
+                return true;
+              }else if(this.bupgs[key] === undefined) {
+                return true;
+              }
+            }
+          }
+        }
+        return false;
       },
       maxbuyable() {
         let c=10;
@@ -199,10 +223,21 @@
           this.$store.dispatch('buybuilding', {building: this.type, count: this.compbuycount});
         }
       },
+      buyupgrade(level) {
+        if(this.upgbuyable(level))
+          this.$store.dispatch('buyupgrade', {building: this.type, level: level});
+      },
       costof(value) {
         const rtos = Math.pow(this.type.cost.rate, this.level);
         const rtogms = Math.pow(this.type.cost.rate, value-1);
         return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
+      },
+      upgbought(level){
+        if(this.bupgs===undefined) return false;
+        return this.bupgs[level]!==undefined;
+      },
+      upgbuyable(level) {
+        return this.resource >= this.upgrades[level].upgcost && this.level >= level;
       }
     }
   }

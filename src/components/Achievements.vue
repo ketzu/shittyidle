@@ -8,7 +8,8 @@
           </v-flex>
           <v-flex md9>
             <h2 class="stat">{{achievement.title}}</h2>
-            <span class="subitem">{{achievement.desc}}</span>
+            <span class="subitem">{{achievement.desc}} </span><br v-if="cleared(index)">
+            <span class="subitem" v-if="cleared(index)">{{(achievement.boni!==undefined?achievement.boni:'Improvement: '+achievement.mult*100+'%.')}}</span>
           </v-flex>
         </v-layout>
       </v-flex>

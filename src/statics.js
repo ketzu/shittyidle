@@ -41,51 +41,51 @@ export const basebuildings = [
 
 export const upgrades = {
   Farm: {
-    25: {gain: 3, uname: "Crop Rotation"},
-    50: {gain: 5, uname: "Fertilizer"},
-    100:{gain: 15, uname: "Artificial Irrigation", title: "Advanced Farm"},
-    130: {gain:10, uname: "Plant Crossing"},
-    170: {gain:12, uname: "Mechanized Agriculture", title: "Automated Farm"},
-    200: {gain:18, uname: "Bio Farming", title: "Bio Farm"}
+    25: {gain: 3, uname: "Crop Rotation", upgcost: 50},
+    50: {gain: 5, uname: "Fertilizer", upgcost: 50},
+    100:{gain: 15, uname: "Artificial Irrigation", title: "Advanced Farm", upgcost: 50},
+    130: {gain:10, uname: "Plant Crossing", upgcost: 50},
+    170: {gain:12, uname: "Mechanized Agriculture", title: "Automated Farm", upgcost: 50},
+    200: {gain:18, uname: "Bio Farming", title: "Bio Farm", upgcost: 50}
   },
   Inn:  {
-    30: {gain: 3, uname: "Happy Hour"},
-    60: {gain: 3, title: "Hotel"},
-    90: {gain: 12, uname: "Spa"},
-    120:{gain: 15, uname: "Minibar"},
-    150:{gain: 12, uname: "Rebranding", title: "Bar"}
+    30: {gain: 3, uname: "Happy Hour", upgcost: 50},
+    60: {gain: 3, title: "Hotel", upgcost: 50},
+    90: {gain: 12, uname: "Spa", upgcost: 50},
+    120:{gain: 15, uname: "Minibar", upgcost: 50},
+    150:{gain: 12, uname: "Rebranding", title: "Bar", upgcost: 50}
   },
   Store: {
-    15: {gain: 4, uname: "Delivery Service"},
-    40: {gain: 4, title: "Market"},
-    80: {gain: 5, title: "Farmers Market"},
-    140: {gain:11, title: "Mall", uname: "Expansion"}
+    15: {gain: 4, uname: "Delivery Service", upgcost: 50},
+    40: {gain: 4, title: "Market", upgcost: 50},
+    80: {gain: 5, title: "Farmers Market", upgcost: 50},
+    140: {gain:11, title: "Mall", uname: "Expansion", upgcost: 50}
   },
   Bank: {
-    35: {gain: 5, uname: "Online banking"},
-    70: {gain: 8, title: "Loan Shark"},
-    105: {gain: 4, title: "Investment Bank"},
-    140: {gain: 9, uname: "Highspeed Trading"},
-    180: {gain: 13, uname: "Money Laundering"}
+    35: {gain: 5, uname: "Online banking", upgcost: 50},
+    70: {gain: 8, title: "Loan Shark", upgcost: 50},
+    105: {gain: 4, title: "Investment Bank", upgcost: 50},
+    140: {gain: 9, uname: "Highspeed Trading", upgcost: 50},
+    180: {gain: 13, uname: "Money Laundering", upgcost: 50}
   },
   Datacenter: {
-    40: {gain: 4, title: "Bitcoin Mining"},
-    80: {gain: 7, title: "Social Networks"},
-    120: {gain:5, title: "Ad Tracking"},
-    160: {gain:9, title: "Smart Grid"}
+    40: {gain: 4, title: "Bitcoin Mining", upgcost: 50},
+    80: {gain: 7, title: "Social Networks", upgcost: 50},
+    120: {gain:5, title: "Ad Tracking", upgcost: 50},
+    160: {gain:9, title: "Smart Grid", upgcost: 50}
   },
   Factory: {
-    10: {gain: 3, uname: "Outsourcing"},
-    40: {gain: 4, uname: "Automation", title: "Automatic Factory"},
-    80: {gain: 8, uname: "Self Replicating Goods"}
+    10: {gain: 3, uname: "Outsourcing", upgcost: 50},
+    40: {gain: 4, uname: "Automation", title: "Automatic Factory", upgcost: 50},
+    80: {gain: 8, uname: "Self Replicating Goods", upgcost: 50}
   },
   Energy: {
-    50: {gain: 3, uname: "Nuclear Reactor"},
-    90: {gain: 8, uname: "Renewable Energy"}
+    50: {gain: 3, uname: "Nuclear Reactor", upgcost: 50},
+    90: {gain: 8, uname: "Renewable Energy", upgcost: 50}
   },
   Casino: {
-    75: {gain: 2, title: "Casino", uname: "Gamling License"},
-    150: {gain: 4, title: "Las Vegas", uname: "Gambling Addiction"}
+    75: {gain: 2, title: "Casino", uname: "Gamling License", upgcost: 50},
+    150: {gain: 4, title: "Las Vegas", uname: "Gambling Addiction", upgcost: 50}
   },
 };
 
@@ -135,8 +135,9 @@ export const zones = [
 ];
 
 export const achievements = {
-  beginner: {desc: "Change your job once.", title: "Beginner", icon: "fas fa-cat", iconcolor: "orange accent-4"},
-  advancer: {desc: "Get promoted.", title: "Advancer", icon: "fas fa-cat", iconcolor: "blue-grey lighten-2"},
-  prof: {desc: "Get another promotion.", title: "Professional", icon: "fas fa-cat", iconcolor: "amber"},
-  workfun: {desc: "Reset with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2"}
+  beginner: {desc: "Change your job once.", title: "Beginner", icon: "fas fa-cat", iconcolor: "orange accent-4", mult: 0.05},
+  advancer: {desc: "Get promoted.", title: "Advancer", icon: "fas fa-cat", iconcolor: "blue-grey lighten-2", mult: 0.05},
+  prof: {desc: "Get another promotion.", title: "Professional", icon: "fas fa-cat", iconcolor: "amber", mult: 0.05},
+  workfun: {desc: "Reset with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2", mult: 0.1},
+  upgrades: {desc: "Reset without any upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", boni: "Autoupgrades unlocked.", mult: 0}
 };

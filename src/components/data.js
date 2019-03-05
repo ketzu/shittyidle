@@ -28,7 +28,7 @@ export default {
         return this.$root.store_infrastructure.filter(obj => obj.reqlevel<=this.citylevel);
       }
     },
-    ...mapGetters(['resource', 'resourcegain','tickrate','basegain','cityname',
+    ...mapGetters(['resource', 'resourcegain','tickrate','basegain','cityname','upgradeindicator',
       'towntype','nexttowntype','title','currency',
       'citylevel', 'cityupgradeable',
       'alltime','resetresource',
