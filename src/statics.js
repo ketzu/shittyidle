@@ -138,6 +138,6 @@ export const achievements = {
   beginner: {desc: "Change your job once.", title: "Beginner", icon: "fas fa-cat", iconcolor: "orange accent-4", mult: 0.05},
   advancer: {desc: "Get promoted.", title: "Advancer", icon: "fas fa-cat", iconcolor: "blue-grey lighten-2", mult: 0.05},
   prof: {desc: "Get another promotion.", title: "Professional", icon: "fas fa-cat", iconcolor: "amber", mult: 0.05},
-  workfun: {desc: "Reset with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2", mult: 0.1},
-  upgrades: {desc: "Reset without any upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", boni: "Autoupgrades unlocked.", mult: 0}
+  workfun: {desc: "Get a new job with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2", mult: 0.1},
+  upgrades: {desc: "Get a new job without buying any building upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", boni: "Autoupgrades unlocked.", mult: 0}
 };
