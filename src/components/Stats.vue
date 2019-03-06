@@ -18,7 +18,7 @@
 
       <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
         <h2 class="stat">{{format(expmult)}}x</h2>
-        <span class="subitem">experience multiplier</span>
+        <span class="subitem">experience multiplier (to all buildings)</span>
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
@@ -69,30 +69,10 @@
     },
     computed: {
       timereset() {
-        return this.timediff(this.$store.getters.timereset);
+        return this.timediff(this.$store.getters.timereset, this.now);
       },
       timeall() {
-        return this.timediff(this.$store.getters.timeall);
-      }
-    },
-    methods: {
-      timediff(time) {
-        const elapsed = this.now - time;
-        const seconds = (elapsed / 1000) % 60;
-        const minutes = (elapsed/1000/60)%60;
-        const hours = (elapsed/1000/60/60) % 24;
-        const days = (elapsed/1000/60/60/24);
-        let timestring = this.pad(hours.toFixed(0))+":"+this.pad(minutes.toFixed(0))+":"+this.pad(seconds.toFixed(0));
-        if(days>=1)
-          timestring = (days%365).toFixed(0)+" day"+(days%365>=2?'s':'')+" "+timestring;
-        if(days>365)
-          timestring = (days/365).toFixed(0)+" year"+(days>730?'s':'')+" "+timestring;
-        return timestring;
-      },
-      pad(value) {
-        if(value<10)
-          return "0"+value;
-        return value;
+        return this.timediff(this.$store.getters.timeall, this.now);
       }
     },
     created() {

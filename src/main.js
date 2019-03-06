@@ -54,6 +54,26 @@ Vue.mixin({
       if(value < 1000*1000)
         return value.toFixed(0).toLocaleString();
       return this.format(value);
+    },
+    timediff(time, now) {
+      const pad = (value) => {
+        if(value<10)
+          return "0"+value;
+        return value;
+      };
+      const elapsed = now - time;
+      const seconds = (elapsed / 1000) % 60;
+      const minutes = (elapsed/1000/60)%60;
+      const hours = (elapsed/1000/60/60) % 24;
+      const days = (elapsed/1000/60/60/24);
+      let timestring = pad(minutes.toFixed(0))+"min "+pad(seconds.toFixed(0))+"s";
+      if(hours>1 || days>=1)
+        timestring = pad(hours.toFixed(0))+"h "+timestring;
+      if(days>=1)
+        timestring = (days%365).toFixed(0)+" day"+(days%365>=2?'s':'')+" "+timestring;
+      if(days>365)
+        timestring = (days/365).toFixed(0)+" year"+(days>730?'s':'')+" "+timestring;
+      return timestring;
     }
   }
 });

@@ -11,6 +11,12 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
+            A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
+          </v-flex>
+          <v-flex md12>
+            Also thanks to everyone sending me bug reports and encouragements!
+          </v-flex>
+          <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Research" state="alpha"></Future>
@@ -25,15 +31,18 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}} (Kong)</div>
             <ul>
-              <li>Removed experimental statistics again.</li>
-              <li>Upgrades need to be bought now (for now only for a symbolic cost, the game needs to get worse step by step, not all at once!).</li>
-              <li>New settings option: Upgrade indicator.</li>
-              <li>Auto upgrades can be unlocked by resetting without any upgrades.</li>
+              <li>Offline time indicator. (Mostly to find the offline income bug that shouldn't exist :( )</li>
+              <li>Help page updated.</li>
+              <li>Exp gain buffed again, might break the game.</li>
+              <li>Thank you note to Filip and bug reporters!</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Upgrades need to be bought now (for now only for a symbolic cost, the game needs to get worse step by step, not all at once!).</li>
+                  <li>New settings option: Upgrade indicator.</li>
+                  <li>Auto upgrades can be unlocked by resetting without any upgrades.</li>
                   <li>Soft reset requirement is now 85 gambling dens.</li>
                   <li>Maybe the visual bug for >100% and non updating info on upgrades is gone now. Please please be gone.</li>
                   <li>Hard nerf for experience gain starting at 100k experience gained.</li>

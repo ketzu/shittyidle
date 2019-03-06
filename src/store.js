@@ -246,12 +246,18 @@ const resettable = (state) => {
 };
 
 const expgain = (state) => {
-  if(state.resetresource<200000000000000000000)
-    return Math.sqrt(state.resetresource / (2 * Math.pow(10, 10)));
-  return 100000+Math.log10(state.resetresource);
+  const z = state.resetresource;
+  const sig = (x) => {
+    if(x<0) return 0;
+    return x>200000000000000000000?1:x/200000000000000000000;
+  };
+  const precalc = z/(2*Math.pow(10,10.3));
+  const precalc2 = z/Math.pow(10,7.7);
+  return (1-sig(z))*Math.sqrt(precalc)+sig(z-2000000000000)*(Math.sqrt(precalc2)/Math.log(z)+60000);
 };
 const expmult = (state) => {
-  return 0.04 * (state.experience - state.lockedexp);
+  const effexp = state.experience - state.lockedexp;
+  return 0.04 * (effexp);
 };
 const achievementmult = (state) => {
   let value = 0;
@@ -371,7 +377,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.9.4";
+const version = "0.9.5";
 
 export default new Vuex.Store({
   state: {
@@ -565,11 +571,12 @@ export default new Vuex.Store({
       // offline ticks
       if (state.time !== undefined) {
         // at most 25920000 ticks = 30 Days worth of offline time
-        let ticks = Math.min(((new Date()).getTime() - state.time) / state.tickrate, 25920000);
+        const now = Date.now();
+        let ticks = Math.min((now - state.time) / state.tickrate, 25920000);
         const gain = resourcegain(state).reduce((a, b) => a * b);
-        updateresources(state, ticks * gain);
+        updateresources(state, ticks*gain);
         setTimeout(() => {
-          eventBus.$emit('offlineincome', gain)
+          eventBus.$emit('offlineincome', {gain:(ticks * gain),time: state.time, now: now})
         }, 2500);
       }
 

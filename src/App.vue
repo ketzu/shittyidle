@@ -32,7 +32,7 @@
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
         <v-spacer></v-spacer>
-        <a href="https://www.paypal.me/roughbudget">Support the game.</a>
+        <a href="https://www.paypal.me/roughbudget" target="_blank">Support the game.</a>
         <v-spacer></v-spacer>
         <HardReset></HardReset>
         <v-spacer></v-spacer>
@@ -82,8 +82,8 @@ export default {
     this.bus.$on('notification', text => {
       self.notifications.push(text);
     });
-    this.bus.$on('offlineincome', gain => {
-      self.notifications.push("While you were offline, you gained "+this.formatresource(gain));
+    this.bus.$on('offlineincome', ({gain,time, now})=> {
+      self.notifications.push("You gained "+this.formatresource(gain)+" for being offline for "+this.timediff(time, now));
     });
     this.bus.$on('achievement', ({title}) => {
       self.notifications.push("Achievement reached: "+title);
