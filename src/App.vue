@@ -32,7 +32,7 @@
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
         <v-spacer></v-spacer>
-        <a href="https://www.paypal.me/roughbudget">Support the game.</a>
+        <a href="https://www.paypal.me/roughbudget" target="_blank">Support the game.</a>
         <v-spacer></v-spacer>
         <HardReset></HardReset>
         <v-spacer></v-spacer>

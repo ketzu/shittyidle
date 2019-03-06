@@ -18,7 +18,7 @@
 
       <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
         <h2 class="stat">{{format(expmult)}}x</h2>
-        <span class="subitem">experience multiplier</span>
+        <span class="subitem">experience multiplier (to all buildings)</span>
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
