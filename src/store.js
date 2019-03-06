@@ -547,11 +547,16 @@ export default new Vuex.Store({
       // offline ticks
       if (state.time !== undefined) {
         // at most 25920000 ticks = 30 Days worth of offline time
-        let ticks = Math.min(((new Date()).getTime() - state.time) / state.tickrate, 25920000);
+        const now = Date.now();
+        let ticks = Math.min((now - state.time) / state.tickrate, 25920000);
+        console.log("Ticks: "+ticks);
         const gain = resourcegain(state).reduce((a, b) => a * b);
-        updateresources(state, ticks * gain);
+        console.log("Gain per tick: "+gain);
+        console.log("Gain per sec: "+gain*10);
+        updateresources(state, ticks*gain);
+        console.log(ticks*gain);
         setTimeout(() => {
-          eventBus.$emit('offlineincome', gain)
+          eventBus.$emit('offlineincome', {gain:(ticks * gain),time: state.time, now: now})
         }, 2500);
       }
 
