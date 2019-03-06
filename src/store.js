@@ -557,7 +557,6 @@ export default new Vuex.Store({
         let ticks = Math.min((now - state.time) / state.tickrate, 25920000);
         const gain = resourcegain(state).reduce((a, b) => a * b);
         updateresources(state, ticks*gain);
-        console.log(ticks*gain);
         setTimeout(() => {
           eventBus.$emit('offlineincome', {gain:(ticks * gain),time: state.time, now: now})
         }, 2500);
