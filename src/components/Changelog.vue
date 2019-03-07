@@ -47,6 +47,8 @@
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
               <li>Time bug (00:29 -> 01:30) fixed.</li>
+              <li>Last three infrastructure builds are stored over time!</li>
+              <li>First indicator of improvements by building infrastrucutre.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>

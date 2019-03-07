@@ -26,11 +26,49 @@
     </v-layout>
     <v-layout row>
       <v-flex md12 class="text-md-center">
+        Current effectiveness: {{evalGrid(grid).map(value=>value.toFixed(0)).join(', ')}}.
+      </v-flex>
+      <v-flex md12 class="text-md-center">
         <v-icon color="#364a38">fas fa-square</v-icon>
         Zone not yet available.
         &nbsp;&nbsp;&nbsp;&nbsp;
         <v-icon color="green darken-4">fas fa-square</v-icon>
         Zone available
+      </v-flex>
+    </v-layout>
+    <v-layout row>
+      <v-flex md4 xs12 :key="index" v-for="(config, index) in gridconfigs">
+        <v-hover>
+          <v-card slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
+            <div class="text-md-center" style="padding-top:15px;">
+              <canvas width="160" height="160" v-paint-colors="config"></canvas>
+            </div>
+
+            <v-card-title primary-title>
+              <div>
+                <div class="headline">Effectiveness:</div>
+              </div>
+              <v-list :style="hover? 'background-color: #C8E6C9;' : ''">
+                <v-list-tile :key="index" v-for="(value, index) in evalGrid(config)">
+                  <v-list-tile-avatar>
+                    <v-icon color="blue darken-4" v-if="index===0">fas fa-glass-martini </v-icon>
+                    <v-icon color="light-green darken-2" v-else-if="index===1">fas fa-home</v-icon>
+                    <v-icon color="yellow accent-4" v-else>fas fa-industry</v-icon>
+                  </v-list-tile-avatar>
+
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{['Commercial','Residential','Industrial'][index]}}: {{value.toFixed(0)}}</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+            </v-card-title>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn flat @click="useConfig(index)" color="green darken-4">Use!</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-hover>
       </v-flex>
     </v-layout>
     <v-dialog v-model="dialog" max-width="600px">
@@ -66,7 +104,7 @@
 
                       <v-list-tile-content>
                         <v-list-tile-title>
-                          {{zone.name}}
+                          {{zone.name}} ({{whatif(di,dj,index+1).join(', ')}})
                         </v-list-tile-title>
 
                         <v-list-tile-sub-title>
@@ -126,6 +164,11 @@
           return this.$store.getters.citygrid;
         }
       },
+      gridconfigs: {
+        get() {
+          return this.$store.getters.gridconfigs;
+        }
+      },
       gridvalues: {
         get() {
           let cache = this.grid;
@@ -160,6 +203,13 @@
       }
     },
     methods: {
+      whatif(i,j,zoneindex){
+        const values = evalGrid(this.grid);
+        let newgrid = this.grid.map( value => value.slice());
+        newgrid[i-1][j-1] = zoneindex;
+        const values2 = evalGrid(newgrid);
+        return (values.map((value, index) => (values2[index]-value))).map(value => ((value>0?'+':(value===0?'±':''))+value.toFixed(0)));
+      },
       build(i,j,zoneindex){
         this.$store.dispatch('buildzone', {x:(i-1),y:(j-1),zone:zoneindex});
       },
@@ -172,6 +222,43 @@
         let random = this.trees[i-1][j-1];
         let icons = this.zones[this.grid[i-1][j-1]].icons;
         return icons[random%icons.length];
+      },
+      evalGrid(grid) {
+        return evalGrid(grid);
+      },
+      useConfig(index) {
+        for(let x=0;x<5;x+=1){
+          for(let y=0;y<5;y+=1){
+            if(this.grid[x][y] === 0 && this.plotusable(x+1,y+1))
+              this.build(x+1,y+1,this.gridconfigs[index][x][y]);
+          }
+        }
+      }
+    },
+    directives: {
+      paintColors: (canvasElement, binding) => {
+        // Get canvas context
+        const config = binding.value;
+        let ctx = canvasElement.getContext("2d");
+        // Clear the canvas
+        ctx.clearRect(0, 0, 40, 40);
+        ctx.strokeStyle="white";
+        ctx.lineWidth=1;
+        // Insert stuff into canvas
+        for(let x=0;x<5;x+=1){
+          for(let y=0;y<5;y+=1){
+            switch(config[x][y]){
+              case 1: ctx.fillStyle = "#0d47a1"; break;
+              case 2: ctx.fillStyle = "#689f38"; break;
+              case 3: ctx.fillStyle = "#ffd600"; break;
+              default: ctx.fillStyle = "#2e7d32";
+            }
+            ctx.beginPath();
+            ctx.rect(x*32,y*32,(x+1)*32,(y+1)*32);
+            ctx.fill();
+            ctx.stroke();
+          }
+        }
       }
     }
   }
