@@ -741,7 +741,7 @@ export default new Vuex.Store({
     buildzone(state, {x, y, zone}) {
       Vue.set(state.citygrid[x], y, zone);
       updateGridResults(state);
-      if(evalGrid(state.grid).some(value=>value>=500)){
+      if(evalGrid(state.citygrid).some(value=>value>=500)){
         if(state.achievements['zone']!==undefined) {
           eventBus.$emit('achievement', achievements['zone']);
         }
