@@ -359,7 +359,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.9.5";
+const version = "0.9.6";
 
 export default new Vuex.Store({
   state: {
