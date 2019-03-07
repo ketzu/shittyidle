@@ -351,6 +351,16 @@ const startsim = (state) => {
   }, state.tickrate);
 };
 
+const sameGrid = (grid1, grid2) => {
+  for(let x=0;x<5;x+=1){
+    for(let y=0;y<5;y+=1){
+      if(grid1[x][y] !== grid2[x][y])
+        return false;
+    }
+  }
+  return true;
+};
+
 const stopsim = () => {
   clearInterval(mainloop);
 };
@@ -377,7 +387,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.9.5";
+const version = "0.9.6";
 
 export default new Vuex.Store({
   state: {
@@ -417,8 +427,12 @@ export default new Vuex.Store({
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0]
     ],
+    gridconfigs: []
   },
   getters: {
+    gridconfigs(state) {
+      return state.gridconfigs;
+    },
     achievementmult(state) {
       return achievementmult(state);
     },
@@ -649,6 +663,11 @@ export default new Vuex.Store({
         state.lockedexp = 0;
         state.resource = 0;
         state.resetresource = 0;
+
+        state.gridconfigs = state.gridconfigs.filter((grid) => !sameGrid(grid,state.citygrid));
+        state.gridconfigs.unshift(state.citygrid);
+        if(state.gridconfigs.length > 3)
+          state.gridconfigs.pop();
         state.citygrid = [
           [0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0],
@@ -743,6 +762,12 @@ export default new Vuex.Store({
     buildzone(state, {x, y, zone}) {
       Vue.set(state.citygrid[x], y, zone);
       updateGridResults(state);
+      if(evalGrid(state.grid).some(value=>value>=500)){
+        if(state.achievements['zone']!==undefined) {
+          eventBus.$emit('achievement', achievements['zone']);
+        }
+        Vue.set(state.achievements, 'zone', true);
+      }
     },
     setbuycount(state, value) {
       state.buycount = value;

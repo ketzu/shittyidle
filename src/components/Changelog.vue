@@ -31,15 +31,18 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}} (Kong)</div>
             <ul>
-              <li>Offline time indicator. (Mostly to find the offline income bug that shouldn't exist :( )</li>
-              <li>Help page updated.</li>
-              <li>Exp gain buffed again, might break the game.</li>
-              <li>Thank you note to Filip and bug reporters!</li>
+              <li>Time bug (00:29 -> 01:30) fixed.</li>
+              <li>Last three infrastructure builds are stored over time!</li>
+              <li>First indicator of improvements by building infrastrucutre.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Offline time indicator. (Mostly to find the offline income bug that shouldn't exist :( )</li>
+                  <li>Help page updated.</li>
+                  <li>Exp gain buffed again, might break the game.</li>
+                  <li>Thank you note to Filip and bug reporters!</li>
                   <li>Upgrades need to be bought now (for now only for a symbolic cost, the game needs to get worse step by step, not all at once!).</li>
                   <li>New settings option: Upgrade indicator.</li>
                   <li>Auto upgrades can be unlocked by resetting without any upgrades.</li>

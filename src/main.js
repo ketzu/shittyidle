@@ -62,10 +62,16 @@ Vue.mixin({
         return value;
       };
       const elapsed = now - time;
-      const seconds = (elapsed / 1000) % 60;
-      const minutes = (elapsed/1000/60)%60;
-      const hours = (elapsed/1000/60/60) % 24;
-      const days = (elapsed/1000/60/60/24);
+      let current = elapsed / 1000; // ms -> s
+      const seconds = (current) % 60;
+      current -= seconds;
+      current /= 60; // s->min
+      const minutes = (current)%60;
+      current -= minutes;
+      current /= 60; // min -> hour
+      const hours = (current) % 24;
+      current -= hours;
+      const days = current/24;
       let timestring = pad(minutes.toFixed(0))+"min "+pad(seconds.toFixed(0))+"s";
       if(hours>1 || days>=1)
         timestring = pad(hours.toFixed(0))+"h "+timestring;
