@@ -46,14 +46,15 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Time bug (00:29 -> 01:30) fixed.</li>
-              <li>Last three infrastructure builds are stored over time!</li>
-              <li>First indicator of improvements by building infrastrucutre.</li>
+              <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Time bug (00:29 -> 01:30) fixed.</li>
+                  <li>Last three infrastructure builds are stored over time!</li>
+                  <li>First indicator of improvements by building infrastrucutre.</li>
                   <li>Offline time indicator. (Mostly to find the offline income bug that shouldn't exist :( )</li>
                   <li>Help page updated.</li>
                   <li>Exp gain buffed again, might break the game.</li>

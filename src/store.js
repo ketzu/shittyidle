@@ -251,9 +251,8 @@ const expgain = (state) => {
     if(x<0) return 0;
     return x>200000000000000000000?1:x/200000000000000000000;
   };
-  const precalc = z/(2*Math.pow(10,10.3));
-  const precalc2 = z/Math.pow(10,7.7);
-  return (1-sig(z))*Math.sqrt(precalc)+sig(z-2000000000000)*(Math.sqrt(precalc2)/Math.log(z)+60000);
+  const precalc = z/(2*Math.pow(10,9.6));
+  return (1-sig(z))*Math.sqrt(precalc)+sig(z-2000000000000)*(2*Math.exp(Math.log(z)/Math.log(Math.log(z))));
 };
 const expmult = (state) => {
   const effexp = state.experience - state.lockedexp;
