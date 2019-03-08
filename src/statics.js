@@ -123,7 +123,7 @@ export const research = [
     ]},
   {citylevel: 2, title: "Educational Science", cost: 1000000, options: [
       {name: "Pay Teachers more", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[4].basemult=1.04 }, desc: "Increase the multiplier of university to 4% (from 2%)."},
-      {name: "Resumé Course", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { state.expchange = 0.08;}, desc: "Increase experience boost."},
+      {name: "Resumé Course", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { state.expchange = 2;}, desc: "Increase experience boost."},
       {name: "Prohibit Strikes", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[4].cost.rate=1.09 }, desc: "Reduce cost increase of university from 10% to 9%."}
     ]}
 ];
