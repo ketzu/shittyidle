@@ -261,7 +261,7 @@ const expmult = (state) => {
     return x>1000?1:x/1000;
   };
   const effexp = state.experience - state.lockedexp;
-  return calcstuff(effexp, sig, 0, 0.04*effexp) * state.expchange;
+  return calcstuff(effexp, sig, 0, 0.04*effexp) * (state.expchange+1);
 };
 const achievementmult = (state) => {
   let value = 0;
