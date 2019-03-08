@@ -31,12 +31,13 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}} (Kong)</div>
             <ul>
-              <li>Research bug #1: No buying multiple researches of the same type or multiple times.</li>
+              <li>Massive exp multiplier nerf.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
+                  <li>Research bug #1: No buying multiple researches of the same type or multiple times.</li>
                   <li>First impression of research if you reached 'large city' (aka second promotion).</li>
                   <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
                   <li>Zoning (previously called citygrid) was shown too late (after 4th reset) is now shown after first reset.</li>

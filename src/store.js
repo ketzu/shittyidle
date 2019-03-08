@@ -244,18 +244,24 @@ const resettable = (state) => {
   return false;
 };
 
+const calcstuff = (z,sig,p,first) => {
+  return (1-sig(z))*first+sig(z-p)*(Math.exp(Math.log(z)/Math.log(Math.log(z))));
+}
 const expgain = (state) => {
-  const z = state.resetresource;
   const sig = (x) => {
     if(x<0) return 0;
     return x>200000000000000000000?1:x/200000000000000000000;
   };
-  const precalc = z/(2*Math.pow(10,9.6));
-  return (1-sig(z))*Math.sqrt(precalc)+sig(z-2000000000000)*(Math.exp(Math.log(z)/Math.log(Math.log(z))));
+  const precalc = state.resetresource/(2*Math.pow(10,9.6));
+  return calcstuff(state.resetresource, sig,2000000000000,Math.sqrt(precalc));
 };
 const expmult = (state) => {
+  const sig = (x) => {
+    if(x<0) return 0;
+    return x>1000?1:x/1000;
+  };
   const effexp = state.experience - state.lockedexp;
-  return (0.04+state.expchange) * (effexp);
+  return calcstuff(effexp, sig, 0, 0.04*effexp) * state.expchange;
 };
 const achievementmult = (state) => {
   let value = 0;
