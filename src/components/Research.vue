@@ -9,7 +9,7 @@
       <v-flex :key="option.name" md4 v-for="(option,pos) in science.options" class="text-md-center">
         <v-layout column align-center>
           <h3 style="font-weight: 400;">{{option.name}}</h3>
-          <v-btn fab large @click="buy(id,pos)">
+          <v-btn fab large @click="buy(id,pos)" :disabled="!selectable(id,pos)" :flat="!selectable(id,pos)">
             <v-icon large :color="selected(id,pos)||selectable(id,pos)?option.iconcolor:'grey'" style="margin-bottom:-30px;">fas fa-{{option.icon}}</v-icon>
           </v-btn>
           <div class="grey--text">{{option.desc}}</div>
