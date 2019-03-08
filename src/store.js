@@ -386,7 +386,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.10.0";
+const version = "0.10.1";
 
 export default new Vuex.Store({
   state: {
@@ -737,13 +737,15 @@ export default new Vuex.Store({
     selectresearch(state, {level, selection}) {
       if (state.experience - state.lockedexp < research[level].cost)
         return;
-      state.lockedexp += research[level].cost;
       if (state.research[level] === undefined)
         Vue.set(state.research, level, selection);
       else {
         if (state.research[level] > 3 || state.research[level] < 0)
           state.research[level] = selection;
+        else
+          return;
       }
+      state.lockedexp += research[level].cost;
       research[level].options[selection].modification(state,root);
     },
     hardreset(state) {
