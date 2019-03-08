@@ -45,8 +45,8 @@
                     <h2 class="stat">{{type.title}}</h2>
                     <span class="subitem">current level</span>
                   </v-flex>
-                  <v-flex md4 offset-md1 xs10 offset-xs1>
-                    <h2 class="stat">{{format(type.gain/basegain[type.name])}}x</h2>
+                  <v-flex md4 offset-md1 xs10 offset-xs1 v-if="type.title!=='The same'">
+                    <h2 class="stat">{{format(buildingboni*type.gain/basegain[type.name])}}x</h2>
                     current multiplier
                   </v-flex>
                   <v-flex md4 offset-md1 xs10 offset-xs1>
@@ -57,9 +57,13 @@
                     <h2 class="stat">{{format(production*100/(resourcegain>0.1?resourcegain-0.1:1))}}%</h2>
                     of current production
                   </v-flex>
-                  <v-flex md9 offset-md1 xs10 offset-xs1 v-if="citylevel>0">
+                  <v-flex md4 offset-md1 xs10 offset-xs1 v-if="citylevel>0">
                     <h2 class="stat">{{format(affecting)}}x</h2>
                     by infrastructure
+                  </v-flex>
+                  <v-flex md4 offset-md1 xs10 offset-xs1 v-if="buildingboni>1">
+                    <h2 class="stat">{{format(buildingboni)}}x</h2>
+                    by gambling
                   </v-flex>
                   <v-flex xs12>
                     <v-list two-line>
@@ -111,7 +115,7 @@
 <script>
   export default {
     name: "Building",
-    props: ['type'],
+    props: ['type','index'],
     data() {
       return {
         dialog: false
@@ -131,6 +135,9 @@
         get() {
           return this.$store.getters.boughtupgrades[this.type.name];
         }
+      },
+      buildingboni() {
+        return this.$store.getters.buildingboni[this.index]+1;
       },
       upgradeable() {
         for (let key in this.upgrades) {
@@ -204,7 +211,7 @@
         return mult;
       },
       production() {
-        return this.mul*this.type.gain*this.level*this.affecting*this.type.mult;
+        return this.mul*this.type.gain*this.level*this.affecting*this.type.mult*this.buildingboni;
       },
       cost() {
         if (this.compbuycount === 1) {

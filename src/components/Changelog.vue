@@ -34,9 +34,9 @@
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
-            <Future name="Research" state="alpha"></Future>
-            <Future name="City screen" state="beta"></Future>
+            <Future name="Research" state="beta"></Future>
             <Future name="More promotions" state="beta"></Future>
+            <Future name="A new career" state="notstarted"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
             <Future name="Achivements" state="beta"></Future>
@@ -46,6 +46,7 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
+              <li>First impression of research if you reached 'large city' (aka second promotion).</li>
               <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
               <li>Zoning (previously called citygrid) was shown too late (after 4th reset) is now shown after first reset.</li>
             </ul>

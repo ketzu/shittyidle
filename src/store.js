@@ -220,15 +220,14 @@ const resourcegain = (state) => {
   // base generation
   let gain = 0.1;
 
-  let grideffects = evalGrid(state.citygrid);
-
   // base multiplier = 1 ; experience gives multiplicative bonus
   let multiplier = 1 + expmult(state) + achievementmult(state);
-  for (let current of root.store_buildings) {
+  for (let i=0;i<root.store_buildings.length;i+=1) {
+    const current = root.store_buildings[i];
     let level = state.buildings[current['name']];
     if (level === undefined)
       continue;
-    gain += current.gain * level * affecting(current, state.infrastructure) * current.mult;
+    gain += current.gain * level * affecting(current, state.infrastructure) * current.mult * (state.buildingboni[i]+1);
   }
   return [gain, multiplier];
 };
@@ -256,7 +255,7 @@ const expgain = (state) => {
 };
 const expmult = (state) => {
   const effexp = state.experience - state.lockedexp;
-  return 0.04 * (effexp);
+  return (0.04+state.expchange) * (effexp);
 };
 const achievementmult = (state) => {
   let value = 0;
@@ -337,7 +336,8 @@ const buyupgrade = (state, building, level) => {
     Vue.set(state.upgrades[building.name], level, true);
 
     // applies upgrade
-    upgrade(building.name, level, state);
+    if(building.title!=="The same")
+      upgrade(building.name, level, state);
   }
 };
 
@@ -368,7 +368,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.9.6";
+const version = "0.10.0";
 
 export default new Vuex.Store({
   state: {
@@ -392,12 +392,14 @@ export default new Vuex.Store({
     resetresource: 0,
     experience: 0,
     lockedexp: 0,
+    expchange: 0,
     resource: 0,
     alltime: 0,
     tickrate: 100,
     title: "mayor",
     citylevel: 0,
     buildings: {},
+    buildingboni: [0,0,0,0,0,0,0,0],
     upgrades: {},
     infrastructure: {},
     research: {},
@@ -411,6 +413,9 @@ export default new Vuex.Store({
     gridconfigs: []
   },
   getters: {
+    buildingboni(state) {
+      return state.buildingboni;
+    },
     gridconfigs(state) {
       return state.gridconfigs;
     },
@@ -556,7 +561,7 @@ export default new Vuex.Store({
       // reapply researches
       for (let [key, value] of Object.entries(state.research)) {
         if (state.research.hasOwnProperty(key) && value !== undefined) {
-          research[key].options[value].modification(state);
+          research[key].options[value].modification(state,root);
         }
       }
 
@@ -643,6 +648,7 @@ export default new Vuex.Store({
         state.lockedexp = 0;
         state.resource = 0;
         state.resetresource = 0;
+        state.expchange = 0;
 
         state.gridconfigs = state.gridconfigs.filter((grid) => !sameGrid(grid,state.citygrid));
         state.gridconfigs.unshift(state.citygrid);
@@ -717,7 +723,7 @@ export default new Vuex.Store({
         if (state.research[level] > 3 || state.research[level] < 0)
           state.research[level] = selection;
       }
-      research[level].options[selection].modification(state);
+      research[level].options[selection].modification(state,root);
     },
     hardreset(state) {
       // Hard Reset: Delete State
