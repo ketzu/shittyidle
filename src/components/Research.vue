@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-xs fluid>
-    <h2>Beta Feature: Feel free to experiment.</h2>
+    <h2>Beta Feature: Feel free to experiment. (Experience is only locked away and restored on reset.)</h2>
     <v-layout :key="science.title" row wrap v-for="(science,id) in research">
       <v-flex md12>
         <div class="headline">{{science.title}}</div>
