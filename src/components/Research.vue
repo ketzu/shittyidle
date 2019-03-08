@@ -1,5 +1,6 @@
 <template>
   <v-container grid-list-xs fluid>
+    <h2>Beta Feature: Feel free to experiment. (Experience is only locked away and restored on reset.)</h2>
     <v-layout :key="science.title" row wrap v-for="(science,id) in research">
       <v-flex md12>
         <div class="headline">{{science.title}}</div>
@@ -7,10 +8,11 @@
       </v-flex>
       <v-flex :key="option.name" md4 v-for="(option,pos) in science.options" class="text-md-center">
         <v-layout column align-center>
+          <h3 style="font-weight: 400;">{{option.name}}</h3>
           <v-btn fab large @click="buy(id,pos)">
             <v-icon large :color="selected(id,pos)||selectable(id,pos)?option.iconcolor:'grey'" style="margin-bottom:-30px;">fas fa-{{option.icon}}</v-icon>
           </v-btn>
-          <h3 style="font-weight: 400;">{{option.name}}</h3>
+          <div class="grey--text">{{option.desc}}</div>
         </v-layout>
       </v-flex>
     </v-layout>

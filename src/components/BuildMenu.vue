@@ -9,7 +9,7 @@
 
     <v-list two-line>
       <transition name="fade" :key="index" v-for="(building, index) in buildings">
-        <Building :type="building" v-if="building.cost.base < alltime" :count="buycount"></Building>
+        <Building :type="building" :index="index" v-if="building.cost.base < alltime" :count="buycount"></Building>
       </transition>
     </v-list>
 

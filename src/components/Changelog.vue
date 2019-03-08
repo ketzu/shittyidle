@@ -19,9 +19,9 @@
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
-            <Future name="Research" state="alpha"></Future>
-            <Future name="City screen" state="beta"></Future>
+            <Future name="Research" state="beta"></Future>
             <Future name="More promotions" state="beta"></Future>
+            <Future name="A new career" state="notstarted"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
             <Future name="Achivements" state="beta"></Future>
@@ -31,14 +31,17 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}} (Kong)</div>
             <ul>
-              <li>Time bug (00:29 -> 01:30) fixed.</li>
-              <li>Last three infrastructure builds are stored over time!</li>
-              <li>First indicator of improvements by building infrastrucutre.</li>
+              <li>First impression of research if you reached 'large city' (aka second promotion).</li>
+              <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
+              <li>Zoning (previously called citygrid) was shown too late (after 4th reset) is now shown after first reset.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Time bug (00:29 -> 01:30) fixed.</li>
+                  <li>Last three infrastructure builds are stored over time!</li>
+                  <li>First indicator of improvements by building infrastrucutre.</li>
                   <li>Offline time indicator. (Mostly to find the offline income bug that shouldn't exist :( )</li>
                   <li>Help page updated.</li>
                   <li>Exp gain buffed again, might break the game.</li>
