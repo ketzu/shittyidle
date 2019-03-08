@@ -47,6 +47,7 @@
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
               <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
+              <li>Zoning (previously called citygrid) was shown too late (after 4th reset) is now shown after 2nd reset.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>

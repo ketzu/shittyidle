@@ -97,7 +97,7 @@
         get() {
           let entries = ['Main'];
 
-          if(this.resets>3)
+          if(this.resets>=2)
             entries.push('City Zoning');
 
           if(this.citylevel>0)
