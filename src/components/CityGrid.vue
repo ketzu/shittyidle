@@ -183,7 +183,7 @@
           return 3;
         if (this.citylevel > 1)
           return 2;
-        if (this.resets > 3)
+        if (this.resets > 0)
           return 1;
         return 0;
       },
