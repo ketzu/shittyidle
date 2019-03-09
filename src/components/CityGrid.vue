@@ -179,9 +179,9 @@
         return this.$store.getters.zones;
       },
       radius() {
-        if (this.citylevel > 2)
+        if (this.citylevel >= 2)
           return 3;
-        if (this.citylevel > 1)
+        if (this.citylevel >= 1)
           return 2;
         if (this.resets > 0)
           return 1;
