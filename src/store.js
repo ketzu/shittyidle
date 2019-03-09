@@ -756,10 +756,17 @@ export default new Vuex.Store({
       Vue.set(state.citygrid[x], y, zone);
       updateGridResults(state);
       if(evalGrid(state.citygrid).some(value=>value>=500)){
-        if(state.achievements['zone']!==undefined) {
+        console.log(state.achievements);
+        if(state.achievements['zone']===undefined) {
           eventBus.$emit('achievement', achievements['zone']);
         }
         Vue.set(state.achievements, 'zone', true);
+      }
+      if(evalGrid(state.citygrid).some(value=>value>=2399)){
+        if(state.achievements['zone2']===undefined) {
+          eventBus.$emit('achievement', achievements['zone2']);
+        }
+        Vue.set(state.achievements, 'zone2', true);
       }
     },
     setbuycount(state, value) {
