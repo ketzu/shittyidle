@@ -245,8 +245,9 @@ const resettable = (state) => {
 };
 
 const calcstuff = (z,sig,p,first) => {
+  if(z===0) return 0;
   return (1-sig(z))*first+sig(z-p)*(Math.exp(Math.log(z)/Math.log(Math.log(z))));
-}
+};
 const expgain = (state) => {
   const sig = (x) => {
     if(x<0) return 0;
@@ -403,9 +404,7 @@ export default new Vuex.Store({
       cityname: "Shitty Idle",
       upgradeindicator: false
     },
-    achievements: {
-
-    },
+    achievements: {},
     buycount: 1,
     buytoupgrade: false,
     startofgamedialog: true,
@@ -662,9 +661,19 @@ export default new Vuex.Store({
           Vue.set(state.achievements,'upgrades',true);
         }
 
+        if (upgrade && cityupgradeable(state)) {
+          state.experience = 0;
+          state.citylevel += 1;
+          if(state.citylevel==1)
+            eventBus.$emit('achievement', achievements['advancer']);
+          if(state.citylevel==2)
+            eventBus.$emit('achievement', achievements['prof']);
+        }
+
         state.resettime = Date.now();
 
         // Reset run specific stats
+        state.buildingboni = [0,0,0,0,0,0,0,0];
         state.buildings = {};
         state.infrastructure = {};
         state.research = {};
@@ -690,14 +699,6 @@ export default new Vuex.Store({
         // Reset buildings array
         root.store_buildings = JSON.parse(JSON.stringify(basebuildings));
         root.store_infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
-      }
-      if (upgrade && cityupgradeable(state)) {
-        state.experience = 0;
-        state.citylevel += 1;
-        if(state.citylevel==1)
-          eventBus.$emit('achievement', achievements['advancer']);
-        if(state.citylevel==2)
-          eventBus.$emit('achievement', achievements['prof']);
       }
       if(state.citylevel>=1)
         Vue.set(state.achievements, 'advancer', true);

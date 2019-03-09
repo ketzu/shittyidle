@@ -11,10 +11,10 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
-            A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
+            I am sorry for the bug that crashed the game this weekend. If you lost your progress, <a href="mailto:lostsave@shittyidle.com">contact me</a> and tell me about your progress, I can provide you a savegame.
           </v-flex>
           <v-flex md12>
-            Also thanks to everyone sending me bug reports and encouragements!
+            A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
           </v-flex>
           <v-flex md12>
             <h2>Upcoming Features</h2>
@@ -37,16 +37,17 @@
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
-                  <li>Research bug #1: No buying multiple researches of the same type or multiple times.</li>
-                  <li>First impression of research if you reached 'large city' (aka second promotion).</li>
-                  <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
-                  <li>Zoning (previously called citygrid) was shown too late (after 4th reset) is now shown after first reset.</li>
+                  <li>Bug in the calculations broke a lot of things, should be gone now.</li>
                 </ul>
               </v-expansion-panel-content>
 
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Research bug #1: No buying multiple researches of the same type or multiple times.</li>
+                  <li>First impression of research if you reached 'large city' (aka second promotion).</li>
+                  <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
+                  <li>Zoning (previously called citygrid) was shown too late (after 4th reset) is now shown after first reset.</li>
                   <li>Time bug (00:29 -> 01:30) fixed.</li>
                   <li>Last three infrastructure builds are stored over time!</li>
                   <li>First indicator of improvements by building infrastrucutre.</li>
