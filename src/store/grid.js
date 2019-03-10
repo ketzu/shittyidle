@@ -1,6 +1,6 @@
 import Vue from "vue";
 import {evalGrid} from "../statics/grid";
-import {achievements} from "../statics/statics";
+import {achievements, zones} from "../statics/statics";
 import eventBus from "@/eventBus";
 import {basebuildings} from "../statics/buildings";
 
@@ -64,6 +64,9 @@ export default {
     configs: []
   },
   getters: {
+    zones(state) {
+      return zones;
+    },
     gridconfigs(state) {
       return state.configs;
     },

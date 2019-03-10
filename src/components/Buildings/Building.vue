@@ -113,6 +113,7 @@
 </template>
 
 <script>
+  import {buildingGain, buildingCostOf, maxcount} from '@/statics/buildings'
   export default {
     name: "Building",
     props: ['type','index'],
@@ -137,7 +138,7 @@
         }
       },
       buildingboni() {
-        return this.$store.getters.buildingboni[this.index]+1;
+        return this.$store.getters.buildingboni[this.index];
       },
       upgradeable() {
         for (let key in this.upgrades) {
@@ -156,8 +157,8 @@
       },
       maxbuyable() {
         let c=10;
-        while(this.costof(c+10)<this.resource) c+=10;
-        return Math.min(c,7000-this.level);
+        while(this.costof(c+10)<this.resource && this.level+c<=maxcount+10) c+=10;
+        return Math.min(c,maxcount-this.level);
       },
       compbuycount() {
         if(this.buytoupgrade) {
@@ -211,14 +212,10 @@
         return mult;
       },
       production() {
-        return this.mul*this.type.gain*this.level*this.affecting*this.type.mult*this.buildingboni;
+        return buildingGain(this.level, this.type.gain, this.type.mult, this.buildingboni, this.affecting);
       },
       cost() {
-        if (this.compbuycount === 1) {
-          return this.type.cost.base * Math.pow(this.type.cost.rate, this.level);
-        } else {
-          return this.costof(this.compbuycount);
-        }
+          return buildingCostOf(this.level, this.compbuycount, this.type.cost.base, this.type.cost.rate);
       },
       buyable() {
         return (this.cost <= this.resource) && (this.level < 7000);
@@ -233,11 +230,6 @@
       buyupgrade(level) {
         if(this.upgbuyable(level))
           this.$store.dispatch('buyupgrade', {building: this.type, level: level});
-      },
-      costof(value) {
-        const rtos = Math.pow(this.type.cost.rate, this.level);
-        const rtogms = Math.pow(this.type.cost.rate, value-1);
-        return this.type.cost.base * rtos * (rtogms * this.type.cost.rate - 1) / (this.type.cost.rate - 1);
       },
       upgbought(level){
         if(this.bupgs===undefined) return false;

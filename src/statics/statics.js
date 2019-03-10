@@ -30,7 +30,7 @@ export const research = [
     ]},
   {citylevel: 2, title: "Civil Engineering", cost: 500000, options: [
       {name: "Add Street Lamps", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[3].basemult=1.045 }, desc: "Increase the multiplier of lighting to 4.5% (from 4%)."},
-      {name: "Gambling Addiction", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { if(!state.buildingboni.some(boni => boni!==0)) Vue.set(state,'buildingboni', state.buildingboni.map(boni => (Math.min(-Math.log(Math.random())*6,1000)+4))) }, desc: "Improve your buildings by a random factor until you change your job."},
+      {name: "Gambling Addiction", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { if(!state.buildings.boni.some(boni => boni!==0)) Vue.set(state.buildings,'boni', state.buildings.boni.map(boni => (Math.min(-Math.log(Math.random())*6,1000)+4))) }, desc: "Improve your buildings by a random factor until you change your job."},
       {name: "Remove Street Lamps", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[3].cost.rate=1.09 }, desc: "Reduce cost increase of lighting from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Educational Science", cost: 1000000, options: [
@@ -52,7 +52,7 @@ export const achievements = {
   advancer: {desc: "Get promoted.", title: "Advancer", icon: "fas fa-cat", iconcolor: "blue-grey lighten-2", mult: 0.05},
   prof: {desc: "Get another promotion.", title: "Professional", icon: "fas fa-cat", iconcolor: "amber", mult: 0.05},
   workfun: {desc: "Get a new job with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2", mult: 0.1},
-  upgrades: {desc: "Get a new job without buying any building upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", boni: "Autoupgrades unlocked.", mult: 0},
+  upgrades: {desc: "Get a new job without buying any building upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", buildingboni: "Autoupgrades unlocked.", mult: 0},
   zone: {desc: "Reach a zoning value of over 500 for one type.", title: "In the zone", icon: "fas fa-object-group", iconcolor: "purple darken-4", mult: 0.5},
   zone2: {desc: "Reach a zoning value of over 2399 for one type.", title: "Twilight zone", icon: "fas fa-object-group", iconcolor: "green accent-4", mult: 1}
 };

@@ -1,5 +1,7 @@
 import Vue from "vue";
 
+export const maxcount = 7000;
+
 const bbcost = 10;
 const costgrowth = 13;
 
@@ -89,31 +91,41 @@ export const upgrades = {
   },
 };
 
-export const maxreached = (building, level) => {
-  for (var key in upgrades[building]) {
-    // check if the property/key is defined in the object itself, not in parent
-    if (upgrades[building].hasOwnProperty(key)) {
-      if (level < key) {
-        return false;
-      }
-    }
-  }
-  return true;
+export const buildingCostOf = (level, amount, base, rate) => {
+  if(amount === 1)
+    return base * Math.pow(rate, level);
+  const rtos = Math.pow(rate, level);
+  const rtogms = Math.pow(rate, (level+amount)-1);
+  return base * rtos * (rtogms * rate - 1) / (rate - 1);
 };
 
-export const upgradereached = (building, level) => {
-  for (var key in upgrades[building]) {
-    // check if the property/key is defined in the object itself, not in parent
-    if (upgrades[building].hasOwnProperty(key)) {
-      if (level == key) {
-        return true;
-      }
-    }
-  }
-  return false;
+export const buildingGain = (level, gain, mult, boni, infra) => {
+  return level*gain*mult*(boni+1)*infra;
 };
 
-export const upgrade = (buildingid, level, state, root) => {
+const allUpgrades = (building) => {
+  let available = [];
+  for (let key in upgrades[building]) {
+    if (upgrades[building].hasOwnProperty(key)) {
+      available.push(key);
+    }
+  }
+  return available;
+};
+
+export const maxReached = (building, level) => {
+  return !(allUpgrades(building).some(upg => upg>level));
+};
+
+export const buyableUpgrades = (building, level) => {
+  return allUpgrades(building).filter(upg => upg<=level);
+};
+
+export const upgradesReached = (building, oldlevel, newlevel) => {
+  return buyableUpgrades(building, newlevel).filter(upg => upg>oldlevel);
+};
+
+export const applyupgrade = (buildingid, level, state, root) => {
   if (state.upgrades[buildingid] === undefined)
     return false;
   if (state.upgrades[buildingid][level] === undefined)
@@ -121,14 +133,19 @@ export const upgrade = (buildingid, level, state, root) => {
   let index = root.store_buildings.findIndex(element => element.name === buildingid);
   if (index === undefined)
     return false;
+  // appli gain as a multiplier, not an overwrite
   let tempgain = root.store_buildings[index].gain * upgrades[buildingid][level].gain;
   Vue.set(root.store_buildings, index, {...root.store_buildings[index], ...upgrades[buildingid][level], gain: tempgain});
   return true;
 };
 
-export const allupgrades = (buildingid, level, state, root) => {
-  for (let i = 0; i <= level; i++) {
-    upgrade(buildingid, i, state, root);
+export const applyallupgrades = (building, level, state, root) => {
+  for (let key in upgrades[building]) {
+    if (upgrades[building].hasOwnProperty(key)) {
+      if (level >= key) {
+        applyupgrade(building, key, state, root);
+      }
+    }
   }
 };
 
