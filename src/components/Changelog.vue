@@ -11,7 +11,7 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
-            I am sorry for the bug that crashed the game this weekend. If you lost your progress, <a href="mailto:lostsave@shittyidle.com">contact me</a> and tell me about your progress, I can provide you a savegame.
+            Due to many balancing issues, the game will not see many patches for a little while, as I will change many things and update the application. But don't worry, the game is not abandoned!
           </v-flex>
           <v-flex md12>
             A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
@@ -37,13 +37,15 @@
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
-                  <li>Bug in the calculations broke a lot of things, should be gone now.</li>
+                  <li>Setting to build to max you can afford and ignore upgrades.</li>
+                  <li>Infrastrucutre is limited to 700 for now.</li>
                 </ul>
               </v-expansion-panel-content>
 
               <v-expansion-panel-content>
                 <div slot="header">Version 0.9</div>
                 <ul>
+                  <li>Bug in the calculations broke a lot of things, should be gone now.</li>
                   <li>Research bug #1: No buying multiple researches of the same type or multiple times.</li>
                   <li>First impression of research if you reached 'large city' (aka second promotion).</li>
                   <li>Exp gain function changed, more exp in the beginning, less exp in the end.</li>
