@@ -2,7 +2,8 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import store,{eventBus} from './store'
+import store from './store'
+import eventBus from "./eventBus";
 import {baseinfrastructure} from "./statics/statics";
 import {basebuildings} from "./statics/buildings";
 import 'roboto-fontface/css/roboto/roboto-fontface.css'

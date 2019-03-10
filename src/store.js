@@ -1,65 +1,21 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {baseinfrastructure, research, storagename, zones, achievements} from './statics/statics.js'
-import {basebuildings, bgain, upgrades} from "./statics/buildings";
-import {evalGrid} from "./statics/grid";
+import {achievements, baseinfrastructure, research, storagename, zones} from './statics/statics.js'
+import {
+  affecting,
+  allupgrades,
+  basebuildings,
+  bgain,
+  maxreached,
+  upgrade,
+  upgradereached,
+  upgrades
+} from "./statics/buildings";
 import settings from "@/store/settings";
+import grid from "@/store/grid";
+import eventBus from "@/eventBus";
 
 Vue.use(Vuex);
-
-export const eventBus = new Vue();
-
-const maxreached = (building, level) => {
-  for (var key in upgrades[building]) {
-    // check if the property/key is defined in the object itself, not in parent
-    if (upgrades[building].hasOwnProperty(key)) {
-      if (level < key) {
-        return false;
-      }
-    }
-  }
-  return true;
-};
-
-const upgradereached = (building, level) => {
-  for (var key in upgrades[building]) {
-    // check if the property/key is defined in the object itself, not in parent
-    if (upgrades[building].hasOwnProperty(key)) {
-      if (level == key) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-
-const upgrade = (buildingid, level, state) => {
-  if (state.upgrades[buildingid] === undefined)
-    return false;
-  if (state.upgrades[buildingid][level] === undefined)
-    return false;
-  let index = root.store_buildings.findIndex(element => element.name === buildingid);
-  if (index === undefined)
-    return false;
-  let tempgain = root.store_buildings[index].gain * upgrades[buildingid][level].gain;
-  Vue.set(root.store_buildings, index, {...root.store_buildings[index], ...upgrades[buildingid][level], gain: tempgain});
-  return true;
-};
-
-const allupgrades = (buildingid, level, state) => {
-  for (let i = 0; i <= level; i++) {
-    upgrade(buildingid, i, state);
-  }
-};
-
-const affecting = (building, inflevels) => {
-  let mult = 1;
-  for (let infra of root.store_infrastructure.filter(inf => inf.affected.includes(building.name))) {
-    if (inflevels[infra.name] !== undefined)
-      mult *= Math.pow(infra.basemult, inflevels[infra.name]);
-  }
-  return mult;
-};
 
 const resourcegain = (state) => {
   // base generation
@@ -67,12 +23,12 @@ const resourcegain = (state) => {
 
   // base multiplier = 1 ; experience gives multiplicative bonus
   let multiplier = 1 + expmult(state) + achievementmult(state);
-  for (let i=0;i<root.store_buildings.length;i+=1) {
+  for (let i = 0; i < root.store_buildings.length; i += 1) {
     const current = root.store_buildings[i];
     let level = state.buildings[current['name']];
     if (level === undefined)
       continue;
-    gain += current.gain * level * affecting(current, state.infrastructure) * current.mult * (state.buildingboni[i]+1);
+    gain += current.gain * level * affecting(current, state.infrastructure, root) * current.mult * (state.buildingboni[i] + 1);
   }
   return [gain, multiplier];
 };
@@ -89,25 +45,25 @@ const resettable = (state) => {
   return false;
 };
 
-const calcstuff = (z,sig,p,first) => {
-  if(z===0) return 0;
-  return (1-sig(z))*first+sig(z-p)*(Math.exp(Math.log(z)/Math.log(Math.log(z))));
+const calcstuff = (z, sig, p, first) => {
+  if (z === 0) return 0;
+  return (1 - sig(z)) * first + sig(z - p) * (Math.exp(Math.log(z) / Math.log(Math.log(z))));
 };
 const expgain = (state) => {
   const sig = (x) => {
-    if(x<0) return 0;
-    return x>200000000000000000000?1:x/200000000000000000000;
+    if (x < 0) return 0;
+    return x > 200000000000000000000 ? 1 : x / 200000000000000000000;
   };
-  const precalc = state.resetresource/(2*Math.pow(10,9.6));
-  return calcstuff(state.resetresource, sig,2000000000000,Math.sqrt(precalc));
+  const precalc = state.resetresource / (2 * Math.pow(10, 9.6));
+  return calcstuff(state.resetresource, sig, 2000000000000, Math.sqrt(precalc));
 };
 const expmult = (state) => {
   const sig = (x) => {
-    if(x<0) return 0;
-    return x>1000?1:x/1000;
+    if (x < 0) return 0;
+    return x > 1000 ? 1 : x / 1000;
   };
   const effexp = state.experience - state.lockedexp;
-  return calcstuff(effexp, sig, 0, 0.04*effexp) * (state.expchange+1);
+  return calcstuff(effexp, sig, 0, 0.04 * effexp) * (state.expchange + 1);
 };
 const achievementmult = (state) => {
   let value = 0;
@@ -116,7 +72,7 @@ const achievementmult = (state) => {
     // check if the property/key is defined in the object itself, not in parent
     if (achievements.hasOwnProperty(key)) {
       if (state.achievements[key] === true) {
-        value+=achievements[key].mult;
+        value += achievements[key].mult;
       }
     }
   }
@@ -137,59 +93,23 @@ const cityupgradeable = (state) => {
   if (state.citylevel === 1 && state.experience + expgain(state) >= 100000) {
     return true;
   }
-/*  if (state.citylevel === 2 && state.experience + expgain(state) >= 100000000) {
-    return true;
-  }*/
+  /*  if (state.citylevel === 2 && state.experience + expgain(state) >= 100000000) {
+      return true;
+    }*/
   return false;
 };
 
-const effectstrength = (value) => {
-  if(value <3) return 0.05;
-  if(value < 550) return 0.05+value/550*0.2;
-  if(value<1500) return 0.25+value/1500*0.74;
-  return 0.99+(0.01)*(1-(Math.pow(0.99,value)));
-};
-
-const updateGridResults = (state) => {
-  const improvements = evalGrid(state.citygrid);
-  if(improvements.reduce((a,b)=>a+b) === 3)
-    return;
-  // Farm -> 0, Inn -> 1, Store -> 2, Bank -> 3, Data -> 4, Factory -> 5, Energy -> 6, Casino -> 7
-  const allweak = [0, 4];
-  const comeffect = {strong: [2, 3], weak: [...[1, 6],...allweak]};
-  const reseffect = {strong: [1, 7], weak: [...[5, 2],...allweak]};
-  const indeffect = {strong: [5, 6], weak: [...[3, 7],...allweak]};
-  const alleffects = [comeffect, reseffect, indeffect];
-
-  const basecost =  basebuildings.map(building => building.cost.rate);
-
-  const basereduction = 0.05; // base: 1.1 or 1.095
-  let values = [1,1,1,1,1,1,1,1];
-  for(let i=0; i<3;i+=1) {
-    for(let se of alleffects[i].strong){
-      values[se] += effectstrength(improvements[i]) * 2;
-    }
-    for(let we of alleffects[i].weak) {
-      values[we] += effectstrength(improvements[i]);
-    }
-  }
-  values = values.map(e=>e/3);
-  for(let i=0;i<8;i+=1) {
-    Vue.set(root.store_buildings,i, {...root.store_buildings[i], cost: {...root.store_buildings[i].cost, rate:basecost[i]-basereduction*values[i]}});
-  }
-};
-
 const buyupgrade = (state, building, level) => {
-  if(state.resource>=upgrades[building.name][level].upgcost){
+  if (state.resource >= upgrades[building.name][level].upgcost) {
     state.resource -= upgrades[building.name][level].upgcost;
 
-    if(state.upgrades[building.name] === undefined)
-      Vue.set(state.upgrades,building.name,{});
+    if (state.upgrades[building.name] === undefined)
+      Vue.set(state.upgrades, building.name, {});
     Vue.set(state.upgrades[building.name], level, true);
 
     // applies upgrade
-    if(building.title!=="The same")
-      upgrade(building.name, level, state);
+    if (building.title !== "The same")
+      upgrade(building.name, level, state, root);
   }
 };
 
@@ -202,16 +122,6 @@ const startsim = (state) => {
   }, state.tickrate);
 };
 
-const sameGrid = (grid1, grid2) => {
-  for(let x=0;x<5;x+=1){
-    for(let y=0;y<5;y+=1){
-      if(grid1[x][y] !== grid2[x][y])
-        return false;
-    }
-  }
-  return true;
-};
-
 const stopsim = () => {
   clearInterval(mainloop);
 };
@@ -220,7 +130,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.10.2";
+const version = "1.0";
 
 export default new Vuex.Store({
   state: {
@@ -242,25 +152,14 @@ export default new Vuex.Store({
     title: "mayor",
     citylevel: 0,
     buildings: {},
-    buildingboni: [0,0,0,0,0,0,0,0],
+    buildingboni: [0, 0, 0, 0, 0, 0, 0, 0],
     upgrades: {},
     infrastructure: {},
-    research: {},
-    citygrid: [
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0]
-    ],
-    gridconfigs: []
+    research: {}
   },
   getters: {
     buildingboni(state) {
       return state.buildingboni;
-    },
-    gridconfigs(state) {
-      return state.gridconfigs;
     },
     achievementmult(state) {
       return achievementmult(state);
@@ -288,9 +187,6 @@ export default new Vuex.Store({
     },
     timereset(state) {
       return state.resettime;
-    },
-    citygrid(state) {
-      return state.citygrid;
     },
     upgrades(state) {
       return upgrades;
@@ -382,19 +278,16 @@ export default new Vuex.Store({
       // reapply upgrades
       for (let [key, value] of Object.entries(state.buildings)) {
         if (state.buildings.hasOwnProperty(key)) {
-          allupgrades(key, value, state);
+          allupgrades(key, value, state, root);
         }
       }
 
       // reapply researches
       for (let [key, value] of Object.entries(state.research)) {
         if (state.research.hasOwnProperty(key) && value !== undefined) {
-          research[key].options[value].modification(state,root);
+          research[key].options[value].modification(state, root);
         }
       }
-
-      // reapply grid results
-      updateGridResults(state);
 
       // offline ticks
       if (state.time !== undefined) {
@@ -402,9 +295,9 @@ export default new Vuex.Store({
         const now = Date.now();
         let ticks = Math.min((now - state.time) / state.tickrate, 25920000);
         const gain = resourcegain(state).reduce((a, b) => a * b);
-        updateresources(state, ticks*gain);
+        updateresources(state, ticks * gain);
         setTimeout(() => {
-          eventBus.$emit('offlineincome', {gain:(ticks * gain),time: state.time, now: now})
+          eventBus.$emit('offlineincome', {gain: (ticks * gain), time: state.time, now: now})
         }, 2500);
       }
 
@@ -439,95 +332,57 @@ export default new Vuex.Store({
       state.title = title;
     },
     softreset(state, {upgrade}) {
-      if (resettable(state)) {
-        state.resets += 1;
-        state.experience += expgain(state);
+      state.resets += 1;
+      state.experience += expgain(state);
 
-        // evaluate achivements time
-        if(state.resets>=1) {
-          Vue.set(state.achievements,'beginner',true);
-          if(state.resets==1)
-            eventBus.$emit('achievement', achievements['beginner']);
-        }
-        if(state.buildings['Inn']===undefined
-         && state.buildings['Store']===undefined
-         && state.buildings['Bank']===undefined
-         && state.buildings['Datacenter']===undefined
-         && state.buildings['Factory']===undefined
-         && state.buildings['Energy']===undefined) {
-          if(state.achievements['workfun'] !== true)
-            eventBus.$emit('achievement', achievements['workfun']);
-          Vue.set(state.achievements,'workfun', true);
-        }
-        if(Object.keys(state.upgrades).length === 0) {
-          if(state.achievements['upgrades'] === undefined)
-            eventBus.$emit('achievement', achievements['upgrades']);
-          Vue.set(state.achievements,'upgrades',true);
-        }
-
-        if (upgrade && cityupgradeable(state)) {
-          state.experience = 0;
-          state.citylevel += 1;
-          if(state.citylevel==1)
-            eventBus.$emit('achievement', achievements['advancer']);
-          if(state.citylevel==2)
-            eventBus.$emit('achievement', achievements['prof']);
-        }
-
-        state.resettime = Date.now();
-
-        // Reset run specific stats
-        state.buildingboni = [0,0,0,0,0,0,0,0];
-        state.buildings = {};
-        state.infrastructure = {};
-        state.research = {};
-        state.upgrades = {};
-
-        state.lockedexp = 0;
-        state.resource = 0;
-        state.resetresource = 0;
-        state.expchange = 0;
-
-        state.gridconfigs = state.gridconfigs.filter((grid) => !sameGrid(grid,state.citygrid));
-        state.gridconfigs.unshift(state.citygrid);
-        if(state.gridconfigs.length > 3)
-          state.gridconfigs.pop();
-        state.citygrid = [
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0],
-          [0, 0, 0, 0, 0]
-        ];
-
-        // Reset buildings array
-        root.store_buildings = JSON.parse(JSON.stringify(basebuildings));
-        root.store_infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
+      if (upgrade && cityupgradeable(state)) {
+        state.experience = 0;
+        state.citylevel += 1;
       }
-      if(state.citylevel>=1)
-        Vue.set(state.achievements, 'advancer', true);
-      if(state.citylevel>=2)
-        Vue.set(state.achievements, 'prof', true);
+
+      state.resettime = Date.now();
+
+      // Reset run specific stats
+      state.buildingboni = [0, 0, 0, 0, 0, 0, 0, 0];
+      state.buildings = {};
+      state.infrastructure = {};
+      state.research = {};
+      state.upgrades = {};
+
+      state.lockedexp = 0;
+      state.resource = 0;
+      state.resetresource = 0;
+      state.expchange = 0;
+
+      // Reset buildings array
+      root.store_buildings = JSON.parse(JSON.stringify(basebuildings));
+      root.store_infrastructure = JSON.parse(JSON.stringify(baseinfrastructure));
     },
     buybuilding(state, {building, count}) {
       if (state.buildings[building.name] === undefined)
         Vue.set(state.buildings, building.name, 0);
       for (let i = 0; i < count; i++) {
-        if(state.buildings[building.name]>=7000)
+        if (state.buildings[building.name] >= 7000)
           return;
         const cost = building.cost.base * Math.pow(building.cost.rate, state.buildings[building.name]);
         if (cost < state.resource) {
           state.resource -= cost;
           state.buildings[building.name] += 1;
         }
-        if(upgradereached(building.name, state.buildings[building.name])){
-          if(state.achievements['upgrades']!==undefined) {
+        if (upgradereached(building.name, state.buildings[building.name])) {
+          if (state.achievements['upgrades'] !== undefined) {
             buyupgrade(state, building, state.buildings[building.name]);
-          }else{
+          } else {
             if (maxreached(building.name, state.buildings[building.name])) {
-              eventBus.$emit('maxupgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
-            }else{
-              eventBus.$emit('upgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
+              eventBus.$emit('maxupgrade', {
+                building: building.name,
+                upgrade: upgrades[building.name][state.buildings[building.name]]
+              });
+            } else {
+              eventBus.$emit('upgrade', {
+                building: building.name,
+                upgrade: upgrades[building.name][state.buildings[building.name]]
+              });
             }
           }
         }
@@ -556,7 +411,7 @@ export default new Vuex.Store({
           return;
       }
       state.lockedexp += research[level].cost;
-      research[level].options[selection].modification(state,root);
+      research[level].options[selection].modification(state, root);
     },
     hardreset(state) {
       // Hard Reset: Delete State
@@ -570,23 +425,6 @@ export default new Vuex.Store({
     restartsim(state) {
       startsim(state);
     },
-    buildzone(state, {x, y, zone}) {
-      Vue.set(state.citygrid[x], y, zone);
-      updateGridResults(state);
-      if(evalGrid(state.citygrid).some(value=>value>=500)){
-        console.log(state.achievements);
-        if(state.achievements['zone']===undefined) {
-          eventBus.$emit('achievement', achievements['zone']);
-        }
-        Vue.set(state.achievements, 'zone', true);
-      }
-      if(evalGrid(state.citygrid).some(value=>value>=2399)){
-        if(state.achievements['zone2']===undefined) {
-          eventBus.$emit('achievement', achievements['zone2']);
-        }
-        Vue.set(state.achievements, 'zone2', true);
-      }
-    },
     setbuycount(state, value) {
       state.buycount = value;
     },
@@ -595,6 +433,12 @@ export default new Vuex.Store({
     },
     buyupgrade(state, {building, level}) {
       buyupgrade(state, building, level);
+    },
+    achievement(state, name) {
+      if (state.achievements[name] === undefined) {
+        eventBus.$emit('achievement', achievements[name]);
+      }
+      Vue.set(state.achievements, name, true);
     }
   },
   actions: {
@@ -613,8 +457,29 @@ export default new Vuex.Store({
     selectresearch({commit}, payload) {
       commit('selectresearch', payload);
     },
-    softreset({commit}, payload) {
-      commit('softreset', payload);
+    softreset({state, commit}, payload) {
+      if (resettable(state)) {
+        // evaluate achivements time
+        if (state.resets >= 1) {
+          commit('achievement','beginner');
+        }
+        if (state.buildings['Inn'] === undefined
+          && state.buildings['Store'] === undefined
+          && state.buildings['Bank'] === undefined
+          && state.buildings['Datacenter'] === undefined
+          && state.buildings['Factory'] === undefined
+          && state.buildings['Energy'] === undefined) {
+          commit('achievement','workfun');
+        }
+        if (Object.keys(state.upgrades).length === 0) {
+          commit('achievement','upgrades');
+        }
+        commit('softreset', payload);
+      }
+      if (state.citylevel >= 1)
+        commit('achievement','advancer');
+      if (state.citylevel >= 2)
+        commit('achievement','prof');
     },
     changecityname({commit}, name) {
       commit('changecityname', name);
@@ -624,9 +489,6 @@ export default new Vuex.Store({
     },
     restartsim({commit}) {
       commit('restartsim');
-    },
-    buildzone({commit}, payload) {
-      commit('buildzone', payload);
     },
     setbuycount({commit}, payload) {
       commit('setbuycount', payload);
@@ -639,6 +501,7 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    settings
+    settings,
+    grid
   }
 })

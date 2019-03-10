@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 const bbcost = 10;
 const costgrowth = 13;
 
@@ -85,4 +87,56 @@ export const upgrades = {
     75: {gain: 2, title: "Casino", uname: "Gamling License", upgcost: 50},
     150: {gain: 4, title: "Las Vegas", uname: "Gambling Addiction", upgcost: 50}
   },
+};
+
+export const maxreached = (building, level) => {
+  for (var key in upgrades[building]) {
+    // check if the property/key is defined in the object itself, not in parent
+    if (upgrades[building].hasOwnProperty(key)) {
+      if (level < key) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+export const upgradereached = (building, level) => {
+  for (var key in upgrades[building]) {
+    // check if the property/key is defined in the object itself, not in parent
+    if (upgrades[building].hasOwnProperty(key)) {
+      if (level == key) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+export const upgrade = (buildingid, level, state, root) => {
+  if (state.upgrades[buildingid] === undefined)
+    return false;
+  if (state.upgrades[buildingid][level] === undefined)
+    return false;
+  let index = root.store_buildings.findIndex(element => element.name === buildingid);
+  if (index === undefined)
+    return false;
+  let tempgain = root.store_buildings[index].gain * upgrades[buildingid][level].gain;
+  Vue.set(root.store_buildings, index, {...root.store_buildings[index], ...upgrades[buildingid][level], gain: tempgain});
+  return true;
+};
+
+export const allupgrades = (buildingid, level, state, root) => {
+  for (let i = 0; i <= level; i++) {
+    upgrade(buildingid, i, state, root);
+  }
+};
+
+export const affecting = (building, inflevels, root) => {
+  let mult = 1;
+  for (let infra of root.store_infrastructure.filter(inf => inf.affected.includes(building.name))) {
+    if (inflevels[infra.name] !== undefined)
+      mult *= Math.pow(infra.basemult, inflevels[infra.name]);
+  }
+  return mult;
 };
