@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import {achievements} from "@/statics";
+  import {achievements} from "@/statics/statics";
 
   export default {
     name: "Achivements",

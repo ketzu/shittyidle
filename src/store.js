@@ -1,168 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {basebuildings, baseinfrastructure, bgain, research, storagename, upgrades, zones, achievements} from './statics.js'
-import {bcost} from "./statics";
+import {baseinfrastructure, research, storagename, zones, achievements} from './statics/statics.js'
+import {basebuildings, bgain, upgrades} from "./statics/buildings";
+import {evalGrid} from "./statics/grid";
+import settings from "@/store/settings";
 
 Vue.use(Vuex);
 
 export const eventBus = new Vue();
-
-const getPlusNeighbors = (grid, x, y) => {
-  let neighbors = [];
-  if (x !== 0) {
-    neighbors.push(grid[x - 1][y]);
-  }
-  if (x !== 4) {
-    neighbors.push(grid[x + 1][y]);
-  }
-  if (y !== 0) {
-    neighbors.push(grid[x][y - 1]);
-  }
-  if (y !== 4) {
-    neighbors.push(grid[x][y + 1]);
-  }
-  return neighbors;
-};
-const getXNeighbors = (grid, x, y) => {
-  let neighbors = [];
-  if (x !== 0 && y !== 0) {
-    neighbors.push(grid[x - 1][y - 1]);
-  }
-  if (x !== 4 && y !== 4) {
-    neighbors.push(grid[x + 1][y + 1]);
-  }
-  if (x !== 4 && y !== 0) {
-    neighbors.push(grid[x + 1][y - 1]);
-  }
-  if (x !== 0 && y !== 4) {
-    neighbors.push(grid[x - 1][y + 1]);
-  }
-  return neighbors;
-};
-
-const commercialEffect = (grid, x, y) => {
-  let effect = 1.1;
-  let rescounter = 0;
-  let indcounter = 0;
-  let comcounter = 0;
-  for (let pn of getPlusNeighbors(grid, x, y)) {
-    if (pn === 3){
-      indcounter+=1;
-      if(indcounter<4)
-        effect *=2.35;
-      else
-        effect *= 0.9;
-    }
-    if (pn === 2) {
-      rescounter += 1;
-      if (rescounter < 4)
-        effect *= 2.3;
-      else
-        effect *= 3.75;
-    }
-    if (pn === 1) {
-      comcounter += 1;
-      if (comcounter < 3)
-        effect *= 2.52;
-      else
-        effect *= 0.83;
-    }
-  }
-  for (let xn of getXNeighbors(grid, x, y)) {
-    if (xn === 2) {
-      rescounter += 1;
-      if (rescounter < 3)
-        effect *= 1.8;
-      else
-        effect *= 1.2;
-    }
-    if (xn === 1) {
-      comcounter += 1;
-      if (comcounter < 3)
-        effect *= 2.6;
-    }
-  }
-  return effect;
-};
-const residentialEffect = (grid, x, y) => {
-  let effect = 1.1;
-  let rescounter = 0;
-  let comcounter = 0;
-  for (let pn of getPlusNeighbors(grid, x, y)) {
-    if (pn === 3)
-      effect /= 2;
-    if (pn === 2) {
-      rescounter += 1;
-      if (rescounter < 4)
-        effect *= 2.4;
-      else
-        effect *= 1.6;
-    }
-    if (pn === 1) {
-      comcounter += 1;
-      if (comcounter < 3)
-        effect *= 3.2;
-      else
-        effect *= 0.8;
-    }
-  }
-  for (let xn of getXNeighbors(grid, x, y)) {
-    if (xn === 2) {
-      rescounter += 1;
-      if (rescounter < 3)
-        effect *= 2.2;
-      else
-        effect *= 1.4;
-    }
-    if (xn === 1) {
-      comcounter += 1;
-      if (comcounter < 3)
-        effect *= 2.3;
-      else
-        effect *= 0.9;
-    }
-  }
-  return effect;
-};
-const industrialEffect = (grid, x, y) => {
-  let effect = 1.1;
-  let rescounter = 0;
-  let comcounter = 0;
-  for (let pn of [...getPlusNeighbors(grid, x, y),...getXNeighbors(grid, x, y)]) {
-    if (pn === 3) {
-      effect *= 1.3;
-    }
-    if (pn === 2) {
-      rescounter += 1;
-      if (rescounter < 3)
-        effect *= 3.3;
-      else
-        effect *= 1.5;
-    }
-    if (pn === 1) {
-      comcounter += 1;
-      if (comcounter < 3)
-        effect *= 2.6;
-      else
-        effect *= 0.7;
-    }
-  }
-  return effect;
-};
-
-export const evalGrid = (grid) => {
-  let values = [1,1,1];
-  for(let x=0;x<5;x+=1) {
-    for(let y=0;y<5;y+=1) {
-      switch(grid[x][y]){
-        case 1: values[0] += commercialEffect(grid,x,y); break;
-        case 2: values[1] += residentialEffect(grid,x,y); break;
-        case 3: values[2] += industrialEffect(grid,x,y); break;
-      }
-    }
-  }
-  return values;
-};
 
 const maxreached = (building, level) => {
   for (var key in upgrades[building]) {
@@ -379,14 +224,6 @@ const version = "0.10.2";
 
 export default new Vuex.Store({
   state: {
-    settings: {
-      currency: "₡",
-      numbersplitsymbol: " x10^",
-      numberview: 1,
-      cityname: "Shitty Idle",
-      upgradeindicator: false,
-      ignoreupgradebuy: false
-    },
     achievements: {},
     buycount: 1,
     buytoupgrade: false,
@@ -419,9 +256,6 @@ export default new Vuex.Store({
     gridconfigs: []
   },
   getters: {
-    ignoreupgradebuy(state) {
-      return state.settings.ignoreupgradebuy;
-    },
     buildingboni(state) {
       return state.buildingboni;
     },
@@ -430,9 +264,6 @@ export default new Vuex.Store({
     },
     achievementmult(state) {
       return achievementmult(state);
-    },
-    upgradeindicator(state) {
-      return state.settings.upgradeindicator;
     },
     boughtupgrades(state) {
       return state.upgrades;
@@ -461,9 +292,6 @@ export default new Vuex.Store({
     citygrid(state) {
       return state.citygrid;
     },
-    settings(state) {
-      return state.settings;
-    },
     upgrades(state) {
       return upgrades;
     },
@@ -478,9 +306,6 @@ export default new Vuex.Store({
     },
     startofgamedialog(state) {
       return state.startofgamedialog;
-    },
-    cityname(state) {
-      return state.settings.cityname;
     },
     resource(state) {
       return state.resource;
@@ -527,9 +352,6 @@ export default new Vuex.Store({
     citylevel(state) {
       return state.citylevel;
     },
-    currency(state) {
-      return state.settings.currency;
-    },
     resettable(state) {
       return resettable(state);
     },
@@ -554,12 +376,6 @@ export default new Vuex.Store({
         this.replaceState(
           Object.assign(state, deserialize)
         );
-      }
-      if(state.settings.upgradeindicator === undefined) {
-        Vue.set(state.settings,"upgradeindicator",false);
-      }
-      if(state.settings.ignoreupgradebuy === undefined) {
-        Vue.set(state.settings,"ignoreupgradebuy",false);
       }
     },
     startgame(state) {
@@ -748,12 +564,6 @@ export default new Vuex.Store({
       // Reload page
       location.reload();
     },
-    changecityname(state, name) {
-      state.settings.cityname = name;
-    },
-    updatesettings(state, settings) {
-      state.settings = settings;
-    },
     startGame(state) {
       state.startofgamedialog = false;
     },
@@ -809,9 +619,6 @@ export default new Vuex.Store({
     changecityname({commit}, name) {
       commit('changecityname', name);
     },
-    updatesettings({commit}, settings) {
-      commit('updatesettings', settings);
-    },
     startGame({commit}) {
       commit('startGame');
     },
@@ -830,5 +637,8 @@ export default new Vuex.Store({
     buyupgrade({commit}, payload) {
       commit('buyupgrade', payload);
     }
+  },
+  modules: {
+    settings
   }
 })

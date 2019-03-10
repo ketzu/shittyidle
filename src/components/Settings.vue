@@ -64,17 +64,12 @@
       }
     },
     computed: {
-      settings: {
-        get() {
-          return this.$store.getters.settings;
-        }
-      },
       newcityname: {
         get() {
           return this.cityname;
         },
         set(value) {
-          this.$store.dispatch('changecityname', value);
+          this.$store.dispatch('setCityname', value);
         }
       },
       ignoreupgradebuy: {
@@ -82,7 +77,7 @@
           return this.$store.getters.ignoreupgradebuy;
         },
         set(value) {
-          this.$store.dispatch('updatesettings',  {...this.settings, ignoreupgradebuy: value});
+          this.$store.dispatch('setIgnoreupgradebuy', value);
         }
       },
       indicateupgrades: {
@@ -90,7 +85,7 @@
           return this.upgradeindicator;
         },
         set(value) {
-          this.$store.dispatch('updatesettings',  {...this.settings, upgradeindicator: value});
+          this.$store.dispatch('setUpgradeindicator', value);
         }
       },
       currencychange: {
@@ -98,20 +93,20 @@
           return this.currency;
         },
         set(value) {
-          this.$store.dispatch('updatesettings',  {...this.settings, currency: value});
+          this.$store.dispatch('setCurrency',value);
         }
       },
       numformat: {
         get() {
-          if(this.settings.numberview === 1)
-            return {show: "1.23"+this.settings.numbersplitsymbol+"11", format: this.settings.numbersplitsymbol};
+          if(this.$store.getters.numberview === 1)
+            return {show: "1.23"+this.$store.getters.numbersplitsymbol+"11", format: this.$store.getters.numbersplitsymbol};
           return {show: "123B", format: "KMB"};
         },
         set(value) {
           if(value.format==="KMB")
-            this.$store.dispatch('updatesettings', {...this.settings, numbersplitsymbol: value.format, numberview: 2});
+            this.$store.dispatch('setNumberformat', {symbol: value.format, view: 2});
           else
-            this.$store.dispatch('updatesettings', {...this.settings, numbersplitsymbol: value.format, numberview: 1});
+            this.$store.dispatch('setNumberformat', {symbol: value.format, view: 1});
         }
       }
     }

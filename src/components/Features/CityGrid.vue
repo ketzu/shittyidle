@@ -137,7 +137,7 @@
 </template>
 
 <script>
-  import {evalGrid} from "../store";
+  import {evalGrid} from "@/statics/grid";
 
   export default {
     name: "CityGrid",

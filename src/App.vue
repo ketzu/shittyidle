@@ -43,11 +43,11 @@
 
 <script>
 import Game from './components/Game.vue';
-import Changelog from "./components/Changelog.vue";
-import WelcomeMessage from "./components/WelcomeMessage.vue";
-import Notification from "./components/Notification.vue";
-import HardReset from "./components/HardReset.vue";
-import ImportExport from "./components/ImportExport.vue";
+import Changelog from "./components/Development/Changelog.vue";
+import WelcomeMessage from "./components/Helpers/WelcomeMessage.vue";
+import Notification from "./components/Helpers/Notification.vue";
+import HardReset from "./components/Helpers/HardReset.vue";
+import ImportExport from "./components/Helpers/ImportExport.vue";
 import Data from './components/data';
 
 export default {

@@ -66,17 +66,17 @@
 </template>
 
 <script>
-  import Help from "./Help.vue";
+  import Help from "./Helpers/Help.vue";
   import Stats from "./Stats.vue";
-  import SoftReset from "./SoftReset.vue";
-  import CityGrid from "./CityGrid.vue";
+  import SoftReset from "./Helpers/SoftReset.vue";
+  import CityGrid from "./Features/CityGrid.vue";
   import Settings from "./Settings.vue";
-  import Research from "./Research.vue";
-  import Infrastructure from "./Infrastructure.vue";
+  import Research from "./Features/Research.vue";
+  import Infrastructure from "./Features/Infrastructure.vue";
   import Achievements from "./Achievements";
 
   export default {
-    name: "CityScreen",
+    name: "MainScreen",
     components: {
       Achievements,
       Infrastructure,
