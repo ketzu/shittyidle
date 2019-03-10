@@ -40,6 +40,13 @@
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
+        <v-switch
+            v-model="ignoreupgradebuy"
+            label="'To upgrade or max' becomes only max"
+        ></v-switch>
+      </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <v-btn @click="$store.dispatch('restartsim')">
           Click if the game stopped.
         </v-btn>
@@ -68,6 +75,14 @@
         },
         set(value) {
           this.$store.dispatch('changecityname', value);
+        }
+      },
+      ignoreupgradebuy: {
+        get() {
+          return this.$store.getters.ignoreupgradebuy;
+        },
+        set(value) {
+          this.$store.dispatch('updatesettings',  {...this.settings, ignoreupgradebuy: value});
         }
       },
       indicateupgrades: {

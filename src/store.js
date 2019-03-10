@@ -384,7 +384,8 @@ export default new Vuex.Store({
       numbersplitsymbol: " x10^",
       numberview: 1,
       cityname: "Shitty Idle",
-      upgradeindicator: false
+      upgradeindicator: false,
+      ignoreupgradebuy: false
     },
     achievements: {},
     buycount: 1,
@@ -418,6 +419,9 @@ export default new Vuex.Store({
     gridconfigs: []
   },
   getters: {
+    ignoreupgradebuy(state) {
+      return state.settings.ignoreupgradebuy;
+    },
     buildingboni(state) {
       return state.buildingboni;
     },
@@ -553,6 +557,9 @@ export default new Vuex.Store({
       }
       if(state.settings.upgradeindicator === undefined) {
         Vue.set(state.settings,"upgradeindicator",false);
+      }
+      if(state.settings.ignoreupgradebuy === undefined) {
+        Vue.set(state.settings,"ignoreupgradebuy",false);
       }
     },
     startgame(state) {
@@ -700,11 +707,12 @@ export default new Vuex.Store({
         if(upgradereached(building.name, state.buildings[building.name])){
           if(state.achievements['upgrades']!==undefined) {
             buyupgrade(state, building, state.buildings[building.name]);
-          }
-          if (maxreached(building.name, state.buildings[building.name])) {
-            eventBus.$emit('maxupgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
           }else{
-            eventBus.$emit('upgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
+            if (maxreached(building.name, state.buildings[building.name])) {
+              eventBus.$emit('maxupgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
+            }else{
+              eventBus.$emit('upgrade', {building: building.name, upgrade: upgrades[building.name][state.buildings[building.name]]});
+            }
           }
         }
       }

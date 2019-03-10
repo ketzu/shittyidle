@@ -50,7 +50,7 @@
       maxbuyable() {
         let c=10;
         while(this.costof(c+10)<this.resource) c+=10;
-        return c;
+        return Math.min(c,700-this.level);
       },
       compbuycount() {
         if(this.buytoupgrade) {
@@ -66,7 +66,7 @@
         }
       },
       buyable() {
-        return this.cost <= this.resource;
+        return this.cost <= this.resource && this.level < 700;
       },
       multiplier() {
         return Math.pow(this.type.basemult, this.level);

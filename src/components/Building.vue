@@ -161,7 +161,7 @@
       },
       compbuycount() {
         if(this.buytoupgrade) {
-          if(this.nextupgrade === '∞') {
+          if(this.nextupgrade === '∞' || this.$store.getters.ignoreupgradebuy) {
             return this.maxbuyable;
           }else{
             return this.nextupgrade;
@@ -221,7 +221,7 @@
         }
       },
       buyable() {
-        return (this.cost <= this.resource) && (this.level <= 7000);
+        return (this.cost <= this.resource) && (this.level < 7000);
       }
     },
     methods: {
