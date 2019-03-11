@@ -44,7 +44,7 @@ export default {
         }
       }
     },
-    softreset(state) {
+    resetbuildings(state) {
       state.boni = [0, 0, 0, 0, 0, 0, 0, 0];
       state.levels = {};
       state.upgrades = {};
@@ -70,6 +70,12 @@ export default {
     }
   },
   actions: {
+    softreset({dispatch, state, commit, rootState}, payload) {
+      if (Object.keys(state.upgrades).length === 0) {
+        commit('achievement','upgrades');
+      }
+      commit('resetbuildings');
+    },
     buybuilding({dispatch, state, commit, rootState}, {building, count}) {
       const level = state.levels[building.name];
       if(state.levels[building.name] === undefined)

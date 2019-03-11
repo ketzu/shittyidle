@@ -3,12 +3,8 @@ import Vuex from 'vuex'
 import {achievements, baseinfrastructure, research, storagename} from './statics/statics.js'
 import {
   affecting,
-  allupgrades,
   basebuildings,
   bgain, buildingGain,
-  maxreached,
-  upgrade,
-  upgradereached,
   upgrades
 } from "./statics/buildings";
 import settings from "@/store/settings";
@@ -294,15 +290,17 @@ export default new Vuex.Store({
       state.towntype = towntype;
       state.title = title;
     },
-    softreset(state, {upgrade}) {
+    gainexp(state) {
       state.resets += 1;
       state.experience += expgain(state);
-
+    },
+    upgradeCitylevel(state){
       if (upgrade && cityupgradeable(state)) {
         state.experience = 0;
         state.citylevel += 1;
       }
-
+    },
+    resetstate(state) {
       state.resettime = Date.now();
 
       // Reset run specific stats
@@ -381,7 +379,7 @@ export default new Vuex.Store({
     selectresearch({commit}, payload) {
       commit('selectresearch', payload);
     },
-    softreset({state, commit}, payload) {
+    softreset({state, commit}, {upgrade}) {
       if (resettable(state)) {
         // evaluate achivements time
         if (state.resets >= 1) {
@@ -395,10 +393,12 @@ export default new Vuex.Store({
           && state.buildings.levels['Energy'] === undefined) {
           commit('achievement','workfun');
         }
-        if (Object.keys(state.upgrades).length === 0) {
-          commit('achievement','upgrades');
+
+        if (upgrade && cityupgradeable(state)) {
+          commit('upgradeCitylevel');
         }
-        commit('softreset', payload);
+        commit('gainexp');
+        commit('resetstate');
       }
       if (state.citylevel >= 1)
         commit('achievement','advancer');
