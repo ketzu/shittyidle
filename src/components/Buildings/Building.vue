@@ -4,7 +4,8 @@
       <v-list-tile-avatar>
         <v-badge left overlap :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'?'green darken-4':'white'">
           <v-icon small color="blue darken-4" slot="badge" v-if="upgradeable" @click="dialog=true">fas fa-plus</v-icon>
-          <small style="color: white;" slot="badge" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}</small>
+          <small style="color: white;" slot="badge" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}
+          </small>
           <v-icon small color="amber darken-3" slot="badge" v-else-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
           <v-icon large :color="type.iconcolor" style="width:40px;">fas {{type.icon}}</v-icon>
         </v-badge>
@@ -79,14 +80,15 @@
                           </v-list-tile-title>
 
                           <v-list-tile-sub-title>
-                            {{format(upgrade.gain)}}x{{upgbought(index)?'':'cost: '+formatresource(upgrades[index].upgcost)}}
+                            {{format(upgrade.gain)}}x{{upgbought(index)?'':'cost:'+formatresource(upgrades[index].upgcost)}}
                           </v-list-tile-sub-title>
                         </v-list-tile-content>
 
                         <v-list-tile-action>
                           <v-icon large color="green darken-3" v-if="upgbought(index)">fas fa-check</v-icon>
                           <v-btn v-else icon ripple @click="buyupgrade(index)" :disabled="!upgbuyable(index)">
-                            <v-icon large :color="upgbuyable(index)? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
+                            <v-icon large :color="upgbuyable(index)? 'blue darken-4' : 'grey darken-2'">fas fa-hammer
+                            </v-icon>
                           </v-btn>
                         </v-list-tile-action>
                       </v-list-tile>
@@ -113,10 +115,11 @@
 </template>
 
 <script>
-  import {buildingGain, buildingCostOf, maxcount} from '@/statics/buildings'
+  import {buildingCostOf, buildingGain, buyableUpgrades, maxcount} from '@/statics/buildings'
+
   export default {
     name: "Building",
-    props: ['type','index'],
+    props: ['type', 'index'],
     data() {
       return {
         dialog: false
@@ -132,7 +135,7 @@
           return level;
         }
       },
-      bupgs: {
+      boughtUpgrades: {
         get() {
           return this.$store.getters.boughtupgrades[this.type.name];
         }
@@ -141,30 +144,26 @@
         return this.$store.getters.buildingboni[this.index];
       },
       upgradeable() {
-        for (let key in this.upgrades) {
-          // check if the property/key is defined in the object itself, not in parent
-          if (this.upgrades.hasOwnProperty(key)) {
-            if (this.level >= key) {
-              if(this.bupgs === undefined){
-                return true;
-              }else if(this.bupgs[key] === undefined) {
-                return true;
-              }
-            }
+        // are there upgrades in buyableUpgrades that are not in boughtUpgrades
+        for (let key of buyableUpgrades(this.type.name, this.level)) {
+          if (this.boughtUpgrades === undefined) {
+            return true;
+          } else if (this.boughtUpgrades[key] === undefined) {
+            return true;
           }
         }
         return false;
       },
       maxbuyable() {
-        let c=10;
-        while( buildingCostOf(this.level, (c+10), this.type.cost.base, this.type.cost.rate)<this.resource && this.level+c<=maxcount+10) c+=10;
-        return Math.min(c,maxcount-this.level);
+        let c = 10;
+        while (buildingCostOf(this.level, (c + 10), this.type.cost.base, this.type.cost.rate) < this.resource && this.level + c <= maxcount + 10) c += 10;
+        return Math.min(c, maxcount - this.level);
       },
       compbuycount() {
-        if(this.buytoupgrade) {
-          if(this.nextupgrade === '∞' || this.$store.getters.ignoreupgradebuy) {
+        if (this.buytoupgrade) {
+          if (this.nextupgrade === '∞' || this.$store.getters.ignoreupgradebuy) {
             return this.maxbuyable;
-          }else{
+          } else {
             return this.nextupgrade;
           }
         }
@@ -173,8 +172,7 @@
       possibleups: {
         get() {
           let possibleups = [];
-          for (var key in this.upgrades) {
-            // check if the property/key is defined in the object itself, not in parent
+          for (let key in this.upgrades) {
             if (this.upgrades.hasOwnProperty(key)) {
               if (this.level < key) {
                 possibleups.push(key);
@@ -186,7 +184,7 @@
       },
       nextupgrade: {
         get() {
-          let possibleups = this.possibleups.map(uplevel => uplevel-this.level);
+          let possibleups = this.possibleups.map(uplevel => uplevel - this.level);
           if (possibleups.length === 0)
             return "∞";
           return Math.min(...possibleups);
@@ -205,8 +203,8 @@
       affecting() {
         const inflevels = this.$store.getters.infrastructurelevels;
         let mult = 1;
-        for(let infra of this.infrastructure.filter(inf => inf.affected.includes(this.type.name))) {
-          if(inflevels[infra.name] !== undefined)
+        for (let infra of this.infrastructure.filter(inf => inf.affected.includes(this.type.name))) {
+          if (inflevels[infra.name] !== undefined)
             mult *= Math.pow(infra.basemult, inflevels[infra.name]);
         }
         return mult;
@@ -215,7 +213,7 @@
         return buildingGain(this.level, this.type.gain, this.type.mult, this.buildingboni, this.affecting);
       },
       cost() {
-          return buildingCostOf(this.level, this.compbuycount, this.type.cost.base, this.type.cost.rate);
+        return buildingCostOf(this.level, this.compbuycount, this.type.cost.base, this.type.cost.rate);
       },
       buyable() {
         return (this.cost <= this.resource) && (this.level < 7000);
@@ -228,12 +226,12 @@
         }
       },
       buyupgrade(level) {
-        if(this.upgbuyable(level))
+        if (this.upgbuyable(level))
           this.$store.dispatch('buyupgrade', {building: this.type, level: level});
       },
-      upgbought(level){
-        if(this.bupgs===undefined) return false;
-        return this.bupgs[level]!==undefined;
+      upgbought(level) {
+        if (this.boughtUpgrades === undefined) return false;
+        return this.boughtUpgrades[level] !== undefined;
       },
       upgbuyable(level) {
         return this.resource >= this.upgrades[level].upgcost && this.level >= level;
@@ -243,11 +241,11 @@
 </script>
 
 <style scoped>
-.stat {
-  font-weight: normal;
-}
+  .stat {
+    font-weight: normal;
+  }
 
-.subitem {
-  font-weight: normal;
-}
+  .subitem {
+    font-weight: normal;
+  }
 </style>

@@ -100,8 +100,8 @@ export default {
         // if autobuy try to buy all available upgrades
         if (rootState.achievements['upgrades'] === true) {
           // autobuy upgrades
-          for (let upgradelevel in newupgrades) {
-            dispatch('buyupgrade', {building, upgradelevel});
+          for (let upgradelevel of newupgrades) {
+            dispatch('buyupgrade', {building, level: upgradelevel});
           }
 
         } else {
