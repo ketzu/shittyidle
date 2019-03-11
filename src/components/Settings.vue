@@ -46,6 +46,13 @@
         ></v-switch>
       </v-flex>
 
+      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="$store.getters.achievements['upgrades'] === true">
+        <v-switch
+            v-model="autobuyupgrades"
+            label="autobuy upgrades"
+        ></v-switch>
+      </v-flex>
+
       <v-flex md4 offset-md1 xs10 offset-xs1>
         <v-btn @click="$store.dispatch('restartsim')">
           Click if the game stopped.
@@ -64,6 +71,14 @@
       }
     },
     computed: {
+      autobuyupgrades: {
+        get() {
+          return this.$store.getters.autoupgrade;
+        },
+        set(value) {
+          this.$store.dispatch('setAutoupgrade', value);
+        }
+      },
       newcityname: {
         get() {
           return this.cityname;

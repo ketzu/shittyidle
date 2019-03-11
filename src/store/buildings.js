@@ -16,9 +16,13 @@ export default {
   state: {
     levels: {},
     boni: [0, 0, 0, 0, 0, 0, 0, 0],
-    upgrades: {}
+    upgrades: {},
+    autoupgrade: false
   },
   getters: {
+    autoupgrade(state) {
+      return state.autoupgrade;
+    },
     buildinglevels(state) {
       return state.levels;
     },
@@ -57,19 +61,24 @@ export default {
         Vue.set(state.levels, name, 0);
     },
     buyupgrade(state, {building, level}) {
-      if(building.title === "The same")
-        return ;
-      state.resource -= upgrades[building.name][level].upgcost;
-
       // enter upgrade into list
       if (state.upgrades[building.name] === undefined)
         Vue.set(state.upgrades, building.name, {});
+      if(state.upgrades[building.name][level] === true)
+        return;
       Vue.set(state.upgrades[building.name], level, true);
 
       applyupgrade(building.name, level, state, root);
+    },
+    setAutoupgrade(state, value) {
+      state.autoupgrade = value;
     }
   },
   actions: {
+    setAutoupgrade({dispatch, state, commit, rootState}, value) {
+      if(rootState.achievements['upgrades'] === true)
+        commit('setAutoupgrade', value);
+    },
     softreset({dispatch, state, commit, rootState}, payload) {
       if (Object.keys(state.upgrades).length === 0) {
         commit('achievement','upgrades');
@@ -94,13 +103,14 @@ export default {
       }
 
       // Did we reach any *new* upgrades?
-      const newupgrades = upgradesReached(building.name, level, level + count);
+      const newupgrades = upgradesReached(building.name, 0, level + count);
 
       if (newupgrades.length > 0) {
         // if autobuy try to buy all available upgrades
-        if (rootState.achievements['upgrades'] === true) {
+        if (state.autoupgrade) {
           // autobuy upgrades
           for (let upgradelevel of newupgrades) {
+            console.log("Should autobuy: "+upgradelevel);
             dispatch('buyupgrade', {building, level: upgradelevel});
           }
 
@@ -122,6 +132,9 @@ export default {
     },
     buyupgrade({state, commit, rootState}, {building, level}) {
       if (rootState.resource >= upgrades[building.name][level].upgcost) {
+        if(building.title === "The same")
+          return ;
+        rootState.resource -= upgrades[building.name][level].upgcost;
         commit('buyupgrade', {building, level});
       }
     }
