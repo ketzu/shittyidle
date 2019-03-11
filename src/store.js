@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {achievements, baseinfrastructure, research, storagename, zones} from './statics/statics.js'
+import {achievements, baseinfrastructure, research, storagename} from './statics/statics.js'
 import {
   affecting,
   allupgrades,

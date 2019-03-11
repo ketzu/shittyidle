@@ -65,7 +65,8 @@ Vue.mixin({
       };
       const elapsed = now - time;
       let current = elapsed / 1000; // ms -> s
-      const seconds = (current) % 60;
+      let seconds = (current) % 60;
+      if(seconds===60) {console.log(seconds);console.log(time);seconds = 0;}
       current -= seconds;
       current /= 60; // s->min
       const minutes = (current)%60;
