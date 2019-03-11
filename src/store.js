@@ -4,8 +4,7 @@ import {achievements, baseinfrastructure, research, storagename} from './statics
 import {
   affecting,
   basebuildings,
-  bgain, buildingGain,
-  upgrades
+  bgain, buildingGain
 } from "./statics/buildings";
 import settings from "@/store/settings";
 import grid from "@/store/grid";
