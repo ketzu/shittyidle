@@ -110,7 +110,6 @@ export default {
         if (state.autoupgrade) {
           // autobuy upgrades
           for (let upgradelevel of newupgrades) {
-            console.log("Should autobuy: "+upgradelevel);
             dispatch('buyupgrade', {building, level: upgradelevel});
           }
 

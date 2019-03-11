@@ -66,22 +66,21 @@ Vue.mixin({
       const elapsed = now - time;
       let current = elapsed / 1000; // ms -> s
       let seconds = (current) % 60;
-      if(seconds===60) {console.log(seconds);console.log(time);seconds = 0;}
       current -= seconds;
       current /= 60; // s->min
-      const minutes = (current)%60;
+      let minutes = (current)%60;
       current -= minutes;
       current /= 60; // min -> hour
-      const hours = (current) % 24;
+      let hours = (current) % 24;
       current -= hours;
       const days = current/24;
-      let timestring = pad(minutes.toFixed(0))+"min "+pad(seconds.toFixed(0))+"s";
+      let timestring = pad(Math.floor(minutes))+"min "+pad(Math.floor(seconds))+"s";
       if(hours>1 || days>=1)
-        timestring = pad(hours.toFixed(0))+"h "+timestring;
+        timestring = pad(Math.floor(hours))+"h "+timestring;
       if(days>=1)
-        timestring = (days%365).toFixed(0)+" day"+(days%365>=2?'s':'')+" "+timestring;
+        timestring = Math.floor((days%365))+" day"+(days%365>=2?'s':'')+" "+timestring;
       if(days>365)
-        timestring = (days/365).toFixed(0)+" year"+(days>730?'s':'')+" "+timestring;
+        timestring = Math.floor((days/365))+" year"+(days>730?'s':'')+" "+timestring;
       return timestring;
     }
   }
