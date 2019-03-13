@@ -155,8 +155,8 @@
         return false;
       },
       maxbuyable() {
-        let c = 10;
-        while (buildingCostOf(this.level, (c + 10), this.type.cost.base, this.type.cost.rate) < this.resource && this.level + c <= maxcount + 10) c += 10;
+        let c = this.buycount;
+        while (buildingCostOf(this.level, (c + 10), this.type.cost.base, this.type.cost.rate) < this.resource && this.level + c <= maxcount + this.buycount) c += this.buycount;
         return Math.min(c, maxcount - this.level);
       },
       compbuycount() {
