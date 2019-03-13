@@ -80,7 +80,7 @@
                           </v-list-tile-title>
 
                           <v-list-tile-sub-title>
-                            {{format(upgrade.gain)}}x{{upgbought(index)?'':'cost:'+formatresource(upgrades[index].upgcost)}}
+                            {{format(upgrade.gain)}}x {{upgbought(index)?'':'cost:'+formatresource(upgrades[index].upgcost)}}
                           </v-list-tile-sub-title>
                         </v-list-tile-content>
 

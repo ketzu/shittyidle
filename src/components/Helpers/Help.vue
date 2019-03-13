@@ -9,17 +9,18 @@
         Offline income will only work for a <b>maximum of 30 days</b> at a time.
       </v-flex>
       <v-flex xs10 offset-xs1>
-        You can change how many buildings you buy at a time with the <b>multi buy</b> feature. Either use the slider to adjust the number of buildings or press the button initally marked as 1x, it will cycle through the numbers 1, 10, 25 and 100.
-        If you press the <b>shift key</b>, you can buy 10 buildings at a time. This will remember your last setting.
+        You can change how many buildings you buy at a time with the <b>multi buy</b> feature. Press the loop button, it will cycle through the numbers 1, 10, 25 and 100, or change the number directly.
+        If you press the <b>shift key</b>, you can buy 10 buildings at a time. This will remember your last setting. Setting the "to upgrade or max" checkmark will set the multi buy for each building for the next upgrade level, or, if no upgrades are left of the settings are set to max only, to the maximum you can afford.
       </v-flex>
       <v-flex xs10 offset-xs1>
-        This project was created to show a friend JavaScript, we discuss and continue to work on it together. The aspirations for our first game are very high, as the name indicates.
+        The <b>first soft reset</b> is currently available at <b>85 gambling dens</b>. A soft reset will reward you with experience, depending on the amount of currency earned in your current run. <b>Experience</b> will give you a multiplier on your income.
       </v-flex>
       <v-flex xs10 offset-xs1>
-        The <b>first soft reset</b> is currently available at <b>85 gambling dens</b>.
+        If you have earned enough experience, you can get noticed by headhunters and receive a promotion. This also resets your game, but you will unlock new features. The first promotion awaits you at <b>1000 experience</b>, while the second one is at 100k.
+        Getting a promotion will reset your experience, as you have no experience with this new job!
       </v-flex>
       <v-flex xs10 offset-xs1>
-        If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/u/ketzu">ask me on reddit</a>.
+        If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/r/shittyidle">ask me on reddit</a>.
       </v-flex>
     </v-layout>
   </v-container>
