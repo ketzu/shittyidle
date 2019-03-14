@@ -26,7 +26,7 @@
         <span class="subitem">current experience</span>
       </v-flex>
 
-      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <h2 class="stat">{{formatexp(expgain)}}</h2>
         <span class="subitem">experience gain</span>
       </v-flex>

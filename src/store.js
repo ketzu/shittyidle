@@ -237,6 +237,9 @@ export default new Vuex.Store({
           Object.assign(state, deserialize)
         );
       }
+      if(state.citylevel === 0 && state.experience === 0) {
+        state.experience = 20;
+      }
     },
     startgame(state) {
 
