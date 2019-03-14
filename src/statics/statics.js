@@ -20,7 +20,7 @@ export const research = [
     ]},
   {citylevel: 2, title: "Electrical Engineering", cost: 50000, options: [
       {name: "Improved Grid", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[1].basemult=1.035 }, desc: "Increase the multiplier of electricity to 3.5% (from 2.5%)."},
-      {name: "Overclock Buildings", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { Vue.set(root,'store_buildings',root.store_buildings.map(building => { return ({ ...building, mult:1.001});})); }, desc: "Improve production of all buildings."},
+      {name: "Overclock Buildings", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { Vue.set(root,'store_buildings',root.store_buildings.map(building => { return ({ ...building, mult:40});})); }, desc: "Improve production of all buildings."},
       {name: "Outsource Grid Maintenance", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[1].cost.rate=1.09 }, desc: "Reduce cost increase of electricity from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Psychology", cost: 200000, options: [

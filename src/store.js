@@ -232,6 +232,9 @@ export default new Vuex.Store({
       // Check if the ID exists
       if (localStorage.getItem(storagename)) {
         let deserialize = JSON.parse(localStorage.getItem(storagename));
+        // check if substore changes can be apllied
+
+
         // Replace the state object with the stored item
         this.replaceState(
           Object.assign(state, deserialize)
