@@ -1,11 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {achievements, baseinfrastructure, research, storagename} from './statics/statics.js'
-import {
-  affecting,
-  basebuildings,
-  bgain, buildingGain
-} from "./statics/buildings";
+import {affecting, basebuildings, bgain, buildingGain} from "./statics/buildings";
 import settings from "@/store/settings";
 import grid from "@/store/grid";
 import buildings from "@/store/buildings";
@@ -240,7 +236,7 @@ export default new Vuex.Store({
           Object.assign(state, deserialize)
         );
       }
-      if(state.citylevel === 0 && state.experience === 0) {
+      if (state.citylevel === 0 && state.experience === 0) {
         state.experience = 20;
       }
     },
@@ -299,11 +295,9 @@ export default new Vuex.Store({
       state.resets += 1;
       state.experience += expgain(state);
     },
-    upgradeCitylevel(state){
-      if (upgrade && cityupgradeable(state)) {
-        state.experience = 0;
-        state.citylevel += 1;
-      }
+    upgradeCitylevel(state) {
+      state.experience = 0;
+      state.citylevel += 1;
     },
     resetstate(state) {
       state.resettime = Date.now();
@@ -388,7 +382,7 @@ export default new Vuex.Store({
       if (resettable(state)) {
         // evaluate achivements time
         if (state.resets >= 1) {
-          commit('achievement','beginner');
+          commit('achievement', 'beginner');
         }
         if (state.buildings.levels['Inn'] === undefined
           && state.buildings.levels['Store'] === undefined
@@ -396,7 +390,7 @@ export default new Vuex.Store({
           && state.buildings.levels['Datacenter'] === undefined
           && state.buildings.levels['Factory'] === undefined
           && state.buildings.levels['Energy'] === undefined) {
-          commit('achievement','workfun');
+          commit('achievement', 'workfun');
         }
 
         if (upgrade && cityupgradeable(state)) {
@@ -406,9 +400,9 @@ export default new Vuex.Store({
         commit('resetstate');
       }
       if (state.citylevel >= 1)
-        commit('achievement','advancer');
+        commit('achievement', 'advancer');
       if (state.citylevel >= 2)
-        commit('achievement','prof');
+        commit('achievement', 'prof');
     },
     changecityname({commit}, name) {
       commit('changecityname', name);

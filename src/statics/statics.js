@@ -30,7 +30,7 @@ export const research = [
     ]},
   {citylevel: 2, title: "Civil Engineering", cost: 500000, options: [
       {name: "Add Street Lamps", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[3].basemult=1.045 }, desc: "Increase the multiplier of lighting to 4.5% (from 4%)."},
-      {name: "Gambling Addiction", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { if(!state.buildings.boni.some(boni => boni!==0)) Vue.set(state.buildings,'boni', state.buildings.boni.map(boni => (Math.min(-Math.log(Math.random())*6,1000)+4))) }, desc: "Improve your buildings by a random factor until you change your job."},
+      {name: "Gambling Addiction", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { if(!state.buildings.boni.some(boni => boni!==0)) Vue.set(state.buildings,'boni', state.buildings.boni.map(boni => (Math.min(-Math.log(Math.random())*50,10000)+4))) }, desc: "Improve your buildings by a random factor until you change your job."},
       {name: "Remove Street Lamps", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[3].cost.rate=1.09 }, desc: "Reduce cost increase of lighting from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Educational Science", cost: 1000000, options: [

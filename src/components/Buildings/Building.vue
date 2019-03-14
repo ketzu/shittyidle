@@ -1,9 +1,9 @@
 <template>
   <v-hover>
-    <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
+    <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''" @click="dialog=true">
       <v-list-tile-avatar>
         <v-badge left overlap :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'?'green darken-4':'white'">
-          <v-icon small color="blue darken-4" slot="badge" v-if="upgradeable" @click="dialog=true">fas fa-plus</v-icon>
+          <v-icon small color="blue darken-4" slot="badge" v-if="upgradeable">fas fa-plus</v-icon>
           <small style="color: white;" slot="badge" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}
           </small>
           <v-icon small color="amber darken-3" slot="badge" v-else-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
@@ -15,7 +15,7 @@
         <v-dialog v-model="dialog" max-width="600px">
           <span slot="activator" ripple>
             <v-list-tile-title>
-              <small>{{level}}x</small> {{type.title}} <v-icon small color="blue darken-4" style="padding-bottom:2px;">fas fa-info</v-icon>
+              <small>{{level}}x</small> {{type.title}}
             </v-list-tile-title>
 
             <v-list-tile-sub-title>
@@ -106,7 +106,7 @@
       </v-list-tile-content>
 
       <v-list-tile-action>
-        <v-btn icon ripple @click="buy()" :disabled="!buyable">
+        <v-btn icon ripple @click.stop="buy()" :disabled="!buyable">
           <v-icon :color="buyable? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
         </v-btn>
       </v-list-tile-action>
