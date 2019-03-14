@@ -73,9 +73,6 @@ export default {
   },
   created() {
     const self = this;
-    this.bus.$on('upgrade', ({building, upgrade}) => {
-      self.notifications.push("Upgrade unlocked for "+building);
-    });
     this.bus.$on('maxupgrade', ({building, upgrade}) => {
       self.notifications.push("Last upgrade reached: "+upgrade.gain+"x upgrade for "+building);
     });
@@ -90,7 +87,6 @@ export default {
     });
   },
   beforeDestroy() {
-    this.bus.$off('upgrade');
     this.bus.$off('offlineincome');
     this.bus.$off('maxupgrade');
     this.bus.$off('notification');
