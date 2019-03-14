@@ -228,8 +228,23 @@ export default new Vuex.Store({
       // Check if the ID exists
       if (localStorage.getItem(storagename)) {
         let deserialize = JSON.parse(localStorage.getItem(storagename));
+        
         // check if substore changes can be apllied
-
+        // grid
+        if(deserialize.grid === undefined) {
+          deserialize.grid = { grid: deserialize.citygrid, configs: deserialize.gridconfigs}
+          delete deserialize.gridconfigs;
+          delete deserialize.citygrid;
+        }
+        //buildings
+        if(deserialize.buildings.levels === undefined) {
+          deserialize.buildings = {"levels":deserialize.buildings,
+              "boni": deserialize.buildingboni,
+              "upgrades":deserialize.upgrades,
+              "autoupgrade":false};
+          delete deserialize.buildingboni;
+          delete deserialize.upgrades;
+        }
 
         // Replace the state object with the stored item
         this.replaceState(

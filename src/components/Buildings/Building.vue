@@ -105,8 +105,8 @@
         </v-dialog>
       </v-list-tile-content>
 
-      <v-list-tile-action>
-        <v-btn icon ripple @click.stop="buy()" :disabled="!buyable">
+      <v-list-tile-action @click.stop="buy()">
+        <v-btn icon ripple  :disabled="!buyable">
           <v-icon :color="buyable? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
         </v-btn>
       </v-list-tile-action>
