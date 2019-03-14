@@ -12,10 +12,7 @@
         You can change how many buildings you buy at a time with the <b>multi buy</b> feature. Either use the slider to adjust the number of buildings or press the button initally marked as 1x, it will cycle through the numbers 1, 10, 25 and 100.
         If you press the <b>shift key</b>, you can buy 10 buildings at a time. This will remember your last setting.
       </v-flex>
-      <v-flex xs10 offset-xs1>
-        This project was created to show a friend JavaScript, we discuss and continue to work on it together. The aspirations for our first game are very high, as the name indicates.
-      </v-flex>
-      <v-flex xs10 offset-xs1>
+            <v-flex xs10 offset-xs1>
         The <b>first soft reset</b> is currently available at <b>85 gambling dens</b>.
       </v-flex>
       <v-flex xs10 offset-xs1>
@@ -34,8 +31,11 @@
       <v-flex xs10 offset-xs1>
         Research give you a tech tree in which you can unlock multiple tiers of research, every tier you have a 1 out of 3 choice to make. Researches are paid with experience, but it's not really spend, only locked for this run. Researches reset each soft reset.
       </v-flex>
+        <v-flex xs10 offset-xs1>
+            This project was created to show a friend JavaScript, we discuss and continue to work on it together. The aspirations for our first game are very high, as the name indicates.
+        </v-flex>
       <v-flex xs10 offset-xs1>
-        If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/u/ketzu">ask me on reddit</a>.
+        If you want to contact us, feel free to <a href="mailto:developers@shittyidle.com">send an email</a>, use the feedback form in the side menu or <a href="https://reddit.com/u/ketzu">ask me on reddit</a> our visit our <a href="https://reddit.com/r/shittyidle">shitty subreddit</a>.
       </v-flex>
     </v-layout>
   </v-container>
