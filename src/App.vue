@@ -28,12 +28,6 @@
     <WelcomeMessage></WelcomeMessage>
 
     <Game></Game>
-
-    <v-footer app dark height="auto" absolute>
-      <v-layout justify-center row wrap>
-        <a href="https://www.paypal.me/roughbudget" target="_blank">Support the game.</a>
-      </v-layout>
-    </v-footer>
   </v-app>
 </template>
 
@@ -90,12 +84,4 @@ export default {
 }
 </script>
 <style scoped>
-a {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 </style>

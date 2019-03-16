@@ -2,7 +2,8 @@
   <v-card>
     <v-card-title primary-title>
       <div>
-        <div class="headline">Game Development - watch the game improve</div>
+        <div class="headline">Game Development</div>
+        <span class="grey--text"><a class="grey--text" href="https://www.paypal.me/roughbudget" target="_blank"><v-icon>fab fa-paypal</v-icon> Support the game.</a></span><br>
         <span class="grey--text">Current Version: {{$store.getters.version}}</span>
       </div>
     </v-card-title>
@@ -249,5 +250,13 @@
 </script>
 
 <style scoped>
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 
 </style>
