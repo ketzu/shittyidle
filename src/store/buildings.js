@@ -86,9 +86,9 @@ export default {
       commit('resetbuildings');
     },
     buybuilding({dispatch, state, commit, rootState}, {building, count}) {
-      const level = state.levels[building.name];
       if(state.levels[building.name] === undefined)
         commit('innitBuilding',building.name);
+      const level = state.levels[building.name];
 
       for (let i = 0; i < count; i++) {
         // Do not allow buying more than maxcount buildings
