@@ -115,7 +115,7 @@
 </template>
 
 <script>
-  import {buildingCostOf, buildingGain, buyableUpgrades, maxcount} from '@/statics/buildings'
+  import {buildingCostOf, buildingGain, buyableUpgrades, maxcount, affecting} from '@/statics/buildings'
 
   export default {
     name: "Building",
@@ -201,16 +201,10 @@
         }
       },
       affecting() {
-        const inflevels = this.$store.getters.infrastructurelevels;
-        let mult = 1;
-        for (let infra of this.infrastructure.filter(inf => inf.affected.includes(this.type.name))) {
-          if (inflevels[infra.name] !== undefined)
-            mult *= Math.pow(infra.basemult, inflevels[infra.name]);
-        }
-        return mult;
+        return  affecting(this.type, this.$store.getters.infrastructurelevels, this.$root);
       },
       production() {
-        return buildingGain(this.level, this.type.gain, this.type.mult, this.buildingboni, this.affecting);
+        return buildingGain(this.level, this.type.gain, this.type.mult, this.buildingboni, this.affecting)*this.$store.getters.multiplier;
       },
       cost() {
         return buildingCostOf(this.level, this.compbuycount, this.type.cost.base, this.type.cost.rate);
