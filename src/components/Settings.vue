@@ -58,13 +58,20 @@
           Click if the game stopped.
         </v-btn>
       </v-flex>
+
+      <v-flex md4 offset-md1 xs10 offset-xs1>
+        <HardReset></HardReset>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+  import HardReset from "./Helpers/HardReset";
+
   export default {
     name: "Settings",
+    components: {HardReset},
     data() {
       return {
         numformats: [{show: "1.23 x10^11", format: " x10^"}, {show: "1.23e11", format: "e"}, {show: "123B", format: "KMB"}]

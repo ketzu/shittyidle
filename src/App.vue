@@ -31,11 +31,7 @@
 
     <v-footer app dark height="auto" absolute>
       <v-layout justify-center row wrap>
-        <v-spacer></v-spacer>
         <a href="https://www.paypal.me/roughbudget" target="_blank">Support the game.</a>
-        <v-spacer></v-spacer>
-        <HardReset></HardReset>
-        <v-spacer></v-spacer>
       </v-layout>
     </v-footer>
   </v-app>
@@ -46,7 +42,6 @@ import Game from './components/Game.vue';
 import Changelog from "./components/Development/Changelog.vue";
 import WelcomeMessage from "./components/Helpers/WelcomeMessage.vue";
 import Notification from "./components/Helpers/Notification.vue";
-import HardReset from "./components/Helpers/HardReset.vue";
 import ImportExport from "./components/Helpers/ImportExport.vue";
 import Data from './components/data';
 
@@ -56,7 +51,6 @@ export default {
     Game,
     Changelog,
     ImportExport,
-    HardReset,
     Notification,
     WelcomeMessage
   },
