@@ -115,7 +115,7 @@
 </template>
 
 <script>
-  import {buildingCostOf, buildingGain, buyableUpgrades, maxcount, affecting} from '@/statics/buildings'
+  import {buildingCostOf, buildingGain, buyableUpgrades, maxcount, affecting, upgradeable} from '@/statics/buildings'
 
   export default {
     name: "Building",
@@ -144,15 +144,7 @@
         return this.$store.getters.buildingboni[this.index];
       },
       upgradeable() {
-        // are there upgrades in buyableUpgrades that are not in boughtUpgrades
-        for (let key of buyableUpgrades(this.type.name, this.level)) {
-          if (this.boughtUpgrades === undefined) {
-            return true;
-          } else if (this.boughtUpgrades[key] === undefined) {
-            return true;
-          }
-        }
-        return false;
+        return upgradeable(this.type.name, this.level, this.boughtUpgrades);
       },
       maxbuyable() {
         let c = this.buycount;

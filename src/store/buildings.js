@@ -6,7 +6,7 @@ import {
   maxReached,
   applyupgrade,
   upgrades,
-  upgradesReached
+  upgradesReached, basebuildings
 } from "../statics/buildings";
 import eventBus from "@/eventBus";
 
@@ -102,7 +102,7 @@ export default {
         }
       }
 
-      // Did we reach any *new* upgrades?
+      // Did we reach any upgrades?
       const newupgrades = upgradesReached(building.name, 0, level + count);
 
       if (newupgrades.length > 0) {
@@ -117,14 +117,27 @@ export default {
           // notification that upgrades are available
           if (maxReached(building.name, state.levels[building.name])) {
             eventBus.$emit('maxupgrade', {
-              building: building.name,
-              upgrade: upgrades[building.name][state.levels[building.name]]
+              building: building.name
             });
-          } else {
-            eventBus.$emit('upgrade', {
-              building: building.name,
-              upgrade: upgrades[building.name][state.levels[building.name]]
-            });
+          }
+        }
+      }
+    },
+    buyallupgrades({state, dispatch}) {
+      // for all buildings
+      for(const building of basebuildings) {
+        // get level
+        const level = state.levels[building.name];
+        // stop if the building is not bought yet
+        if(level === undefined) continue;
+
+        // get list of all upgrades available for this building at this level
+        const newupgrades = upgradesReached(building.name, 0, level);
+
+        if (newupgrades.length > 0) {
+          // if there are any upgrades, buy them
+          for (let upgradelevel of newupgrades) {
+            dispatch('buyupgrade', {building, level: upgradelevel});
           }
         }
       }

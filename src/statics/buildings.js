@@ -157,3 +157,15 @@ export const affecting = (building, inflevels, root) => {
   }
   return mult;
 };
+
+export const upgradeable = (name, level, boughtUpgrades) => {
+// are there upgrades in buyableUpgrades that are not in boughtUpgrades
+  for (let key of buyableUpgrades(name, level)) {
+    if (boughtUpgrades === undefined) {
+      return true;
+    } else if (boughtUpgrades[key] === undefined) {
+      return true;
+    }
+  }
+  return false;
+};
