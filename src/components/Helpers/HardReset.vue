@@ -1,6 +1,6 @@
 <template>
   <div>
-  <v-btn @click="dialog = true">
+  <v-btn flat @click="dialog = true" color="red darken-4">
     HARD RESET!
   </v-btn>
   <v-dialog

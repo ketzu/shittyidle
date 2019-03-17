@@ -16,7 +16,7 @@
       </v-flex>
     </v-layout>
 
-    <v-list two-line>
+    <v-list two-line :dense="densebuildingmenu">
       <transition name="fade" :key="index" v-for="(building, index) in buildings">
         <Building :type="building" :index="index" v-if="building.cost.base < alltime" :count="buycount"></Building>
       </transition>
@@ -39,6 +39,9 @@
     computed: {
       anyupgrades() {
         return basebuildings.some(({name}) => upgradeable(name, this.$store.getters.buildinglevels[name], this.$store.getters.boughtupgrades[name]));
+      },
+      densebuildingmenu() {
+        return this.$store.getters.densebuildingmenu;
       }
     }
   }

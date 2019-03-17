@@ -14,15 +14,15 @@
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
-          <v-select
-              v-model="numformat"
-              :items="numformats"
-              item-text="show"
-              item-value="format"
-              label="Number format"
-              return-object
-              single-line
-          ></v-select>
+        <v-select
+            v-model="numformat"
+            :items="numformats"
+            item-text="show"
+            item-value="format"
+            label="Number format"
+            return-object
+            single-line
+        ></v-select>
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
@@ -53,8 +53,21 @@
         ></v-switch>
       </v-flex>
 
+      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="$store.getters.achievements['upgrades'] === true">
+        <v-switch
+            v-model="densebuildingmenu"
+            label="Dense building menu"
+        ></v-switch>
+      </v-flex>
+
+      <v-flex md10 offset-md1>
+        <v-divider></v-divider>
+        <br>
+        Dangerous buttons:
+      </v-flex>
+
       <v-flex md4 offset-md1 xs10 offset-xs1>
-        <v-btn @click="$store.dispatch('restartsim')">
+        <v-btn flat @click="$store.dispatch('restartsim')">
           Click if the game stopped.
         </v-btn>
       </v-flex>
@@ -74,7 +87,10 @@
     components: {HardReset},
     data() {
       return {
-        numformats: [{show: "1.23 x10^11", format: " x10^"}, {show: "1.23e11", format: "e"}, {show: "123B", format: "KMB"}]
+        numformats: [{show: "1.23 x10^11", format: " x10^"}, {show: "1.23e11", format: "e"}, {
+          show: "123B",
+          format: "KMB"
+        }]
       }
     },
     computed: {
@@ -84,6 +100,14 @@
         },
         set(value) {
           this.$store.dispatch('setAutoupgrade', value);
+        }
+      },
+      densebuildingmenu: {
+        get() {
+          return this.$store.getters.densebuildingmenu;
+        },
+        set(value) {
+          this.$store.dispatch('setDensebuildingmenu', value);
         }
       },
       newcityname: {
@@ -115,17 +139,20 @@
           return this.currency;
         },
         set(value) {
-          this.$store.dispatch('setCurrency',value);
+          this.$store.dispatch('setCurrency', value);
         }
       },
       numformat: {
         get() {
-          if(this.$store.getters.numberview === 1)
-            return {show: "1.23"+this.$store.getters.numbersplitsymbol+"11", format: this.$store.getters.numbersplitsymbol};
+          if (this.$store.getters.numberview === 1)
+            return {
+              show: "1.23" + this.$store.getters.numbersplitsymbol + "11",
+              format: this.$store.getters.numbersplitsymbol
+            };
           return {show: "123B", format: "KMB"};
         },
         set(value) {
-          if(value.format==="KMB")
+          if (value.format === "KMB")
             this.$store.dispatch('setNumberformat', {symbol: value.format, view: 2});
           else
             this.$store.dispatch('setNumberformat', {symbol: value.format, view: 1});

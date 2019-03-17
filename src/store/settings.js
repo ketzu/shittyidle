@@ -1,3 +1,5 @@
+import {storagename} from "../statics/statics";
+
 export default {
   state: {
     currency: "₡",
@@ -5,11 +7,15 @@ export default {
     numberview: 1,
     cityname: "Shitty Idle",
     upgradeindicator: false,
-    ignoreupgradebuy: false
+    ignoreupgradebuy: false,
+    densebuildingmenu: false
   },
   getters: {
     currency(state) {
       return state.currency;
+    },
+    densebuildingmenu(state) {
+      return state.densebuildingmenu;
     },
     numbersplitsymbol(state) {
       return state.numbersplitsymbol;
@@ -28,6 +34,11 @@ export default {
     }
   },
   mutations: {
+    initstore(state, vm) {
+      if(state.densebuildingmenu === undefined) {
+        Vue.set(state, 'densebuildingmenu', false);
+      }
+    },
     setCurrency(state, value) {
       state.currency = value;
     },
@@ -43,6 +54,9 @@ export default {
     },
     setIgnoreupgradebuy(state, value) {
       state.ignoreupgradebuy = value;
+    },
+    setDensebuildingmenu(state, value) {
+      state.densebuildingmenu = value;
     }
   },
   actions: {
@@ -60,6 +74,9 @@ export default {
     },
     setIgnoreupgradebuy({state, commit, rootState}, value) {
       commit('setIgnoreupgradebuy', value);
+    },
+    setDensebuildingmenu({commit}, value) {
+      commit('setDensebuildingmenu', value);
     }
   }
 };
