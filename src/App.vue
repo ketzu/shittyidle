@@ -2,7 +2,7 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> City Idle
+        <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> {{cityname}}
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
