@@ -36,11 +36,10 @@
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Research" state="beta"></Future>
-            <Future name="More promotions" state="beta"></Future>
+            <Future name="Metropolis" state="planning"></Future>
             <Future name="A new career" state="notstarted"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
-            <Future name="Achivements" state="beta"></Future>
           </v-flex>
 
           <v-flex md12>
