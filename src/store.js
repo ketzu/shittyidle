@@ -133,6 +133,9 @@ export default new Vuex.Store({
     research: {}
   },
   getters: {
+    achievements(state) {
+      return state.achievements;
+    },
     achievementmult(state) {
       return achievementmult(state);
     },
@@ -141,9 +144,6 @@ export default new Vuex.Store({
     },
     buytoupgrade(state) {
       return state.buytoupgrade;
-    },
-    achievements(state) {
-      return state.achievements;
     },
     version(state) {
       return version;

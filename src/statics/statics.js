@@ -52,7 +52,8 @@ export const achievements = {
   advancer: {desc: "Get promoted.", title: "Advancer", icon: "fas fa-cat", iconcolor: "blue-grey lighten-2", mult: 0.05},
   prof: {desc: "Get another promotion.", title: "Professional", icon: "fas fa-cat", iconcolor: "amber", mult: 0.05},
   workfun: {desc: "Get a new job with only Farms and Casinos.", title: "Work hard and play hard", icon: "fas fa-dice", iconcolor: "red darken-2", mult: 0.1},
-  upgrades: {desc: "Get a new job without buying any building upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", buildingboni: "Autoupgrades unlocked.", mult: 0},
+  upgrades2: {desc: "Get to the level of the last upgrade, without buying any upgrades, for any building.", title: "New features make good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-1", buildingboni: "Upgrade all button unlocked.", mult: 0.1},
+  upgrades: {desc: "Get a new job without buying any building upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", buildingboni: "Autoupgrades unlocked.", mult: 0.3},
   zone: {desc: "Reach a zoning value of over 500 for one type.", title: "In the zone", icon: "fas fa-object-group", iconcolor: "purple darken-4", mult: 0.5},
   zone2: {desc: "Reach a zoning value of over 2399 for one type.", title: "Twilight zone", icon: "fas fa-object-group", iconcolor: "green accent-4", mult: 1}
 };

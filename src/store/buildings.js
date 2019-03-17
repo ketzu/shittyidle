@@ -106,6 +106,11 @@ export default {
       const newupgrades = upgradesReached(building.name, 0, level + count);
 
       if (newupgrades.length > 0) {
+        // check for achievement upgrades2
+        if (maxReached(building.name, state.levels[building.name]) && rootState.achievements['upgrades2'] === undefined) {
+          commit('achievement', 'upgrades2');
+        }
+
         // if autobuy try to buy all available upgrades
         if (state.autoupgrade) {
           // autobuy upgrades
