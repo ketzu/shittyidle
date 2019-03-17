@@ -52,9 +52,6 @@
         <v-tab-item>
           <Settings></Settings>
         </v-tab-item>
-        <v-tab-item>
-          <Help></Help>
-        </v-tab-item>
       </v-tabs-items>
     </v-card-text>
 
@@ -66,7 +63,6 @@
 </template>
 
 <script>
-  import Help from "./Helpers/Help.vue";
   import Stats from "./Stats.vue";
   import SoftReset from "./Helpers/SoftReset.vue";
   import CityGrid from "./Features/CityGrid.vue";
@@ -82,7 +78,6 @@
       Infrastructure,
       Stats,
       SoftReset,
-      Help,
       CityGrid,
       Settings,
       Research
@@ -106,7 +101,7 @@
           if(this.citylevel>=2)
             entries.push('Research');
 
-          entries.push('Statistics','Achievements','Settings','Help');
+          entries.push('Statistics','Achievements','Settings');
           return entries;
         }
       }
