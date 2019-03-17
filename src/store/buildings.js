@@ -10,6 +10,24 @@ import {
 } from "../statics/buildings";
 import eventBus from "@/eventBus";
 
+export const submitBuildingStats = (state) => {
+  let buildinglevels = state.buildings;
+  let count = 0;
+  for(let b in buildinglevels){
+    if(buildinglevels.hasOwnProperty(b)) {
+      count+=buildinglevels[b];
+    }
+  }
+  let infralevels = state.infrastructure;
+  for(let i in infralevels){
+    if(infralevels.hasOwnProperty(i)) {
+      count+=infralevels[i];
+    }
+  }
+  root.kongapi.stats.submit("Buildings", count);
+  root.kongapi.stats.submit("Zeros", Math.log10(state.alltime));
+};
+
 let root;
 
 export default {
@@ -127,6 +145,7 @@ export default {
           }
         }
       }
+      submitBuildingStats(state);
     },
     buyallupgrades({state, dispatch}) {
       // for all buildings
