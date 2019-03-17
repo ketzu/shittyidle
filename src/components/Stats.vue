@@ -16,17 +16,17 @@
         <span class="subitem">all time production</span>
       </v-flex>
 
-      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <h2 class="stat">{{format(expmult)}}x</h2>
         <span class="subitem">experience multiplier (to all buildings)</span>
       </v-flex>
 
-      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <h2 class="stat">{{formatexp(experience)}}</h2>
         <span class="subitem">current experience</span>
       </v-flex>
 
-      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <h2 class="stat">{{formatexp(expgain)}}</h2>
         <span class="subitem">experience gain</span>
       </v-flex>
@@ -42,13 +42,13 @@
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
-        <h2 class="stat">{{timeall}}</h2>
-        <span class="subitem">time played</span>
+        <h2 class="stat">{{format($store.getters.achievementmult*100)}}%</h2>
+        <span class="subitem">improvement by achievements</span>
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
-        <h2 class="stat">{{format($store.getters.achievementmult*100)}}%</h2>
-        <span class="subitem">improvement by achievements</span>
+        <h2 class="stat">{{timeall}}</h2>
+        <span class="subitem">time played</span>
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1 v-if="resets > 0">

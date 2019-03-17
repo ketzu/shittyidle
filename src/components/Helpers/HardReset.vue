@@ -1,6 +1,8 @@
 <template>
-  <span>
-  <a @click="dialog = true">HARD RESET</a>
+  <div>
+  <v-btn flat @click="dialog = true" color="red darken-4">
+    HARD RESET!
+  </v-btn>
   <v-dialog
       v-model="dialog"
       max-width="350">
@@ -32,7 +34,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -47,12 +49,4 @@
 </script>
 
 <style scoped>
-  a {
-    color: #ffffff;
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
 </style>

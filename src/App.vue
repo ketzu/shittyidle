@@ -2,7 +2,7 @@
   <v-app>
     <v-toolbar dark fixed app>
       <v-toolbar-title>
-        <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> City Idle
+        <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> {{cityname}}
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -28,26 +28,15 @@
     <WelcomeMessage></WelcomeMessage>
 
     <Game></Game>
-
-    <v-footer app dark height="auto" absolute>
-      <v-layout justify-center row wrap>
-        <v-spacer></v-spacer>
-        <a href="https://www.paypal.me/roughbudget" target="_blank">Support the game.</a>
-        <v-spacer></v-spacer>
-        <HardReset></HardReset>
-        <v-spacer></v-spacer>
-      </v-layout>
-    </v-footer>
   </v-app>
 </template>
 
 <script>
 import Game from './components/Game.vue';
-import Changelog from "./components/Changelog.vue";
-import WelcomeMessage from "./components/WelcomeMessage.vue";
-import Notification from "./components/Notification.vue";
-import HardReset from "./components/HardReset.vue";
-import ImportExport from "./components/ImportExport.vue";
+import Changelog from "./components/Development/Changelog.vue";
+import WelcomeMessage from "./components/Helpers/WelcomeMessage.vue";
+import Notification from "./components/Helpers/Notification.vue";
+import ImportExport from "./components/Helpers/ImportExport.vue";
 import Data from './components/data';
 
 export default {
@@ -56,7 +45,6 @@ export default {
     Game,
     Changelog,
     ImportExport,
-    HardReset,
     Notification,
     WelcomeMessage
   },
@@ -73,11 +61,8 @@ export default {
   },
   created() {
     const self = this;
-    this.bus.$on('upgrade', ({building, upgrade}) => {
-      self.notifications.push("Upgrade unlocked for "+building);
-    });
-    this.bus.$on('maxupgrade', ({building, upgrade}) => {
-      self.notifications.push("Last upgrade reached: "+upgrade.gain+"x upgrade for "+building);
+    this.bus.$on('maxupgrade', ({building}) => {
+      self.notifications.push("Last upgrade reached for "+building);
     });
     this.bus.$on('notification', text => {
       self.notifications.push(text);
@@ -90,7 +75,6 @@ export default {
     });
   },
   beforeDestroy() {
-    this.bus.$off('upgrade');
     this.bus.$off('offlineincome');
     this.bus.$off('maxupgrade');
     this.bus.$off('notification');
@@ -100,12 +84,4 @@ export default {
 }
 </script>
 <style scoped>
-a {
-  color: #ffffff;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
 </style>

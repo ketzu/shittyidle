@@ -2,8 +2,10 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import store,{eventBus} from './store'
-import {basebuildings, baseinfrastructure} from "./statics";
+import store from './store'
+import eventBus from "./eventBus";
+import {baseinfrastructure} from "./statics/statics";
+import {basebuildings} from "./statics/buildings";
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 
@@ -29,7 +31,7 @@ Vue.mixin({
 Vue.mixin({
   methods: {
     format(value) {
-      if(this.$store.getters.settings.numberview === 2) {
+      if(this.$store.getters.numberview === 2) {
         const letters = ['','K','M','B','T','q','Q','s','S','O','N','D','U','DD'];
         let letter = Math.max(Math.floor(Math.log(value) / Math.log(1000)),0);
         let output = (value/Math.pow(1000,letter)).toFixed(2);
@@ -45,7 +47,7 @@ Vue.mixin({
       if(value < 1000*1000)
         return value.toFixed(2).toLocaleString();
       let values = value.toExponential().split('e').map(i => Number(i));
-      return values[0].toFixed(2)+this.$store.getters.settings.numbersplitsymbol+values[1].toFixed(0);
+      return values[0].toFixed(2)+this.$store.getters.numbersplitsymbol+values[1].toFixed(0);
     },
     formatresource(value) {
       return this.format(value)+this.$store.getters.currency;
@@ -63,22 +65,22 @@ Vue.mixin({
       };
       const elapsed = now - time;
       let current = elapsed / 1000; // ms -> s
-      const seconds = (current) % 60;
+      let seconds = (current) % 60;
       current -= seconds;
       current /= 60; // s->min
-      const minutes = (current)%60;
+      let minutes = (current)%60;
       current -= minutes;
       current /= 60; // min -> hour
-      const hours = (current) % 24;
+      let hours = (current) % 24;
       current -= hours;
       const days = current/24;
-      let timestring = pad(minutes.toFixed(0))+"min "+pad(seconds.toFixed(0))+"s";
+      let timestring = pad(Math.floor(minutes))+"min "+pad(Math.floor(seconds))+"s";
       if(hours>1 || days>=1)
-        timestring = pad(hours.toFixed(0))+"h "+timestring;
+        timestring = pad(Math.floor(hours))+"h "+timestring;
       if(days>=1)
-        timestring = (days%365).toFixed(0)+" day"+(days%365>=2?'s':'')+" "+timestring;
+        timestring = Math.floor((days%365))+" day"+(days%365>=2?'s':'')+" "+timestring;
       if(days>365)
-        timestring = (days/365).toFixed(0)+" year"+(days>730?'s':'')+" "+timestring;
+        timestring = Math.floor((days/365))+" year"+(days>730?'s':'')+" "+timestring;
       return timestring;
     }
   }

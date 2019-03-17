@@ -48,8 +48,8 @@
         }
       },
       maxbuyable() {
-        let c=10;
-        while(this.costof(c+10)<this.resource) c+=10;
+        let c= this.buycount;
+        while(this.costof(c+this.buycount)<this.resource && c <=700) c+=this.buycount;
         return Math.min(c,700-this.level);
       },
       compbuycount() {

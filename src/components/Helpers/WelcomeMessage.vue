@@ -28,6 +28,9 @@
               Good luck and regards,<br>
               your assistant.
             </v-flex>
+            <v-flex md10 offset-md1>
+              ps: For you first job, I will assist you, providing you <b>20 experience.</b>
+            </v-flex>
           </v-layout>
         </v-container>
       </v-card-text>

@@ -2,7 +2,8 @@
   <v-card>
     <v-card-title primary-title>
       <div>
-        <div class="headline">Game Development - watch the game improve</div>
+        <div class="headline">Game Development</div>
+        <span class="grey--text"><a class="grey--text" href="https://www.paypal.me/roughbudget" target="_blank"><v-icon>fab fa-paypal</v-icon> Support the game.</a></span><br>
         <span class="grey--text">Current Version: {{$store.getters.version}} (Kong)</span>
       </div>
     </v-card-title>
@@ -20,11 +21,10 @@
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Research" state="beta"></Future>
-            <Future name="More promotions" state="beta"></Future>
+            <Future name="Metropolis" state="planning"></Future>
             <Future name="A new career" state="notstarted"></Future>
             <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
-            <Future name="Achivements" state="beta"></Future>
           </v-flex>
 
           <v-flex md12>
@@ -234,5 +234,13 @@
 </script>
 
 <style scoped>
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 
 </style>

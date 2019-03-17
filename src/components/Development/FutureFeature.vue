@@ -16,6 +16,8 @@
         switch (this.state) {
           case "notstarted":
             return "error";
+          case "planning":
+            return "error";
           case "alpha":
             return "warning";
           case "beta":
@@ -27,6 +29,8 @@
         switch (this.state) {
           case "notstarted":
             return 10;
+          case "planning":
+            return 30;
           case "alpha":
             return 50;
           case "beta":
@@ -38,6 +42,8 @@
         switch (this.state) {
           case "notstarted":
             return "Not started";
+          case "planning":
+            return "Planning";
           case "alpha":
             return "Alpha";
           case "beta":

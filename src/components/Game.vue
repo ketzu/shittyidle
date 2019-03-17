@@ -3,7 +3,7 @@
     <v-container grid-list-lg>
       <v-layout align-start justify-center row wrap>
         <v-flex md8>
-          <CityScreen></CityScreen>
+          <MainScreen></MainScreen>
         </v-flex>
 
         <v-flex md4>
@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import BuildMenu from './BuildMenu';
-import CityScreen from "./CityScreen";
+import BuildMenu from './Buildings/BuildMenu';
+import MainScreen from "./MainScreen";
 
 export default {
   name: 'Game',
   components: {
-    CityScreen,
+    MainScreen,
     BuildMenu
   },
   data() {
