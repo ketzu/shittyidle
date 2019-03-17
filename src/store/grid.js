@@ -1,7 +1,6 @@
 import Vue from "vue";
 import {evalGrid} from "../statics/grid";
-import {achievements, zones} from "../statics/statics";
-import eventBus from "@/eventBus";
+import {zones} from "../statics/statics";
 import {basebuildings} from "../statics/buildings";
 
 const effectstrength = (value) => {
@@ -75,16 +74,16 @@ export default {
     }
   },
   mutations: {
-    buildzone(state, {x, y, zone}) {
-      Vue.set(state.grid[x], y, zone);
-      updateGridResults(state);
+    initstore(state, vm) {
+      root = vm;
     },
     startgame(state) {
       // reapply grid results
       updateGridResults(state);
     },
-    initstore(state, vm) {
-      root = vm;
+    buildzone(state, {x, y, zone}) {
+      Vue.set(state.grid[x], y, zone);
+      updateGridResults(state);
     },
     softreset(state) {
       state.configs = state.configs.filter((grid) => !sameGrid(grid,state.grid));
@@ -101,6 +100,9 @@ export default {
     }
   },
   actions: {
+    softreset({commit}) {
+      commit('softreset');
+    },
     buildzone({state, commit, rootState}, payload) {
       commit('buildzone', payload);
       if(evalGrid(state.grid).some(value=>value>=500)){
