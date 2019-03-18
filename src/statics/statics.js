@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {bgain} from "./buildings";
+import {bgain, bcost} from "./buildings";
 export const storagename = 'cidle-v1';
 
 export const baseinfrastructure = [
@@ -14,29 +14,29 @@ export const baseinfrastructure = [
 
 export const research = [
   {citylevel: 2, title: "Material Science", cost: 1000, options: [
-      {name: "Better Roads", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[0].basemult=1.025 }, desc: "Increase the multiplier of roads to 2.5% (from 1.5%)."},
-      {name: "Roads to more Buildings", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { root.store_infrastructure[0].affected = ['Farm', 'Store', 'Factory', 'Inn', 'Casino', 'Bank'] }, desc: "Make roads affect all buildings, besides power plants and datacenters."},
-      {name: "Cheaper Roads", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[0].cost.rate=1.09 }, desc: "Reduce cost increase of roads from 10% to 9%."}
+      {name: "Better Roads", icon: "road", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[0].basemult=1.025 }, desc: "Increase the multiplier of roads to 2.5% (from 1.5%)."},
+      {name: "Roads to more Buildings", icon: "sitemap", iconcolor: "blue darken-3", modification: (state,root) => { root.store_infrastructure[0].affected = ['Farm', 'Store', 'Factory', 'Inn', 'Casino', 'Bank'] }, desc: "Make roads affect all buildings, besides power plants and datacenters."},
+      {name: "Cheaper Roads", icon: "ambulance", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[0].cost.rate=1.09 }, desc: "Reduce cost increase of roads from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Electrical Engineering", cost: 50000, options: [
-      {name: "Improved Grid", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[1].basemult=1.035 }, desc: "Increase the multiplier of electricity to 3.5% (from 2.5%)."},
-      {name: "Overclock Buildings", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { Vue.set(root,'store_buildings',root.store_buildings.map(building => { return ({ ...building, mult:40});})); }, desc: "Improve production of all buildings."},
-      {name: "Outsource Grid Maintenance", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[1].cost.rate=1.09 }, desc: "Reduce cost increase of electricity from 10% to 9%."}
+      {name: "Improved Grid", icon: "exclamation-triangle", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[1].basemult=1.035 }, desc: "Increase the multiplier of electricity to 3.5% (from 2.5%)."},
+      {name: "Overclock Buildings", icon: "clock", iconcolor: "blue darken-3", modification: (state,root) => { Vue.set(root,'store_buildings',root.store_buildings.map(building => { return ({ ...building, mult:40});})); }, desc: "Improve production of all buildings."},
+      {name: "Outsource Grid Maintenance", icon: "bolt", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[1].cost.rate=1.09 }, desc: "Reduce cost increase of electricity from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Psychology", cost: 200000, options: [
-      {name: "Motivational Speeches", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[2].basemult=1.045 }, desc: "Increase the multiplier of transport to 4.5% (from 4%)."},
-      {name: "Peace of Mind", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { Vue.set(root,'store_buildings',root.store_buildings.map(building => { return {name: building.name, title: "The same", icon: "fa-cat", cost: {base: bcost['Farm'], rate: 1.1}, gain: bgain['Casino'], mult: building.mult, iconcolor: building.iconcolor} })); }, desc: "Everything is the same."},
-      {name: "Layoff Coaching", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[2].cost.rate=1.09 }, desc: "Reduce cost increase of transport from 10% to 9%."}
+      {name: "Motivational Speeches", icon: "comment", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[2].basemult=1.045 }, desc: "Increase the multiplier of transport to 4.5% (from 4%)."},
+      {name: "Peace of Mind", icon: "cat", iconcolor: "blue darken-3", modification: (state,root) => { Vue.set(root,'store_buildings',root.store_buildings.map(building => { return {name: building.name, title: "The same", icon: "fa-cat", cost: {base: bcost['Farm'], rate: 1.1}, gain: bgain['Casino'], mult: building.mult, iconcolor: building.iconcolor} })); }, desc: "Everything is the same."},
+      {name: "Layoff Coaching", icon: "fire-alt", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[2].cost.rate=1.09 }, desc: "Reduce cost increase of transport from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Civil Engineering", cost: 500000, options: [
-      {name: "Add Street Lamps", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[3].basemult=1.045 }, desc: "Increase the multiplier of lighting to 4.5% (from 4%)."},
-      {name: "Gambling Addiction", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { if(!state.buildings.boni.some(boni => boni!==0)) Vue.set(state.buildings,'boni', state.buildings.boni.map(boni => (Math.min(-Math.log(Math.random())*50,10000)+4))) }, desc: "Improve your buildings by a random factor until you change your job."},
-      {name: "Remove Street Lamps", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[3].cost.rate=1.09 }, desc: "Reduce cost increase of lighting from 10% to 9%."}
+      {name: "Add Street Lamps", icon: "lightbulb", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[3].basemult=1.045 }, desc: "Increase the multiplier of lighting to 4.5% (from 4%)."},
+      {name: "Gambling Addiction", icon: "dice-d20", iconcolor: "blue darken-3", modification: (state,root) => { if(!state.buildings.boni.some(boni => boni!==0)) Vue.set(state.buildings,'boni', state.buildings.boni.map(boni => (Math.min(-Math.log(Math.random())*50,10000)+4))) }, desc: "Improve your buildings by a random factor until you change your job."},
+      {name: "Remove Street Lamps", icon: "moon", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[3].cost.rate=1.09 }, desc: "Reduce cost increase of lighting from 10% to 9%."}
     ]},
   {citylevel: 2, title: "Educational Science", cost: 1000000, options: [
-      {name: "Pay Teachers more", icon: "cat ", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[4].basemult=1.04 }, desc: "Increase the multiplier of university to 4% (from 2%)."},
-      {name: "Resumé Course", icon: "cat ", iconcolor: "blue darken-3", modification: (state,root) => { state.expchange = 1;}, desc: "Increase experience boost."},
-      {name: "Prohibit Strikes", icon: "cat ", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[4].cost.rate=1.09 }, desc: "Reduce cost increase of university from 10% to 9%."}
+      {name: "Pay Teachers more", icon: "hand-holding-usd", iconcolor: "red darken-3", modification: (state,root) => { root.store_infrastructure[4].basemult=1.04 }, desc: "Increase the multiplier of university to 4% (from 2%)."},
+      {name: "Resumé Course", icon: "file-invoice-dollar", iconcolor: "blue darken-3", modification: (state,root) => { state.expchange = 1;}, desc: "Increase experience boost."},
+      {name: "Prohibit Strikes", icon: "strikethrough", iconcolor: "green darken-3", modification: (state,root) => { root.store_infrastructure[4].cost.rate=1.09 }, desc: "Reduce cost increase of university from 10% to 9%."}
     ]}
 ];
 

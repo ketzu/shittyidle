@@ -53,7 +53,7 @@
         ></v-switch>
       </v-flex>
 
-      <v-flex md4 offset-md1 xs10 offset-xs1 v-if="$store.getters.achievements['upgrades'] === true">
+      <v-flex md4 offset-md1 xs10 offset-xs1>
         <v-switch
             v-model="densebuildingmenu"
             label="Dense building menu"

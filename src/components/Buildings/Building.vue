@@ -144,6 +144,8 @@
         return this.$store.getters.buildingboni[this.index];
       },
       upgradeable() {
+        if(this.type.title === "The same")
+          return false;
         return upgradeable(this.type.name, this.level, this.boughtUpgrades);
       },
       maxbuyable() {
@@ -163,6 +165,8 @@
       },
       possibleups: {
         get() {
+          if(this.type.title === "The same")
+            return [];
           let possibleups = [];
           for (let key in this.upgrades) {
             if (this.upgrades.hasOwnProperty(key)) {
@@ -184,6 +188,8 @@
       },
       upgrades: {
         get() {
+          if(this.type.title === "The same")
+            return [];
           return this.$store.getters.upgrades[this.type.name];
         }
       },

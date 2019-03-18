@@ -1,4 +1,4 @@
-import {storagename} from "../statics/statics";
+import Vue from "vue";
 
 export default {
   state: {
