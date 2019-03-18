@@ -26,6 +26,9 @@
           <v-container grid-list-lg>
             <v-layout align-start justify-center row wrap>
               <v-flex md8 offset-md-2 style="position: relative;">
+                <CityCanvas></CityCanvas>
+              </v-flex>
+              <v-flex md8 offset-md-2 style="position: relative;">
                 <svg width="100%" height="100%" viewBox="0 0 1143 698" version="1.1" xmlns="http://www.w3.org/2000/svg"
                      xml:space="preserve"
                      style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"><path d="M1122,77.735c0,-33.721 -46.66,-61.098 -104.133,-61.098c-274.598,27.369 -569.929,30.045 -892.734,0c-57.473,0 -104.133,27.377 -104.133,61.098l0,488.789c0,33.722 46.66,61.099 104.133,61.099c289.318,72.414 587.213,69.641 892.734,0c57.473,0 104.133,-27.377 104.133,-61.099l0,-488.789Z" style="fill:#2e7d32;stroke:#fff;stroke-width:30px;"/>
@@ -117,10 +120,12 @@
   import Research from "./Features/Research.vue";
   import Infrastructure from "./Features/Infrastructure.vue";
   import Achievements from "./Achievements";
+  import CityCanvas from "./Features/CityCanvas";
 
   export default {
     name: "MainScreen",
     components: {
+      CityCanvas,
       Achievements,
       Infrastructure,
       Stats,
