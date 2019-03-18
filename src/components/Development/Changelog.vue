@@ -12,9 +12,6 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
-            Due to many balancing issues, the game will not see many patches for a little while, as I will change many things and update the application. But don't worry, the game is not abandoned!
-          </v-flex>
-          <v-flex md12>
             A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
           </v-flex>
           <v-flex md12>
@@ -35,10 +32,10 @@
           <v-flex md12>
             <h2>Upcoming Features</h2>
             <br>
+            <Future name="Rework of current features" state="planning"></Future>
             <Future name="Research" state="beta"></Future>
             <Future name="Metropolis" state="planning"></Future>
             <Future name="A new career" state="notstarted"></Future>
-            <Future name="Perks" state="notstarted"></Future>
             <Future name="Cloud Saves" state="notstarted"></Future>
           </v-flex>
 
@@ -55,6 +52,7 @@
               <li>Building list entry is now fully clickable</li>
               <li>Max buy uses stepsize of multibuy instead of fixed 10</li>
               <li>Time bug should be fixed now</li>
+              <li>Research 2 middle now provides 40x boost insteadt of 1.001x (I thought I was making it 1.001<sup>level</sup>)</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
