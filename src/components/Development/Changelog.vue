@@ -12,6 +12,9 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
+            Next upgrade will be a huge rework of the core mechanics of the game and some balancing!
+          </v-flex>
+          <v-flex md12>
             A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
           </v-flex>
           <v-flex md12>
@@ -53,6 +56,8 @@
               <li>Max buy uses stepsize of multibuy instead of fixed 10</li>
               <li>Time bug should be fixed now</li>
               <li>Research 2 middle now provides 40x boost insteadt of 1.001x (I thought I was making it 1.001<sup>level</sup>)</li>
+              <li>Research: Only unlocked by exp, doesn't cost exp anymore.</li>
+              <li>Research: Byebye cats. :(</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
