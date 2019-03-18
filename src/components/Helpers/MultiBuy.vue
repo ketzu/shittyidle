@@ -2,7 +2,7 @@
   <v-layout style="padding-left: 16px;padding-right: 16px;">
     <v-checkbox
         v-model="buytoupgrade"
-        label="To next upgrade (or max)"
+        :label="$store.getters.ignoreupgradebuy?'To max':'To next upgrade (or max)'"
         color="blue darken-4"
     ></v-checkbox>
     <v-text-field v-model="buycount"
