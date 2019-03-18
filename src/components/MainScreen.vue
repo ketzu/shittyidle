@@ -25,7 +25,7 @@
         <v-tab-item>
           <v-container grid-list-lg>
             <v-layout align-start justify-center row wrap>
-              <v-flex md8 offset-md-2 style="position: relative;">
+              <v-flex md12 style="position: relative;">
                 <CityCanvas></CityCanvas>
               </v-flex>
               <v-flex md8 offset-md-2 style="position: relative;">
