@@ -15,9 +15,10 @@
     </div>
 
     <v-card-text>
-      <v-tabs v-model="tabcontrols" color="white" fixed-tabs slider-color="green darken-4">
-        <v-tab v-for="i in tabs" :key="i" ripple class="green--text text--darken-4">
-          {{ i }}
+      <v-tabs v-model="tabcontrols" color="white" grow slider-color="green darken-4">
+        <v-tab v-for="(i, index) in tabs" :key="i" ripple class="green--text text--darken-4">
+          <v-icon color="green darken-4">{{icons[i]}}</v-icon>
+          <span v-if="index===tabcontrols">&nbsp;{{i}}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tabcontrols">
@@ -73,7 +74,7 @@
           </v-container>
         </v-tab-item>
 
-        <v-tab-item v-if="tabs.includes('City Zoning')">
+        <v-tab-item v-if="tabs.includes('Zoning')">
           <CityGrid></CityGrid>
         </v-tab-item>
 
@@ -86,10 +87,10 @@
         </v-tab-item>
 
         <v-tab-item>
-          <Stats></Stats>
+          <Achievements></Achievements>
         </v-tab-item>
         <v-tab-item>
-          <Achievements></Achievements>
+          <Stats></Stats>
         </v-tab-item>
         <v-tab-item>
           <Settings></Settings>
@@ -131,16 +132,26 @@
     },
     data() {
       return {
-        tabcontrols: 0
+        tabcontrols: 0,
+        icons: {
+          'City': 'fas fa-city',
+          'Zoning': 'fas fa-object-group',
+          'Infrastructure': 'fas fa-road',
+          'Research': 'fas fa-flask',
+          'Statistics': 'fas fa-chart-bar',
+          'Achievements': 'fas fa-star',
+          'Settings': 'fas fa-cogs',
+          'Help': 'fas fa-question'
+        }
       }
     },
     computed: {
       tabs: {
         get() {
-          let entries = ['Main'];
+          let entries = ['City'];
 
           if (this.resets > 0)
-            entries.push('City Zoning');
+            entries.push('Zoning');
 
           if (this.citylevel > 0)
             entries.push('Infrastructure');
@@ -148,7 +159,7 @@
           if (this.citylevel >= 2)
             entries.push('Research');
 
-          entries.push('Statistics', 'Achievements', 'Settings', 'Help');
+          entries.push('Statistics','Settings',  'Achievements', 'Help');
           return entries;
         }
       }
