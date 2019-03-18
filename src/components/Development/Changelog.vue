@@ -46,12 +46,13 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Massive exp multiplier nerf.</li>
+              <li>New Settings: Auto upgrade, dense view</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
+                  <li>Massive exp multiplier nerf.</li>
                   <li>Setting to build to max you can afford and ignore upgrades.</li>
                   <li>Infrastrucutre is limited to 700 for now.</li>
                 </ul>

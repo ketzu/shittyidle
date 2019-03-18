@@ -159,7 +159,7 @@
           if (this.citylevel >= 2)
             entries.push('Research');
 
-          entries.push('Statistics','Settings',  'Achievements', 'Help');
+          entries.push('Achievements', 'Statistics', 'Settings', 'Help');
           return entries;
         }
       }
