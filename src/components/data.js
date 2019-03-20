@@ -7,7 +7,8 @@ export default {
         return this.$store.getters.buycount;
       },
       set(value) {
-        this.$store.dispatch('setbuycount', value);
+        if(value>0)
+          this.$store.dispatch('setbuycount', value);
       }
     },
     buytoupgrade: {

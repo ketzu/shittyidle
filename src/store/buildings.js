@@ -88,6 +88,8 @@ export default {
       commit('resetbuildings');
     },
     buybuilding({dispatch, state, commit, rootState}, {building, count}) {
+      if(count<=0)
+        return;
       if(state.levels[building.name] === undefined)
         commit('innitBuilding',building.name);
       const level = state.levels[building.name];
