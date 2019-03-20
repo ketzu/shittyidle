@@ -11,6 +11,14 @@ export default {
     densebuildingmenu: false
   },
   getters: {
+    initstore(state, vm) {
+      if(state.ignoreupgradebuy===undefined)
+        state.ignoreupgradebuy = false;
+      if(state.densebuildingmenu===undefined)
+        state.densebuildingmenu = false;
+      if(state.upgradeindicator===undefined)
+        state.upgradeindicator = false;
+    },
     currency(state) {
       return state.currency;
     },

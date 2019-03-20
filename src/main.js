@@ -32,10 +32,10 @@ Vue.mixin({
   methods: {
     format(value) {
       if(this.$store.getters.numberview === 2) {
-        const letters = ['','K','M','B','T','q','Q','s','S','O','N','D','U','DD'];
+        const letters = ['','K','M','B','T','q','Q','s','S','O','N','D','U','DD','TD','qD','QD','sD','SD','OD','ND'];
         let letter = Math.max(Math.floor(Math.log(value) / Math.log(1000)),0);
         let output = (value/Math.pow(1000,letter)).toFixed(2);
-        if(letter>letters.length) {
+        if(letter>=letters.length) {
           letter-=letters.length;
           let firstletter = String.fromCharCode(97 + letter/26);
           let secondletter = String.fromCharCode(97 + letter%26);
@@ -122,6 +122,6 @@ new Vue({
     });
   },
   mounted() {
-    this.$store.commit('startgame');
+    this.$store.dispatch('startgame');
   }
 }).$mount('#app')

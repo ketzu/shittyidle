@@ -59,6 +59,8 @@ export default {
       root = vm;
       if(state.boni===undefined)
         state.boni = [0, 0, 0, 0, 0, 0, 0, 0];
+      if(state.autoupgrade===undefined)
+        state.autoupgrade = false;
     },
     startgame(state) {
       // reapply upgrades
@@ -142,7 +144,7 @@ export default {
 
         } else {
           // notification that upgrades are available
-          if (maxReached(building.name, state.levels[building.name])) {
+          if (maxReached(building.name, state.levels[building.name]) && !maxReached(building.name, state.levels[building.name]-count)) {
             eventBus.$emit('maxupgrade', {
               building: building.name
             });

@@ -263,38 +263,6 @@ export default new Vuex.Store({
           research[key].options[value].modification(state, root);
         }
       }
-
-      // offline ticks
-      if (state.time !== undefined) {
-        // at most 25920000 ticks = 30 Days worth of offline time
-        const now = Date.now();
-        let ticks = Math.min((now - state.time) / state.tickrate, 25920000);
-        const gain = resourcegain(state).reduce((a, b) => a * b);
-        updateresources(state, ticks * gain);
-        setTimeout(() => {
-          eventBus.$emit('offlineincome', {gain: (ticks * gain), time: state.time, now: now})
-        }, 2500);
-      }
-
-      startsim(state);
-      // handle being put in the background
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          stopsim();
-          visible = false;
-          lastActive = (new Date()).getTime();
-        } else {
-          if (visible == false) {
-            visible = true;
-            let timePassed = (new Date()).getTime() - lastActive;
-
-            let ticks = Math.min(timePassed / state.tickrate, 25920000);
-            const gain = resourcegain(state).reduce((a, b) => a * b);
-            updateresources(state, ticks * gain);
-            startsim(state);
-          }
-        }
-      }, false);
     },
     updateresource(state, payload) {
       state.resource = payload.value;
@@ -333,7 +301,7 @@ export default new Vuex.Store({
     buyinfrastrucutre(state, {building, count}) {
       if (state.infrastructure[building.name] === undefined)
         Vue.set(state.infrastructure, building.name, 0);
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < count && state.infrastructure[building.name] < 700; i++) {
         const cost = building.cost.base * Math.pow(building.cost.rate, state.infrastructure[building.name]);
         if (cost < state.resource) {
           state.resource -= cost;
@@ -381,6 +349,41 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    startgame({commit, state}) {
+      commit('startgame');
+
+      // offline ticks
+      if (state.time !== undefined) {
+        // at most 25920000 ticks = 30 Days worth of offline time
+        const now = Date.now();
+        let ticks = Math.min((now - state.time) / state.tickrate, 25920000);
+        const gain = resourcegain(state).reduce((a, b) => a * b);
+        updateresources(state, ticks * gain);
+        setTimeout(() => {
+          eventBus.$emit('offlineincome', {gain: (ticks * gain), time: state.time, now: now})
+        }, 2500);
+      }
+
+      startsim(state);
+      // handle being put in the background
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          stopsim();
+          visible = false;
+          lastActive = (new Date()).getTime();
+        } else {
+          if (visible == false) {
+            visible = true;
+            let timePassed = (new Date()).getTime() - lastActive;
+
+            let ticks = Math.min(timePassed / state.tickrate, 25920000);
+            const gain = resourcegain(state).reduce((a, b) => a * b);
+            updateresources(state, ticks * gain);
+            startsim(state);
+          }
+        }
+      }, false);
+    },
     spendresource({commit}, cost) {
       commit('spendresource', cost);
     },
