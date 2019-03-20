@@ -99,6 +99,6 @@ new Vue({
     this.$store.commit('initstore', this);
   },
   mounted() {
-    this.$store.commit('startgame');
+    this.$store.dispatch('startgame');
   }
 }).$mount('#app')
