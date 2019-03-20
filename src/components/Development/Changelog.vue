@@ -47,6 +47,7 @@
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
               <li>Terrible bug I don't really understand should be gone now.</li>
+              <li>Some other bugs fixed: Buy above max buildings/infrastructure, 123B suffix broken after DD, offline income, max upgrade notification</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
