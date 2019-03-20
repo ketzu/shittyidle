@@ -254,7 +254,7 @@
               default: ctx.fillStyle = "#2e7d32";
             }
             ctx.beginPath();
-            ctx.rect(x*32,y*32,(x+1)*32,(y+1)*32);
+            ctx.rect(x*32,y*32,32,32);
             ctx.fill();
             ctx.stroke();
           }

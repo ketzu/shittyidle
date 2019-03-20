@@ -113,10 +113,12 @@
   import Research from "./Features/Research.vue";
   import Infrastructure from "./Features/Infrastructure.vue";
   import Achievements from "./Achievements";
+  import CityCanvas from "./Features/CityCanvas";
 
   export default {
     name: "MainScreen",
     components: {
+      CityCanvas,
       Achievements,
       Infrastructure,
       Stats,

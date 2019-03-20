@@ -92,11 +92,11 @@ export const upgrades = {
 };
 
 export const buildingCostOf = (level, amount, base, rate) => {
+  const rexpl = Math.pow(rate, level);
   if(amount === 1)
-    return base * Math.pow(rate, level);
-  const rtos = Math.pow(rate, level);
-  const rtogms = Math.pow(rate, (level+amount)-1);
-  return base * rtos * (rtogms * rate - 1) / (rate - 1);
+    return base * rexpl;
+  const rexpa = Math.pow(rate, amount);
+  return base * rexpl * (rexpa  - 1) / (rate - 1);
 };
 
 export const buildingGain = (level, gain, mult, boni, infra) => {

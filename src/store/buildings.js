@@ -57,6 +57,8 @@ export default {
   mutations: {
     initstore(state, vm) {
       root = vm;
+      if(state.boni===undefined)
+        state.boni = [0, 0, 0, 0, 0, 0, 0, 0];
     },
     startgame(state) {
       // reapply upgrades
