@@ -46,20 +46,27 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>New Settings: Auto upgrade, dense view</li>
-              <li>Settings reorganisation: Hard reset and other dangerous buttons</li>
-              <li>Support button is now in the dev menu and the footer is gone</li>
-              <li>Tabs: Now with icons to have more space and in slightly different order</li>
-              <li>Welcome sign changed, should look better with different city names, maybe worse with some</li>
-              <li>New players receive a 20ep boost during their first run</li>
-              <li>Building list entry is now fully clickable</li>
-              <li>Max buy uses stepsize of multibuy instead of fixed 10</li>
-              <li>Time bug should be fixed now</li>
-              <li>Research 2 middle now provides 40x boost insteadt of 1.001x (I thought I was making it 1.001<sup>level</sup>)</li>
-              <li>Research: Only unlocked by exp, doesn't cost exp anymore.</li>
-              <li>Research: Byebye cats. :(</li>
+              <li>Terrible bug I don't really understand should be gone now.</li>
             </ul>
             <v-expansion-panel>
+              <v-expansion-panel-content>
+                <div slot="header">Version 0.10</div>
+                <ul>
+                  <li>New Settings: Auto upgrade, dense view</li>
+                  <li>Settings reorganisation: Hard reset and other dangerous buttons</li>
+                  <li>Support button is now in the dev menu and the footer is gone</li>
+                  <li>Tabs: Now with icons to have more space and in slightly different order</li>
+                  <li>Welcome sign changed, should look better with different city names, maybe worse with some</li>
+                  <li>New players receive a 20ep boost during their first run</li>
+                  <li>Building list entry is now fully clickable</li>
+                  <li>Max buy uses stepsize of multibuy instead of fixed 10</li>
+                  <li>Time bug should be fixed now</li>
+                  <li>Research 2 middle now provides 40x boost insteadt of 1.001x (I thought I was making it 1.001<sup>level</sup>)</li>
+                  <li>Research: Only unlocked by exp, doesn't cost exp anymore.</li>
+                  <li>Research: Byebye cats. :(</li>
+                </ul>
+              </v-expansion-panel-content>
+
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
