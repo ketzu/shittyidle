@@ -46,13 +46,14 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Terrible bug I don't really understand should be gone now.</li>
-              <li>Some other bugs fixed: Buy above max buildings/infrastructure, 123B suffix broken after DD, offline income, max upgrade notification</li>
+              <li>Upgrade all button fixed, should actually unlock now.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
+                  <li>Terrible bug I don't really understand should be gone now.</li>
+                  <li>Some other bugs fixed: Buy above max buildings/infrastructure, 123B suffix broken after DD, offline income, max upgrade notification</li>
                   <li>New Settings: Auto upgrade, dense view</li>
                   <li>Settings reorganisation: Hard reset and other dangerous buttons</li>
                   <li>Support button is now in the dev menu and the footer is gone</li>
