@@ -25,6 +25,9 @@
         <v-tab-item>
           <v-container grid-list-lg>
             <v-layout align-start justify-center row wrap>
+              <v-flex md12>
+                <CityCanvas></CityCanvas>
+              </v-flex>
               <v-flex md8 offset-md-2 style="position: relative;">
                 <svg width="100%" height="100%" viewBox="0 0 1143 698" version="1.1" xmlns="http://www.w3.org/2000/svg"
                      xml:space="preserve"
