@@ -147,7 +147,8 @@
     placeroad(field, x, y, nx, ny);
   };
 
-  const paint = (canvas, ctx, parent, store, field) => {
+  const paint = (canvas, ctx, parent, store, field, dopaint) => {
+    if(dopaint === false) return;
     // Clear the canvas
     ctx.clearRect(0, 0, ctx.width, ctx.height);
 
@@ -196,16 +197,16 @@
           continue;
         if (e > 0) {
           // only paint from top left corner
-          /*if (x > 0 && y > 0) {
+          if (x > 0 && y > 0) {
             if (field[_x - 1][_y] === e || field[_x][_y - 1] === e)
               continue;
           } else {
 
-          }*/
+          }
           const b = basebuildings[e - 1];
           ctx.beginPath();
           // i don't know why height and width are the wrong way.
-          ctx.rect(x, y, unit,unit); //* b.height, unit * b.width);
+          ctx.rect(x, y, unit * b.height, unit * b.width);
           ctx.strokeStyle = b.mapcolor;
           switch (b.name) {
             case "Farm":
@@ -240,11 +241,23 @@
 
   export default {
     name: "CityCanvas",
+    props: ['tabs'],
     data() {
       return {
         field: undefined,
         rands: undefined,
-        currstate: [0, 0, 0, 0, 0, 0, 0, 0]
+        currstate: [0, 0, 0, 0, 0, 0, 0, 0],
+        shortpaint: undefined,
+        dopaint: true
+      }
+    },
+    watch: {
+      tabs(newVal, oldVal) {
+        if(newVal===0) {
+          this.dopaint = true;
+        }else{
+          this.dopaint = false;
+        }
       }
     },
     methods: {
@@ -312,38 +325,34 @@
 
       const store = this.$store;
 
-      const shortpaint = () => paint(canvas, ctx, parent, store, this.field);
+      this.shortpaint = () => paint(canvas, ctx, parent, store, this.field, this.dopaint);
       this.bus.$on('drawcityon', () => {
-        window.requestAnimationFrame(() => shortpaint());
-        window.addEventListener("resize", shortpaint);
+        window.requestAnimationFrame(() => this.shortpaint());
+        window.addEventListener("resize", this.shortpaint);
       });
       this.bus.$on('drawcityoff', () => {
-        canvas.removeEventListener('resize', shortpaint);
+        canvas.removeEventListener('resize', this.shortpaint);
       });
 
       if(this.$store.getters.drawcity){
-        window.requestAnimationFrame(() => shortpaint());
-        window.addEventListener("resize", shortpaint);
+        window.requestAnimationFrame(() => this.shortpaint());
+        window.addEventListener("resize", this.shortpaint);
       }
 
       store.subscribe((mutation, state) => {
         if(!state.settings.drawcity)
           return;
         if (mutation.type === "updatebuilding") {
-          const start = Date.now();
           this.field = this.update_building(this.field, state.buildings.levels, this.rands);
-          console.log("Timing: " + (Date.now() - start));
         } else if (mutation.type === 'updateinfrastructure') {
-          const start = Date.now();
           this.field = this.update_infrastructure(this.field, state.infrastructure, this.rands);
-          console.log("Timing: " + (Date.now() - start));
         } else if (mutation.type === 'softreset') {
           this.field = this.comp_field();
         } else {
           // no event we want to react to or paint anything
           return;
         }
-        window.requestAnimationFrame(shortpaint);
+        window.requestAnimationFrame(this.shortpaint);
       });
     },
     beforeDestroy() {
