@@ -334,15 +334,18 @@
       update_infrastructure(field) {
         const infra = this.$store.getters.infrastructurelevels;
         let placeholder = 100;
-        if (infra['Roads'] > 0) {
-          placeholder = -2;
+        if(infra['Roads'] >= 300) {
+          placeholder = -2
+        }else{
+          placeholder = 100;
         }
-          for (let x = 0; x < field.length; x += 1) {
-            field[x][0] = placeholder;
-            field[x][field.length - 1] = placeholder;
-            field[0][x] = placeholder;
-            field[field.length - 1][x] = placeholder;
-          }
+        for(let x=0; x<field.length; x+=1) {
+          let mid2 = Math.floor(field.length/4);
+          field[x][mid2] = placeholder;
+          field[x][field.length-mid2] = placeholder;
+          field[mid2][x] = placeholder;
+          field[field.length-mid2][x] = placeholder;
+        }
         if(infra['Roads'] >= 10) {
           placeholder = -2
         }else{
@@ -353,18 +356,17 @@
             field[x][middle] = placeholder;
             field[middle][x] = placeholder;
           }
-        if(infra['Roads'] >= 300) {
-          placeholder = -2
+        if (infra['Roads'] > 0) {
+          placeholder = -2;
         }else{
           placeholder = 100;
         }
-          for(let x=0; x<field.length; x+=1) {
-            let mid2 = Math.floor(field.length/4);
-            field[x][mid2] = placeholder;
-            field[x][field.length-mid2] = placeholder;
-            field[mid2][x] = placeholder;
-            field[field.length-mid2][x] = placeholder;
-          }
+        for (let x = 0; x < field.length; x += 1) {
+          field[x][0] = placeholder;
+          field[x][field.length - 1] = placeholder;
+          field[0][x] = placeholder;
+          field[field.length - 1][x] = placeholder;
+        }
         return field;
       },
       prerand() {

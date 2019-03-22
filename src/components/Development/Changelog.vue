@@ -47,6 +47,7 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
+              <li>Rough city screen.</li>
               <li>Upgrade all button fixed, should actually unlock now.</li>
               <li>Negative building amounts should be recoverable from savegames now and not happen again.</li>
             </ul>
