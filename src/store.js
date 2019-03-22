@@ -254,6 +254,8 @@ export default new Vuex.Store({
       if (state.citylevel === 0 && state.experience === 0) {
         state.experience = 20;
       }
+      if(state.buycount <= 0)
+        state.buycount = 1;
     },
     startgame(state) {
 

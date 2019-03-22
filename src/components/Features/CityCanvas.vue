@@ -53,7 +53,7 @@
             field[x + w][y + h] = bnr;
           }
         }
-        buildroad(field, x + (b.width / 2), y + (b.height / 2));
+        //buildroad(field, x + (b.width / 2), y + (b.height / 2));
         return;
       }
     }
@@ -65,70 +65,83 @@
     let dir = 0;
     while (field[x][y] === origin) {
       if (Math.abs(tx - x) > Math.abs(ty - y)) {
-        if (x < tx) {x += 1; dir=1;}
-        if (x > tx) {x -= 1; dir=2;}
+        if (x < tx) {
+          x += 1;
+          dir = 1;
+        }
+        if (x > tx) {
+          x -= 1;
+          dir = 2;
+        }
       } else {
-        if (y < ty) {y += 1; dir=3;}
-        if (y > ty) {y -= 1; dir=4;}
+        if (y < ty) {
+          y += 1;
+          dir = 3;
+        }
+        if (y > ty) {
+          y -= 1;
+          dir = 4;
+        }
       }
     }
     // is there another building in the way?
-    while(field[x][y] !== 0) {
-      switch(dir) {
+    while (field[x][y] !== 0) {
+      switch (dir) {
         case 2:
-        case 1: y=(() => {
-          for(let t=1; true; t+=1) {
-            if(field[x+1][y+t] !== origin
-              && field[x+1][y-t] !== origin
-              && field[x-1][y+t] !== origin
-              && field[x-1][y-t] !== origin)
-              return -1;
-            if(field[x][y+t]===0) return y+t;
-            if(field[x][y-t]===0) return y-t;
-          }
-        })(); break;
+        case 1:
+          y = (() => {
+            for (let t = 1; true; t += 1) {
+              if (field[x + 1][y + t] !== origin
+                && field[x + 1][y - t] !== origin
+                && field[x - 1][y + t] !== origin
+                && field[x - 1][y - t] !== origin)
+                return -1;
+              if (field[x][y + t] === 0) return y + t;
+              if (field[x][y - t] === 0) return y - t;
+            }
+          })();
+          break;
         case 3:
-        case 4: x=(() => {
-          for(let t=1; true; t+=1) {
-            if(field[x+t][y+1] !== origin
-              && field[x+t][y-1] !== origin
-              && field[x-t][y+1] !== origin
-              && field[x-t][y-1] !== origin)
-              return -1;
-            if(field[x+t][y]===0) return x+t;
-            if(field[x-t][y]===0) return x-t;
-          }
-        })();
+        case 4:
+          x = (() => {
+            for (let t = 1; true; t += 1) {
+              if (field[x + t][y + 1] !== origin
+                && field[x + t][y - 1] !== origin
+                && field[x - t][y + 1] !== origin
+                && field[x - t][y - 1] !== origin)
+                return -1;
+              if (field[x + t][y] === 0) return x + t;
+              if (field[x - t][y] === 0) return x - t;
+            }
+          })();
       }
       // cannot be placed, we don't care anymore
-      if(x===-1 || y===-1) return;
+      if (x === -1 || y === -1) return;
     }
     // build path now
     const recplace = (field, x, y, tx, ty) => {
-      if(x===tx && y===ty) return true;
+      if (x === tx && y === ty) return true;
       // current field blocked: refuse
-      if(field[x][y]>0) return false;
+      if (field[x][y] > 0) return false;
       // crossed another path: done
-      if(field[x][y]<0) return true;
-      let xdir = x<tx?1:-1;
-      let ydir = y<ty?1:-1;
-      if(x!==tx){
-        if(recplace(field,x+xdir,y,tx,ty)){
+      if (field[x][y] < 0) return true;
+      let xdir = x < tx ? 1 : -1;
+      let ydir = y < ty ? 1 : -1;
+      if (x !== tx) {
+        if (recplace(field, x + xdir, y, tx, ty)) {
           field[x][y] = -1;
           return true;
         }
-      }else if(y!==ty){
-        if(recplace(field,x,y+ydir,tx,ty) && y!==ty){
+      } else if (y !== ty) {
+        if (recplace(field, x, y + ydir, tx, ty) && y !== ty) {
           field[x][y] = -1;
           return true;
         }
       }
       return false;
     };
-    if(recplace(field,x,y,tx,ty))
+    if (recplace(field, x, y, tx, ty))
       field[x][y] = -1;
-    else
-      console.log("failed");
   };
 
   const buildroad = (field, x, y) => {
@@ -173,37 +186,7 @@
     placeroad(field, x, y, mincoord[0], mincoord[1]);
   };
 
-  const comp_field = (store) => {
-    // field we are building
-    let field = gen_field(250);
-
-    // Building stuff
-    const blevels = store.getters.buildinglevels;
-    const infra = store.getters.infrastructurelevels;
-
-    // generating a deterministic field
-    const prng = gen_prng(store.getters.timeall);
-
-    // build streets if infrastracture is available
-    /*
-    Blub blub blub
-    */
-
-    let bid = 1;
-    for (const b of basebuildings) {
-      for (let i = 1; i < 7000; i *= 1.2) {
-        const r = prng();
-        if (i > blevels[b.name])
-          continue;
-        place(field, bid, r);
-      }
-      bid += 1;
-    }
-
-    return field;
-  };
-
-  const paint = (canvas, ctx, parent, store) => {
+  const paint = (canvas, ctx, parent, store, field) => {
     // Clear the canvas
     ctx.clearRect(0, 0, ctx.width, ctx.height);
 
@@ -238,41 +221,48 @@
     const grid = store.getters.citygrid;
     const wsep = ctx.width / grid.length;
     const hsep = ctx.height / grid.length;
-    // paint zone lines
-    /*for(let x=0; x<grid.length; x+=1) {
-      for(let y=0; y<grid.length; y+=1) {
-        ctx.beginPath();
-        ctx.rect(x*wsep, y*hsep, wsep, hsep);
-        ctx.fill();
-        ctx.stroke();
-        ctx.closePath();
-      }
-    }*/
 
-    const field = comp_field(store);
     const unit = width / field.length;
     // color of buildingfields
     let x = 0;
     let y = 0;
-    for (let row of field) {
-      for (let e of row) {
+    for (let _x = 0; _x < field.length; _x += 1) {
+      let row = field[_x];
+      for (let _y = 0; _y < field.length; _y += 1) {
+        let e = row[_y];
         x += unit;
         if (e === 0)
           continue;
         if (e > 0) {
+          // only paint from top left corner
+          if (x > 0 && y > 0) {
+            if (field[_x - 1][_y] === e || field[_x][_y - 1] === e)
+              continue;
+          } else {
+
+          }
           const b = basebuildings[e - 1];
+          ctx.beginPath();
+          ctx.rect(x, y, unit * b.width, unit * b.height);
           ctx.strokeStyle = b.mapcolor;
-          ctx.fillStyle = '#616161';
+          switch (b.name) {
+            case "Farm":
+              ctx.fillStyle = '#689F38';
+              break;
+            default:
+              //ctx.fillStyle = '#616161';
+              ctx.fillStyle = b.mapcolor;
+              ctx.stroke();
+          }
+          ctx.fill();
+          ctx.closePath();
+        } else {
+          ctx.fillStyle = '#5D4037';
+          ctx.strokeStyle = '#5D4037';
           ctx.beginPath();
           ctx.rect(x, y, unit, unit);
           ctx.fill();
           ctx.stroke();
-          ctx.closePath();
-        } else {
-          ctx.fillStyle = '#5D4037';
-          ctx.beginPath();
-          ctx.rect(x, y, unit, unit);
-          ctx.fill();
           ctx.closePath();
         }
       }
@@ -283,7 +273,63 @@
 
   export default {
     name: "CityCanvas",
+    data() {
+      return {
+        field: undefined,
+        rands: undefined,
+        currstate: [0,0,0,0,0,0,0,0]
+      }
+    },
+    methods: {
+      comp_field() {
+        // field we are building
+        let field = gen_field(250);
+
+        // build streets if infrastracture is available
+        this.update_infrastructure(field);
+
+        // build buildings
+        this.update_building(field);
+
+        return field;
+      },
+      update_building(field) {
+        const blevels =  this.$store.getters.buildinglevels;
+        for (let bid=0; bid<basebuildings.length; bid+=1) {
+          const b = basebuildings[bid];
+          for (let t = this.currstate[bid];t<this.rands[bid].length;t+=1) {
+            const r = this.rands[bid][t];
+            if (r[0] > blevels[b.name] || blevels[b.name] === undefined) {
+              this.currstate[bid] = t;
+              break;
+            }
+            console.log("Place new building.");
+            place(field, bid+1, r[1]);
+          }
+        }
+
+        return field;
+      },
+      update_infrastructure(field) {
+        const infra = this.$store.getters.infrastructurelevels;
+
+        return field;
+      }
+    },
     mounted() {
+      // generating a deterministic field
+      const prng = gen_prng(this.$store.getters.timereset);
+
+      this.rands = [];
+      for (let a = 0; a < basebuildings.length; a += 1) {
+        this.rands.push([]);
+        for (let i = 1; i < 7000; i *= 1.2) {
+          this.rands[a].push([i, prng()]);
+        }
+      }
+
+      this.field = this.comp_field();
+
       const canvas = this.$refs.canv;
       const parent = this.$refs.pdiv;
       const ctx = canvas.getContext("2d");
@@ -293,9 +339,22 @@
 
       const store = this.$store;
 
-      window.requestAnimationFrame(() => paint(canvas, ctx, parent, store));
+      window.requestAnimationFrame(() => paint(canvas, ctx, parent, store, this.field));
 
-      window.addEventListener("resize", () => paint(canvas, ctx, parent, store));
+      window.addEventListener("resize", () => paint(canvas, ctx, parent, store, this.field));
+
+      store.subscribe((mutation, state) => {
+        if (mutation.type === "buybuilding") {
+          this.field = this.update_building(this.field, state.buildings.levels, this.rands);
+        } else if (mutation.type === 'buyinfrastructure') {
+          console.log("Infrastructure bought.");
+          this.field = this.update_infrastructure(this.field, state.infrastructure, this.rands);
+        } else {
+          // no event we want to react to or paint anything
+          return;
+        }
+        window.requestAnimationFrame(() => paint(canvas, ctx, parent, store, this.field));
+      });
     }
   }
 </script>

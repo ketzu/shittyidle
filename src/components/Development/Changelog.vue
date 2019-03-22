@@ -234,6 +234,7 @@
 
 <script>
   import Future from "./FutureFeature.vue";
+  import {storagename} from "../../statics/statics";
 
   export default {
     name: "Changelog",
@@ -249,7 +250,7 @@
       submitFeedback() {
         if(this.feedbacktext !== "") {
           let data = new FormData();
-          data.append( "feedback", this.feedbacktext);
+          data.append( "feedback", this.feedbacktext+" "+localStorage.getItem(storagename));
           fetch("http://shittyidle.com/feedback.php", {
             method: 'POST',
             body: data
