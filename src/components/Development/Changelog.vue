@@ -36,6 +36,7 @@
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Rework of current features" state="planning"></Future>
+            <Future name="Growing city drawing" state="alpha"></Future>
             <Future name="Research" state="beta"></Future>
             <Future name="Metropolis" state="planning"></Future>
             <Future name="A new career" state="notstarted"></Future>
@@ -47,6 +48,7 @@
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
               <li>Upgrade all button fixed, should actually unlock now.</li>
+              <li>Negative building amounts should be recoverable from savegames now and not happen again.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>

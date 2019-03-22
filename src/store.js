@@ -108,7 +108,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.11.2";
+const version = "0.11.3";
 
 export default new Vuex.Store({
   state: {
@@ -347,9 +347,15 @@ export default new Vuex.Store({
         eventBus.$emit('achievement', achievements[name]);
       }
       Vue.set(state.achievements, name, true);
+    },
+    updateinfrastructure(state) {
+      // infrastructure update reaction possibly
     }
   },
   actions: {
+    initstore({commit}, payload) {
+      commit('initstore', payload);
+    },
     startgame({commit, state}) {
       commit('startgame');
 
@@ -393,6 +399,7 @@ export default new Vuex.Store({
     },
     buyinfrastructure({commit}, payload) {
       commit('buyinfrastrucutre', payload);
+      commit('updateinfrastructure');
     },
     selectresearch({commit}, payload) {
       commit('selectresearch', payload);

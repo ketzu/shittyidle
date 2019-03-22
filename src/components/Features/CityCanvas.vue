@@ -48,142 +48,103 @@
       const x = (prng() % (field.length - b.width - 2)) + 1;
       const y = (prng() % (field.length - b.height - 2)) + 1;
       if (has_space(field, x, y, b.width, b.height)) {
+        // place road
+        buildroad(field, x + (b.width / 2), y + (b.height / 2));
+        // place building, overwrites road
         for (let w = 0; w < b.width; w += 1) {
           for (let h = 0; h < b.height; h += 1) {
             field[x + w][y + h] = bnr;
           }
         }
-        //buildroad(field, x + (b.width / 2), y + (b.height / 2));
         return;
       }
     }
   };
 
   const placeroad = (field, x, y, tx, ty) => {
-    // move to open field
-    const origin = field[x][y];
-    let dir = 0;
-    while (field[x][y] === origin) {
-      if (Math.abs(tx - x) > Math.abs(ty - y)) {
-        if (x < tx) {
-          x += 1;
-          dir = 1;
-        }
-        if (x > tx) {
-          x -= 1;
-          dir = 2;
-        }
-      } else {
-        if (y < ty) {
-          y += 1;
-          dir = 3;
-        }
-        if (y > ty) {
-          y -= 1;
-          dir = 4;
-        }
-      }
-    }
-    // is there another building in the way?
-    while (field[x][y] !== 0) {
-      switch (dir) {
-        case 2:
-        case 1:
-          y = (() => {
-            for (let t = 1; true; t += 1) {
-              if (field[x + 1][y + t] !== origin
-                && field[x + 1][y - t] !== origin
-                && field[x - 1][y + t] !== origin
-                && field[x - 1][y - t] !== origin)
-                return -1;
-              if (field[x][y + t] === 0) return y + t;
-              if (field[x][y - t] === 0) return y - t;
-            }
-          })();
-          break;
-        case 3:
-        case 4:
-          x = (() => {
-            for (let t = 1; true; t += 1) {
-              if (field[x + t][y + 1] !== origin
-                && field[x + t][y - 1] !== origin
-                && field[x - t][y + 1] !== origin
-                && field[x - t][y - 1] !== origin)
-                return -1;
-              if (field[x + t][y] === 0) return x + t;
-              if (field[x - t][y] === 0) return x - t;
-            }
-          })();
-      }
-      // cannot be placed, we don't care anymore
-      if (x === -1 || y === -1) return;
-    }
-    // build path now
-    const recplace = (field, x, y, tx, ty) => {
-      if (x === tx && y === ty) return true;
-      // current field blocked: refuse
-      if (field[x][y] > 0) return false;
-      // crossed another path: done
-      if (field[x][y] < 0) return true;
-      let xdir = x < tx ? 1 : -1;
-      let ydir = y < ty ? 1 : -1;
-      if (x !== tx) {
-        if (recplace(field, x + xdir, y, tx, ty)) {
-          field[x][y] = -1;
-          return true;
-        }
-      } else if (y !== ty) {
-        if (recplace(field, x, y + ydir, tx, ty) && y !== ty) {
-          field[x][y] = -1;
-          return true;
-        }
-      }
-      return false;
+    let count = 0;
+    const id = ({x,y}) => {
+      return x*field.length + y;
     };
-    if (recplace(field, x, y, tx, ty))
-      field[x][y] = -1;
+    let visited = new Set();
+    let queue = [];
+    // add first node
+    queue.push({x:x,y:y,path:[]});
+    visited.add(id({x:x,y:y}));
+
+    while(queue.length>0) {
+      // emergency break
+      count += 1;
+      if(count > 70000) break;
+
+      // actual algorithm
+      let current = queue.shift();
+
+      // generate successors
+      for(let dir of [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}]) {
+        let node = {x:current.x+dir.x,y:current.y+dir.y,path:[...current.path,{x:current.x,y:current.y}]};
+        // check if node is out of bounds
+        if(node.x>=field.length ||node.x<0 || node.y>=field.length ||node.y<0)
+          continue;
+        // check if node is an obstacle or has been visited
+        if(field[node.x][node.y]>0 || visited.has(id(node)))
+          continue;
+        // check if goal is reached or other path met
+        if(node.x === tx && node.y === ty || field[node.x][node.y]<0) {
+          for(let p of current.path) {
+            field[p.x][p.y] = -1;
+          }
+          field[current.x][current.y] = -1;
+          return;
+        }
+        visited.add(id(node));
+        queue.push(node);
+      }
+    }
   };
 
   const buildroad = (field, x, y) => {
+    // starting coordinates
     x = Math.floor(x);
     y = Math.floor(y);
-    // find closest road or edge
-    let closestedge = Math.min(x, y, field.length - x, field.length - y);
 
-    // range to check for road
-    const range_s = x - closestedge;
-    const range_e = x + closestedge + 1;
-    let mincoord = [-1, -1];
-    // distance metric
-    const dist = (a, b) => {
-      const d1 = Math.abs(x - a[0]) + Math.abs(y - a[1]);
-      const d2 = Math.abs(x - b[0]) + Math.abs(y - b[1]);
-      return d1 > d2;
-    };
-    // check all fields
-    for (let a = y - closestedge; a < y + closestedge; a += 1) {
-      for (let b = range_s; b < range_e; b += 1) {
-        if (field[a][b] === -1) {
-          if (dist(mincoord, [a, b])) {
-            mincoord[0] = a;
-            mincoord[1] = b;
-          }
-        }
+    // output variables
+    let nx = 0;
+    let ny = 0;
+
+    // temporary spiral variables
+    let tx = 0;
+    let ty = 0;
+    let dx = 0;
+    let dy = -1;
+    // this is a for loop in the form of a spiral, that will end if we touch an edge or a road
+    while (true) {
+      if (x + tx <= 0 || x + tx >= field.length - 1) {
+        // touching x edge
+        nx = x + tx;
+        ny = y;
+        break;
+      } else if (y + ty >= field.length - 1 || y + ty <= 0) {
+        // touching y edge
+        nx = x;
+        ny = y + ty;
+        break;
       }
+      if (field[x + tx][y + ty] < 0) {
+        // touching road
+        nx = x + tx;
+        ny = y + ty;
+        break;
+      }
+      if (tx === ty || (tx < 0 && tx == -ty) || (tx > 0 && tx == 1 - ty)) {
+        dx = [-dy, dy = dx][0];
+      }
+      tx = tx + dx;
+      ty = ty + dy;
     }
 
-    if (mincoord[0] === -1) {
-      if (x === closestedge) {
-        mincoord = [0, y];
-      } else if (y === closestedge) {
-        mincoord = [x, 0];
-      } else if (x + closestedge === field.length) {
-        mincoord = [250, y];
-      } else {
-        mincoord = [x, 250];
-      }
-    }
-    placeroad(field, x, y, mincoord[0], mincoord[1]);
+    // actually place road from x,y to nx,ny
+    placeroad(field, x, y, nx, ny);
   };
 
   const paint = (canvas, ctx, parent, store, field) => {
@@ -235,15 +196,16 @@
           continue;
         if (e > 0) {
           // only paint from top left corner
-          if (x > 0 && y > 0) {
+          /*if (x > 0 && y > 0) {
             if (field[_x - 1][_y] === e || field[_x][_y - 1] === e)
               continue;
           } else {
 
-          }
+          }*/
           const b = basebuildings[e - 1];
           ctx.beginPath();
-          ctx.rect(x, y, unit * b.width, unit * b.height);
+          // i don't know why height and width are the wrong way.
+          ctx.rect(x, y, unit,unit); //* b.height, unit * b.width);
           ctx.strokeStyle = b.mapcolor;
           switch (b.name) {
             case "Farm":
@@ -257,8 +219,13 @@
           ctx.fill();
           ctx.closePath();
         } else {
-          ctx.fillStyle = '#5D4037';
-          ctx.strokeStyle = '#5D4037';
+          if (e === -2) {
+            ctx.strokeStyle = "#757575";
+            ctx.fillStyle = '#757575';
+          } else {
+            ctx.fillStyle = '#5D4037';
+            ctx.strokeStyle = '#5D4037';
+          }
           ctx.beginPath();
           ctx.rect(x, y, unit, unit);
           ctx.fill();
@@ -277,7 +244,7 @@
       return {
         field: undefined,
         rands: undefined,
-        currstate: [0,0,0,0,0,0,0,0]
+        currstate: [0, 0, 0, 0, 0, 0, 0, 0]
       }
     },
     methods: {
@@ -294,17 +261,16 @@
         return field;
       },
       update_building(field) {
-        const blevels =  this.$store.getters.buildinglevels;
-        for (let bid=0; bid<basebuildings.length; bid+=1) {
+        const blevels = this.$store.getters.buildinglevels;
+        for (let bid = 0; bid < basebuildings.length; bid += 1) {
           const b = basebuildings[bid];
-          for (let t = this.currstate[bid];t<this.rands[bid].length;t+=1) {
+          for (let t = this.currstate[bid]; t < this.rands[bid].length; t += 1) {
             const r = this.rands[bid][t];
             if (r[0] > blevels[b.name] || blevels[b.name] === undefined) {
               this.currstate[bid] = t;
               break;
             }
-            console.log("Place new building.");
-            place(field, bid+1, r[1]);
+            place(field, bid + 1, r[1]);
           }
         }
 
@@ -312,7 +278,14 @@
       },
       update_infrastructure(field) {
         const infra = this.$store.getters.infrastructurelevels;
-
+        if (infra['Roads'] > 0) {
+          for (let x = 0; x < field.length; x += 1) {
+            field[x][0] = -2;
+            field[x][field.length - 1] = -2;
+            field[0][x] = -2;
+            field[field.length - 1][x] = -2;
+          }
+        }
         return field;
       }
     },
@@ -323,7 +296,7 @@
       this.rands = [];
       for (let a = 0; a < basebuildings.length; a += 1) {
         this.rands.push([]);
-        for (let i = 1; i < 7000; i *= 1.2) {
+        for (let i = 1; i < 7000; i *= 2) {
           this.rands[a].push([i, prng()]);
         }
       }
@@ -339,22 +312,43 @@
 
       const store = this.$store;
 
-      window.requestAnimationFrame(() => paint(canvas, ctx, parent, store, this.field));
+      const shortpaint = () => paint(canvas, ctx, parent, store, this.field);
+      this.bus.$on('drawcityon', () => {
+        window.requestAnimationFrame(() => shortpaint());
+        window.addEventListener("resize", shortpaint);
+      });
+      this.bus.$on('drawcityoff', () => {
+        canvas.removeEventListener('resize', shortpaint);
+      });
 
-      window.addEventListener("resize", () => paint(canvas, ctx, parent, store, this.field));
+      if(this.$store.getters.drawcity){
+        window.requestAnimationFrame(() => shortpaint());
+        window.addEventListener("resize", shortpaint);
+      }
 
       store.subscribe((mutation, state) => {
-        if (mutation.type === "buybuilding") {
+        if(!state.settings.drawcity)
+          return;
+        if (mutation.type === "updatebuilding") {
+          const start = Date.now();
           this.field = this.update_building(this.field, state.buildings.levels, this.rands);
-        } else if (mutation.type === 'buyinfrastructure') {
-          console.log("Infrastructure bought.");
+          console.log("Timing: " + (Date.now() - start));
+        } else if (mutation.type === 'updateinfrastructure') {
+          const start = Date.now();
           this.field = this.update_infrastructure(this.field, state.infrastructure, this.rands);
+          console.log("Timing: " + (Date.now() - start));
+        } else if (mutation.type === 'softreset') {
+          this.field = this.comp_field();
         } else {
           // no event we want to react to or paint anything
           return;
         }
-        window.requestAnimationFrame(() => paint(canvas, ctx, parent, store, this.field));
+        window.requestAnimationFrame(shortpaint);
       });
+    },
+    beforeDestroy() {
+      this.bus.$off('drawcityon');
+      this.bus.$off('drawcityoff');
     }
   }
 </script>
