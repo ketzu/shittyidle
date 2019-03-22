@@ -16,7 +16,6 @@ export default {
       return state.currency;
     },
     drawcity(state) {
-      console.log(state.drawcity);
       return state.drawcity;
     },
     densebuildingmenu(state) {

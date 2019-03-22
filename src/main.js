@@ -96,9 +96,9 @@ new Vue({
     }
   },
   beforeCreate() {
-    this.$store.commit('initstore', this);
+    this.$store.dispatch('initstore', this);
   },
   mounted() {
-    this.$store.commit('startgame');
+    this.$store.dispatch('startgame');
   }
 }).$mount('#app')
