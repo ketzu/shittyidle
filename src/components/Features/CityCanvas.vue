@@ -87,7 +87,7 @@
         if(node.x>=field.length ||node.x<0 || node.y>=field.length ||node.y<0)
           continue;
         // check if node is an obstacle or has been visited
-        if(field[node.x][node.y]>0 || visited.has(id(node)))
+        if((field[node.x][node.y]>0 && field[node.x][node.y]<100 ) || visited.has(id(node)))
           continue;
         // check if goal is reached or other path met
         if(node.x === tx && node.y === ty || field[node.x][node.y]<0) {
@@ -166,7 +166,7 @@
     // if we have roads in any way, get surrounding road
     if (infra['Roads'] > 0) {
       ctx.lineWidth = 10;
-      ctx.strokeStyle = "#757575";
+      ctx.strokeStyle = "#455A64";
     } else {
       ctx.lineWidth = 1;
       ctx.strokeStyle = "white";
@@ -193,7 +193,7 @@
       for (let _y = 0; _y < field.length; _y += 1) {
         let e = row[_y];
         x += unit;
-        if (e === 0)
+        if (e === 0 ||e===100)
           continue;
         if (e > 0) {
           // only paint from top left corner
@@ -203,7 +203,12 @@
           } else {
 
           }
-          const b = basebuildings[e - 1];
+          let b;
+          if(e!==50){
+            b = basebuildings[e - 1];
+          }else{
+            b = {height: 2, width: 2, mapcolor: "#212121"}
+          }
           ctx.beginPath();
           // i don't know why height and width are the wrong way.
           ctx.rect(x, y, unit * b.height, unit * b.width);
@@ -221,11 +226,16 @@
           ctx.closePath();
         } else {
           if (e === -2) {
-            ctx.strokeStyle = "#757575";
-            ctx.fillStyle = '#757575';
+            ctx.strokeStyle = "#455A64";
+            ctx.fillStyle = '#455A64';
           } else {
-            ctx.fillStyle = '#5D4037';
-            ctx.strokeStyle = '#5D4037';
+            if(infra['Roads'] > 100) {
+              ctx.strokeStyle = "#757575";
+              ctx.fillStyle = '#757575';
+            }else{
+              ctx.fillStyle = '#5D4037';
+              ctx.strokeStyle = '#5D4037';
+            }
           }
           ctx.beginPath();
           ctx.rect(x, y, unit, unit);
@@ -246,7 +256,7 @@
       return {
         field: undefined,
         rands: undefined,
-        currstate: [0, 0, 0, 0, 0, 0, 0, 0],
+        currstate: [0, 0, 0, 0, 0, 0, 0, 0, 0],
         shortpaint: undefined,
         dopaint: true
       }
@@ -255,6 +265,7 @@
       tabs(newVal, oldVal) {
         if(newVal===0) {
           this.dopaint = true;
+          window.setTimeout(this.shortpaint,1000);
         }else{
           this.dopaint = false;
         }
@@ -275,8 +286,11 @@
       },
       update_building(field) {
         const blevels = this.$store.getters.buildinglevels;
+        let levelsum = 0;
+        // add functional buildings
         for (let bid = 0; bid < basebuildings.length; bid += 1) {
           const b = basebuildings[bid];
+          levelsum += blevels[b.name];
           for (let t = this.currstate[bid]; t < this.rands[bid].length; t += 1) {
             const r = this.rands[bid][t];
             if (r[0] > blevels[b.name] || blevels[b.name] === undefined) {
@@ -287,32 +301,87 @@
           }
         }
 
+        const has_roadaccess = (field, x, y) => {
+          return ([[x-1, y],[x-1, y+1],[x, y-1],[x+1, y-1],[x+2, y],[x+2, y+1],[x, y+2],[x+1, y+2]].some((value) => {
+            if(value[0]<0 || value[0] > field.length || value[1]<0 || value[1] > field.length)
+              return false;
+            if(field[value[0]][value[1]] < 0)
+              return true;
+          } ));
+        };
+
+        // add residential only buildings
+        let prng = gen_prng(1453*this.$store.getters.timereset);
+        for(let i=this.currstate[8];i<levelsum;i+=1) {
+          // try ten times to place a building
+          for (let cntdwn = 100; cntdwn > 0; cntdwn -= 1) {
+            const x = (prng() % (field.length - 2 - 2)) + 1;
+            const y = (prng() % (field.length - 2 - 2)) + 1;
+            if (has_space(field, x, y, 2, 2) && has_roadaccess(field, x, y)) {
+              // place building, overwrites road
+              for (let w = 0; w < 2; w += 1) {
+                for (let h = 0; h < 2; h += 1) {
+                  field[x + w][y + h] = 50;
+                }
+              }
+              continue;
+            }
+          }
+        }
+        this.currstate[8] = levelsum;
         return field;
       },
       update_infrastructure(field) {
         const infra = this.$store.getters.infrastructurelevels;
+        let placeholder = 100;
         if (infra['Roads'] > 0) {
+          placeholder = -2;
+        }
           for (let x = 0; x < field.length; x += 1) {
-            field[x][0] = -2;
-            field[x][field.length - 1] = -2;
-            field[0][x] = -2;
-            field[field.length - 1][x] = -2;
+            field[x][0] = placeholder;
+            field[x][field.length - 1] = placeholder;
+            field[0][x] = placeholder;
+            field[field.length - 1][x] = placeholder;
+          }
+        if(infra['Roads'] >= 10) {
+          placeholder = -2
+        }else{
+          placeholder = 100;
+        }
+          for(let x=0; x<field.length; x+=1) {
+            let middle = Math.floor(field.length/2);
+            field[x][middle] = placeholder;
+            field[middle][x] = placeholder;
+          }
+        if(infra['Roads'] >= 300) {
+          placeholder = -2
+        }else{
+          placeholder = 100;
+        }
+          for(let x=0; x<field.length; x+=1) {
+            let mid2 = Math.floor(field.length/4);
+            field[x][mid2] = placeholder;
+            field[x][field.length-mid2] = placeholder;
+            field[mid2][x] = placeholder;
+            field[field.length-mid2][x] = placeholder;
+          }
+        return field;
+      },
+      prerand() {
+        // generating a deterministic field
+        const prng = gen_prng(this.$store.getters.timereset);
+
+        this.rands = [];
+        for (let a = 0; a < basebuildings.length; a += 1) {
+          this.rands.push([]);
+          for (let i = 1; i < 7000; i *= 2) {
+            this.rands[a].push([i, prng()]);
           }
         }
-        return field;
       }
     },
     mounted() {
-      // generating a deterministic field
-      const prng = gen_prng(this.$store.getters.timereset);
-
-      this.rands = [];
-      for (let a = 0; a < basebuildings.length; a += 1) {
-        this.rands.push([]);
-        for (let i = 1; i < 7000; i *= 2) {
-          this.rands[a].push([i, prng()]);
-        }
-      }
+      this.prerand();
 
       this.field = this.comp_field();
 
@@ -348,6 +417,8 @@
           this.field = this.update_infrastructure(this.field, state.infrastructure, this.rands);
         } else if (mutation.type === 'softreset') {
           this.field = this.comp_field();
+          this.currstate = [0, 0, 0, 0, 0, 0, 0, 0];
+          this.prerand();
         } else {
           // no event we want to react to or paint anything
           return;
