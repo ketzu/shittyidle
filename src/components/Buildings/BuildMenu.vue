@@ -38,7 +38,10 @@
     components: {Building, MultiBuy},
     computed: {
       anyupgrades() {
-        return this.$root.store_buildings.some(({name,title}) => {title==="The same"?false:upgradeable(name, this.$store.getters.buildinglevels[name], this.$store.getters.boughtupgrades[name])});
+        return this.$root.store_buildings.some(({name,title}) => {
+        return title==="The same"?false
+                  :upgradeable(name, this.$store.getters.buildinglevels[name],
+                  this.$store.getters.boughtupgrades[name])});
       },
       densebuildingmenu() {
         return this.$store.getters.densebuildingmenu;

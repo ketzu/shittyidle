@@ -94,6 +94,9 @@ export default {
     },
     setAutoupgrade(state, value) {
       state.autoupgrade = value;
+    },
+    updatebuilding(state) {
+      // update buildings reaction?
     }
   },
   actions: {
@@ -152,6 +155,7 @@ export default {
         }
       }
       submitBuildingStats(state);
+      commit('updatebuilding');
     },
     buyallupgrades({state, dispatch}) {
       // for all buildings

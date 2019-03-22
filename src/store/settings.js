@@ -8,19 +8,15 @@ export default {
     cityname: "Shitty Idle",
     upgradeindicator: false,
     ignoreupgradebuy: false,
-    densebuildingmenu: false
+    densebuildingmenu: false,
+    drawcity: true
   },
   getters: {
-    initstore(state, vm) {
-      if(state.ignoreupgradebuy===undefined)
-        state.ignoreupgradebuy = false;
-      if(state.densebuildingmenu===undefined)
-        state.densebuildingmenu = false;
-      if(state.upgradeindicator===undefined)
-        state.upgradeindicator = false;
-    },
     currency(state) {
       return state.currency;
+    },
+    drawcity(state) {
+      return state.drawcity;
     },
     densebuildingmenu(state) {
       return state.densebuildingmenu;
@@ -46,6 +42,14 @@ export default {
       if(state.densebuildingmenu === undefined) {
         Vue.set(state, 'densebuildingmenu', false);
       }
+      if(state.ignoreupgradebuy===undefined)
+        state.ignoreupgradebuy = false;
+      if(state.densebuildingmenu===undefined)
+        state.densebuildingmenu = false;
+      if(state.upgradeindicator===undefined)
+        state.upgradeindicator = false;
+      if(state.drawcity===undefined)
+        state.drawcity = true;
     },
     setCurrency(state, value) {
       state.currency = value;
@@ -65,11 +69,17 @@ export default {
     },
     setDensebuildingmenu(state, value) {
       state.densebuildingmenu = value;
+    },
+    setDrawcity(state, value) {
+      state.drawcity = value;
     }
   },
   actions: {
     setCurrency({state, commit, rootState}, value) {
       commit('setCurrency', value);
+    },
+    setDrawcity({state, commit, rootState}, value) {
+      commit('setDrawcity', value);
     },
     setNumberformat({state, commit, rootState}, payload) {
       commit('setNumberformat', payload);

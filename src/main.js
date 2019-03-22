@@ -97,7 +97,7 @@ new Vue({
     }
   },
   beforeCreate() {
-    this.$store.commit('initstore', this);
+    this.$store.dispatch('initstore', this);
     let self = this;
     kongregateAPI.loadAPI(()=>{
       self.kongapi=kongregateAPI.getAPI();

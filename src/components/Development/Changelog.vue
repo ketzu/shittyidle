@@ -21,6 +21,7 @@
             <h2>Upcoming Features</h2>
             <br>
             <Future name="Rework of current features" state="planning"></Future>
+            <Future name="Growing city drawing" state="alpha"></Future>
             <Future name="Research" state="beta"></Future>
             <Future name="Metropolis" state="planning"></Future>
             <Future name="A new career" state="notstarted"></Future>
@@ -31,13 +32,16 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}} (Kong)</div>
             <ul>
-              <li>Terrible bug I don't really understand should be gone now.</li>
-              <li>Some other bugs fixed: Buy above max buildings/infrastructure, 123B suffix broken after DD, offline income, max upgrade notification</li>
+              <li>Rough city screen.</li>
+              <li>Upgrade all button fixed, should actually unlock now.</li>
+              <li>Negative building amounts should be recoverable from savegames now and not happen again.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.10</div>
                 <ul>
+                  <li>Terrible bug I don't really understand should be gone now.</li>
+                  <li>Some other bugs fixed: Buy above max buildings/infrastructure, 123B suffix broken after DD, offline income, max upgrade notification</li>
                   <li>New Settings: Auto upgrade, dense view</li>
                   <li>Settings reorganisation: Hard reset and other dangerous buttons</li>
                   <li>Support button is now in the dev menu and the footer is gone</li>
@@ -218,6 +222,7 @@
 
 <script>
   import Future from "./FutureFeature.vue";
+  import {storagename} from "../../statics/statics";
 
   export default {
     name: "Changelog",
@@ -233,7 +238,7 @@
       submitFeedback() {
         if(this.feedbacktext !== "") {
           let data = new FormData();
-          data.append( "feedback", this.feedbacktext);
+          data.append( "feedback", this.feedbacktext+" "+localStorage.getItem(storagename));
           fetch("http://shittyidle.com/feedback.php", {
             method: 'POST',
             body: data

@@ -60,6 +60,13 @@
         ></v-switch>
       </v-flex>
 
+      <v-flex md4 offset-md1 xs10 offset-xs1>
+        <v-switch
+            v-model="drawcitymenu"
+            label="Draw city"
+        ></v-switch>
+      </v-flex>
+
       <v-flex md10 offset-md1>
         <v-divider></v-divider>
         <br>
@@ -108,6 +115,14 @@
         },
         set(value) {
           this.$store.dispatch('setDensebuildingmenu', value);
+        }
+      },
+      drawcitymenu: {
+        get() {
+          return this.$store.getters.drawcity;
+        },
+        set(value) {
+          this.$store.dispatch('setDrawcity', value);
         }
       },
       newcityname: {
