@@ -34,7 +34,7 @@
       return false;
     for (let a = 0; a < w; a += 1) {
       for (let b = 0; b < h; b += 1) {
-        if (field[a + x][b + y] !== 0)
+        if (field[a + x][b + y] !== 0 && field[a + x][b + y] !== 2017)
           return false;
       }
     }
@@ -185,6 +185,28 @@
     const hsep = ctx.height / grid.length;
 
     const unit = width / field.length;
+
+    // add some trees
+    ctx.strokeStyle = "#1B5E20";
+    ctx.fillStyle = "#1B5E20";
+    let local_prng = gen_prng(2017 * store.getters.timereset);
+    const treeamount = 1000+(local_prng()%500);
+    let ox = 0;
+    let oy = 0;
+    for(let t=0;t<treeamount;t+=1) {
+      let cords = local_prng();
+      ox += cords % (field.length-2) +1;
+      oy += Math.floor(cords / (field.length-2));
+      ox = ox % (field.length-2) +1;
+      oy = oy % (field.length-2) +1;
+
+      ctx.beginPath();
+      ctx.rect(ox*unit, oy*unit, unit, unit);
+      ctx.fill();
+      ctx.stroke();
+      ctx.closePath();
+    }
+
     // color of buildingfields
     let x = 0;
     let y = 0;
@@ -204,10 +226,16 @@
 
           }
           let b;
-          if(e!==50){
+          if(e<10){
             b = basebuildings[e - 1];
           }else{
-            b = {height: 2, width: 2, mapcolor: "#212121"}
+            if(e===50) {
+              // living house
+              b = {height: 2, width: 2, mapcolor: "#212121"}
+            }else if(e===2017) {
+              // tree
+              b = {height: 1, width: 1, mapcolor: "#1B5E20"}
+            }
           }
           ctx.beginPath();
           // i don't know why height and width are the wrong way.
