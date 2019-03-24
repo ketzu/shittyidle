@@ -61,6 +61,10 @@ export default {
         state.boni = [0, 0, 0, 0, 0, 0, 0, 0];
       if(state.autoupgrade===undefined)
         state.autoupgrade = false;
+      if(state.upgrades===undefined)
+        state.upgrades = {};
+      if(state.levels===undefined)
+        state.levels = {};
     },
     startgame(state) {
       // reapply upgrades

@@ -231,10 +231,8 @@ export default new Vuex.Store({
         
         // check if substore changes can be apllied
         // grid
-        if(deserialize.grid === undefined) {
-          deserialize.grid = { grid: deserialize.citygrid, configs: deserialize.gridconfigs}
-          delete deserialize.gridconfigs;
-          delete deserialize.citygrid;
+        if(deserialize.grid === undefined ||deserialize.grid.grid === undefined) {
+          deserialize.grid = { grid: deserialize.citygrid, configs: deserialize.gridconfigs};
         }
         //buildings
         if(deserialize.buildings.levels === undefined) {
@@ -242,8 +240,6 @@ export default new Vuex.Store({
               "boni": deserialize.buildingboni,
               "upgrades":deserialize.upgrades,
               "autoupgrade":false};
-          delete deserialize.buildingboni;
-          delete deserialize.upgrades;
         }
 
         // Replace the state object with the stored item
