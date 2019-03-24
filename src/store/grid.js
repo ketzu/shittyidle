@@ -76,6 +76,17 @@ export default {
   mutations: {
     initstore(state, vm) {
       root = vm;
+      if(state.grid===undefined) {
+        state.grid = [
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0]
+        ];
+      }
+      if(state.configs===undefined)
+        state.configs = [];
     },
     startgame(state) {
       // reapply grid results

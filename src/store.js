@@ -231,8 +231,8 @@ export default new Vuex.Store({
         
         // check if substore changes can be apllied
         // grid
-        if(deserialize.grid === undefined) {
-          deserialize.grid = { grid: deserialize.citygrid, configs: deserialize.gridconfigs}
+        if(deserialize.grid === undefined ||deserialize.grid.grid === undefined) {
+          deserialize.grid = { grid: deserialize.citygrid, configs: deserialize.gridconfigs};
           delete deserialize.gridconfigs;
           delete deserialize.citygrid;
         }
