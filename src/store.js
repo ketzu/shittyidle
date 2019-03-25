@@ -306,7 +306,6 @@ export default new Vuex.Store({
           state.infrastructure[building.name] += 1;
         }
       }
-      submitBuildingStats(state);
     },
     selectresearch(state, {level, selection}) {
       if (state.experience < research[level].cost)
@@ -394,9 +393,10 @@ export default new Vuex.Store({
     settownspecs({commit}, payload) {
       commit('settownspecs', payload);
     },
-    buyinfrastructure({commit}, payload) {
+    buyinfrastructure({commit,state}, payload) {
       commit('buyinfrastrucutre', payload);
       commit('updateinfrastructure');
+      submitBuildingStats(state.buildings,state);
     },
     selectresearch({commit}, payload) {
       commit('selectresearch', payload);

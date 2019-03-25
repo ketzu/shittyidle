@@ -10,15 +10,15 @@ import {
 } from "../statics/buildings";
 import eventBus from "@/eventBus";
 
-export const submitBuildingStats = (state) => {
-  let buildinglevels = state.buildings;
+export const submitBuildingStats = (state, rootState) => {
+  let buildinglevels = state.levels;
   let count = 0;
   for(let b in buildinglevels){
     if(buildinglevels.hasOwnProperty(b)) {
       count+=buildinglevels[b];
     }
   }
-  let infralevels = state.infrastructure;
+  let infralevels = rootState.infrastructure;
   for(let i in infralevels){
     if(infralevels.hasOwnProperty(i)) {
       count+=infralevels[i];
@@ -158,7 +158,7 @@ export default {
           }
         }
       }
-      submitBuildingStats(state);
+      submitBuildingStats(state, rootState);
       commit('updatebuilding');
     },
     buyallupgrades({state, dispatch}) {
