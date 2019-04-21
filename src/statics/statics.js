@@ -42,9 +42,9 @@ export const research = [
 
 export const zones = [
   {name: 'Free', color: 'green darken-4', icons: ['']},
-  {name: 'Comercial', color: 'blue darken-4', icons: ['fas fa-glass-martini ','fas fa-beer','fas fa-hotel'], strong: "Stores and Banks", weak :"Inn and Powerplant."},
-  {name: 'Residential', color: 'light-green darken-2', icons: ['fas fa-home', 'fas fa-building', 'fas fa-place-of-worship'], strong: "Inn and Casino", weak: "Store and Factory."},
-  {name: 'Industrial', color: 'yellow accent-4', icons: ['fas fa-industry', 'fas fa-warehouse'], strong: "Factory and Energy", weak: "Bank and Casino."}
+  {name: 'Comercial', color: 'blue darken-4', icons: ['fas fa-glass-martini ','fas fa-beer','fas fa-hotel'], strong: ["Store","Bank"], weak : ["Inn","Energy"]},
+  {name: 'Residential', color: 'light-green darken-2', icons: ['fas fa-home', 'fas fa-building', 'fas fa-place-of-worship'], strong: ["Inn","Casino"], weak: ["Store","Factory"]},
+  {name: 'Industrial', color: 'yellow accent-4', icons: ['fas fa-industry', 'fas fa-warehouse'], strong: ["Factory","Energy"], weak: ["Bank","Casino"]}
 ];
 
 export const achievements = {

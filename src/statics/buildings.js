@@ -97,7 +97,7 @@ export const upgrades = {
     90: {gain: 8, uname: "Renewable Energy", upgcost: 50}
   },
   Casino: {
-    75: {gain: 2, title: "Casino", uname: "Gamling License", upgcost: 50},
+    75: {gain: 2, title: "Casino", uname: "Gambling License", upgcost: 50},
     150: {gain: 4, title: "Las Vegas", uname: "Gambling Addiction", upgcost: 50}
   },
 };
