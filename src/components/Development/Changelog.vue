@@ -47,13 +47,15 @@
             <h2>Changelog</h2>
             <div slot="header">Version {{$store.getters.version}}</div>
             <ul>
-              <li>Max buy maybe fixed.</li>
-              <li>Tried to eliminate the savegame bugs, if you have any savegame related issues, it would be nice if you could send me your savegame!</li>
+              <li>Some typos fixed.</li>
+              <li>More consistent naming.</li>
             </ul>
             <v-expansion-panel>
               <v-expansion-panel-content>
                 <div slot="header">Version 0.11</div>
                 <ul>
+                  <li>Max buy maybe fixed.</li>
+                  <li>Tried to eliminate the savegame bugs, if you have any savegame related issues, it would be nice if you could send me your savegame!</li>
                   <li>Rough city screen.</li>
                   <li>Upgrade all button fixed, should actually unlock now.</li>
                   <li>Negative building amounts should be recoverable from savegames now and not happen again.</li>

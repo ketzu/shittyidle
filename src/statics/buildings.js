@@ -30,6 +30,17 @@ export const bgain = {
   Casino: Math.pow(gaingrowth,7)*bbgain
 };
 
+export const translator = {
+  "Farm": 0,
+  "Inn": 1,
+  "Store": 2,
+  "Bank": 3,
+  "Datacenter": 4,
+  "Factory": 5,
+  "Energy": 6,
+  "Casino": 7
+};
+
 export const basebuildings = [
   {name: "Farm", title: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: bcost['Farm'], rate: 1.1}, gain: bgain['Farm'], mult: 1.00, iconcolor: "red darken-2", width: 20, height: 20, mapcolor: '#D32F2F'},
   {name: "Inn" , title: "Inn", type: "Generator", icon: "fa-beer", cost: {base: bcost['Inn'], rate: 1.1}, gain: bgain['Inn'], mult: 1.00, iconcolor: "amber", width: 5, height: 5, mapcolor: '#FFC107'},
