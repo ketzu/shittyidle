@@ -41,9 +41,12 @@
     return true;
   };
 
-  const place = (field, bnr, randomness) => {
+  const place = (field, bnr, randomness, grid) => {
     let prng = gen_prng(randomness);
     const b = basebuildings[bnr - 1];
+    const pref = b.zonepref;
+    const zonesize = field.length / grid.length;
+    // no suitable zone found, try placing anywhere
     for (let cntdwn = 10; cntdwn > 0; cntdwn -= 1) {
       const x = (prng() % (field.length - b.width - 2)) + 1;
       const y = (prng() % (field.length - b.height - 2)) + 1;
@@ -63,35 +66,35 @@
 
   const placeroad = (field, x, y, tx, ty) => {
     let count = 0;
-    const id = ({x,y}) => {
-      return x*field.length + y;
+    const id = ({x, y}) => {
+      return x * field.length + y;
     };
     let visited = new Set();
     let queue = [];
     // add first node
-    queue.push({x:x,y:y,path:[]});
-    visited.add(id({x:x,y:y}));
+    queue.push({x: x, y: y, path: []});
+    visited.add(id({x: x, y: y}));
 
-    while(queue.length>0) {
+    while (queue.length > 0) {
       // emergency break
       count += 1;
-      if(count > 70000) break;
+      if (count > 70000) break;
 
       // actual algorithm
       let current = queue.shift();
 
       // generate successors
-      for(let dir of [{x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}]) {
-        let node = {x:current.x+dir.x,y:current.y+dir.y,path:[...current.path,{x:current.x,y:current.y}]};
+      for (let dir of [{x: 1, y: 0}, {x: -1, y: 0}, {x: 0, y: 1}, {x: 0, y: -1}]) {
+        let node = {x: current.x + dir.x, y: current.y + dir.y, path: [...current.path, {x: current.x, y: current.y}]};
         // check if node is out of bounds
-        if(node.x>=field.length ||node.x<0 || node.y>=field.length ||node.y<0)
+        if (node.x >= field.length || node.x < 0 || node.y >= field.length || node.y < 0)
           continue;
         // check if node is an obstacle or has been visited
-        if((field[node.x][node.y]>0 && field[node.x][node.y]<100 ) || visited.has(id(node)))
+        if ((field[node.x][node.y] > 0 && field[node.x][node.y] < 100) || visited.has(id(node)))
           continue;
         // check if goal is reached or other path met
-        if(node.x === tx && node.y === ty || field[node.x][node.y]<0) {
-          for(let p of current.path) {
+        if (node.x === tx && node.y === ty || field[node.x][node.y] < 0) {
+          for (let p of current.path) {
             field[p.x][p.y] = -1;
           }
           field[current.x][current.y] = -1;
@@ -148,7 +151,7 @@
   };
 
   const paint = (canvas, ctx, parent, store, field, dopaint) => {
-    if(dopaint === false) return;
+    if (dopaint === false) return;
     // Clear the canvas
     ctx.clearRect(0, 0, ctx.width, ctx.height);
 
@@ -190,18 +193,18 @@
     ctx.strokeStyle = "#1B5E20";
     ctx.fillStyle = "#1B5E20";
     let local_prng = gen_prng(2017 * store.getters.timereset);
-    const treeamount = 1000+(local_prng()%500);
+    const treeamount = 1000 + (local_prng() % 500);
     let ox = 0;
     let oy = 0;
-    for(let t=0;t<treeamount;t+=1) {
+    for (let t = 0; t < treeamount; t += 1) {
       let cords = local_prng();
-      ox += cords % (field.length-2) +1;
-      oy += Math.floor(cords / (field.length-2));
-      ox = ox % (field.length-2) +1;
-      oy = oy % (field.length-2) +1;
+      ox += cords % (field.length - 2) + 1;
+      oy += Math.floor(cords / (field.length - 2));
+      ox = ox % (field.length - 2) + 1;
+      oy = oy % (field.length - 2) + 1;
 
       ctx.beginPath();
-      ctx.rect(ox*unit, oy*unit, unit, unit);
+      ctx.rect(ox * unit, oy * unit, unit, unit);
       ctx.fill();
       ctx.stroke();
       ctx.closePath();
@@ -215,7 +218,7 @@
       for (let _y = 0; _y < field.length; _y += 1) {
         let e = row[_y];
         x += unit;
-        if (e === 0 ||e===100)
+        if (e === 0 || e === 100)
           continue;
         if (e > 0) {
           // only paint from top left corner
@@ -226,13 +229,13 @@
 
           }
           let b;
-          if(e<10){
+          if (e < 10) {
             b = basebuildings[e - 1];
-          }else{
-            if(e===50) {
+          } else {
+            if (e === 50) {
               // living house
               b = {height: 2, width: 2, mapcolor: "#212121"}
-            }else if(e===2017) {
+            } else if (e === 2017) {
               // tree
               b = {height: 1, width: 1, mapcolor: "#1B5E20"}
             }
@@ -257,10 +260,10 @@
             ctx.strokeStyle = "#455A64";
             ctx.fillStyle = '#455A64';
           } else {
-            if(infra['Roads'] > 100) {
+            if (infra['Roads'] > 100) {
               ctx.strokeStyle = "#757575";
               ctx.fillStyle = '#757575';
-            }else{
+            } else {
               ctx.fillStyle = '#5D4037';
               ctx.strokeStyle = '#5D4037';
             }
@@ -291,10 +294,10 @@
     },
     watch: {
       tabs(newVal, oldVal) {
-        if(newVal===0) {
+        if (newVal === 0) {
           this.dopaint = true;
-          window.setTimeout(this.shortpaint,1000);
-        }else{
+          window.setTimeout(this.shortpaint, 1000);
+        } else {
           this.dopaint = false;
         }
       }
@@ -325,22 +328,22 @@
               this.currstate[bid] = t;
               break;
             }
-            place(field, bid + 1, r[1]);
+            place(field, bid + 1, r[1], this.$store.getters.citygrid);
           }
         }
 
         const has_roadaccess = (field, x, y) => {
-          return ([[x-1, y],[x-1, y+1],[x, y-1],[x+1, y-1],[x+2, y],[x+2, y+1],[x, y+2],[x+1, y+2]].some((value) => {
-            if(value[0]<0 || value[0] > field.length || value[1]<0 || value[1] > field.length)
+          return ([[x - 1, y], [x - 1, y + 1], [x, y - 1], [x + 1, y - 1], [x + 2, y], [x + 2, y + 1], [x, y + 2], [x + 1, y + 2]].some((value) => {
+            if (value[0] < 0 || value[0] > field.length || value[1] < 0 || value[1] > field.length)
               return false;
-            if(field[value[0]][value[1]] < 0)
+            if (field[value[0]][value[1]] < 0)
               return true;
-          } ));
+          }));
         };
 
         // add residential only buildings
-        let prng = gen_prng(1453*this.$store.getters.timereset);
-        for(let i=this.currstate[8];i<levelsum;i+=1) {
+        let prng = gen_prng(1453 * this.$store.getters.timereset);
+        for (let i = this.currstate[8]; i < levelsum; i += 1) {
           // try ten times to place a building
           for (let cntdwn = 100; cntdwn > 0; cntdwn -= 1) {
             const x = (prng() % (field.length - 2 - 2)) + 1;
@@ -362,31 +365,31 @@
       update_infrastructure(field) {
         const infra = this.$store.getters.infrastructurelevels;
         let placeholder = 100;
-        if(infra['Roads'] >= 300) {
+        if (infra['Roads'] >= 300) {
           placeholder = -2
-        }else{
+        } else {
           placeholder = 100;
         }
-        for(let x=0; x<field.length; x+=1) {
-          let mid2 = Math.floor(field.length/4);
+        for (let x = 0; x < field.length; x += 1) {
+          let mid2 = Math.floor(field.length / 4);
           field[x][mid2] = placeholder;
-          field[x][field.length-mid2] = placeholder;
+          field[x][field.length - mid2] = placeholder;
           field[mid2][x] = placeholder;
-          field[field.length-mid2][x] = placeholder;
+          field[field.length - mid2][x] = placeholder;
         }
-        if(infra['Roads'] >= 10) {
+        if (infra['Roads'] >= 10) {
           placeholder = -2
-        }else{
+        } else {
           placeholder = 100;
         }
-          for(let x=0; x<field.length; x+=1) {
-            let middle = Math.floor(field.length/2);
-            field[x][middle] = placeholder;
-            field[middle][x] = placeholder;
-          }
+        for (let x = 0; x < field.length; x += 1) {
+          let middle = Math.floor(field.length / 2);
+          field[x][middle] = placeholder;
+          field[middle][x] = placeholder;
+        }
         if (infra['Roads'] > 0) {
           placeholder = -2;
-        }else{
+        } else {
           placeholder = 100;
         }
         for (let x = 0; x < field.length; x += 1) {
@@ -404,7 +407,7 @@
         this.rands = [];
         for (let a = 0; a < basebuildings.length; a += 1) {
           this.rands.push([]);
-          for (let i = 1; i < 7000; i *= 2) {
+          for (let i = 1; i < 7000; i *= 1.6) {
             this.rands[a].push([i, prng()]);
           }
         }
@@ -433,13 +436,13 @@
         canvas.removeEventListener('resize', this.shortpaint);
       });
 
-      if(this.$store.getters.drawcity){
+      if (this.$store.getters.drawcity) {
         window.requestAnimationFrame(() => this.shortpaint());
         window.addEventListener("resize", this.shortpaint);
       }
 
       store.subscribe((mutation, state) => {
-        if(!state.settings.drawcity)
+        if (!state.settings.drawcity)
           return;
         if (mutation.type === "updatebuilding") {
           this.field = this.update_building(this.field, state.buildings.levels, this.rands);

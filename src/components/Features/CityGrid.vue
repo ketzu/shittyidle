@@ -108,10 +108,10 @@
                         </v-list-tile-title>
 
                         <v-list-tile-sub-title>
-                          Strongly affects: {{zone.strong}}
+                          Strongly affects: {{nameFormat(zone.strong)}}
                         </v-list-tile-sub-title>
                         <v-list-tile-sub-title>
-                          Weakly affects: {{zone.weak}}
+                          Weakly affects: {{nameFormat(zone.weak)}}
                         </v-list-tile-sub-title>
                       </v-list-tile-content>
 
@@ -138,6 +138,7 @@
 
 <script>
   import {evalGrid} from "@/statics/grid";
+  import {translator} from "@/statics/buildings";
 
   export default {
     name: "CityGrid",
@@ -203,6 +204,9 @@
       }
     },
     methods: {
+      nameFormat(names) {
+        return names.map(name => this.$root.store_buildings[translator[name]].title).join(' and ');
+      },
       whatif(i,j,zoneindex){
         const values = evalGrid(this.grid);
         let newgrid = this.grid.map( value => value.slice());

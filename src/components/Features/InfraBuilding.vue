@@ -11,7 +11,7 @@
         </v-list-tile-title>
 
         <v-list-tile-sub-title>
-          Improves {{type.affected.slice(0,-1).join(', ')}} and {{type.affected[type.affected.length-1]}} by {{format(multiplier)}}x.
+          Improves {{comp_affected.slice(0,-1).join(', ')}} and {{type.affected[comp_affected.length-1]}} by {{format(multiplier)}}x.
         </v-list-tile-sub-title>
 
         <v-list-tile-sub-title>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+  import {translator} from '@/statics/buildings';
+
   export default {
     name: "InfraBuilding",
     props: ['type'],
@@ -46,6 +48,9 @@
           }
           return level;
         }
+      },
+      comp_affected() {
+        return this.type.affected.map(name => this.$root.store_buildings[translator[name]].title);
       },
       maxbuyable() {
         let c= this.buycount;

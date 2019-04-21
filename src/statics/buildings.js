@@ -30,15 +30,26 @@ export const bgain = {
   Casino: Math.pow(gaingrowth,7)*bbgain
 };
 
+export const translator = {
+  "Farm": 0,
+  "Inn": 1,
+  "Store": 2,
+  "Bank": 3,
+  "Datacenter": 4,
+  "Factory": 5,
+  "Energy": 6,
+  "Casino": 7
+};
+
 export const basebuildings = [
-  {name: "Farm", title: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: bcost['Farm'], rate: 1.1}, gain: bgain['Farm'], mult: 1.00, iconcolor: "red darken-2", width: 20, height: 20, mapcolor: '#D32F2F'},
-  {name: "Inn" , title: "Inn", type: "Generator", icon: "fa-beer", cost: {base: bcost['Inn'], rate: 1.1}, gain: bgain['Inn'], mult: 1.00, iconcolor: "amber", width: 5, height: 5, mapcolor: '#FFC107'},
-  {name: "Store", title: "Store", type: "Generator", icon: "fa-store-alt", cost: {base: bcost['Store'], rate: 1.1}, gain: bgain['Store'], mult: 1.00, iconcolor: "brown darken-3", width: 9, height: 5, mapcolor: '#FFC107'},
-  {name: "Bank", title: "Bank", type: "Generator", icon: "fa-university", cost: {base: bcost['Bank'], rate: 1.1}, gain: bgain['Bank'], mult: 1.00, iconcolor: "grey darken-4", width: 4, height: 8, mapcolor: '#0D47A1'},
-  {name: "Datacenter", title: "Datacenter", type: "Generator", icon: "fa-satellite-dish", cost: {base: bcost['Datacenter'], rate: 1.1}, gain: bgain['Datacenter'], mult: 1.00, iconcolor: "blue darken-4", width: 6, height: 9, mapcolor: '#0D47A1'},
-  {name: "Factory", title: "Factory", type: "Generator", icon: "fa-industry", cost: {base: bcost['Factory'], rate: 1.1}, gain: bgain['Factory'], mult: 1.00, iconcolor: "teal darken-4", width: 11, height: 6, mapcolor: '#004D40'},
-  {name: "Energy", title: "Power Plant", type: "Generator", icon: "fa-burn", cost: {base: bcost['Energy'], rate: 1.1}, gain: bgain['Energy'], mult: 1.00, iconcolor: "deep-orange", width: 7, height: 7, mapcolor: '#FF5722'},
-  {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.095}, gain: bgain['Casino'], mult: 1.00, iconcolor: "purple darken-2", width: 6, height: 12, mapcolor: '#7B1FA2'}
+  {name: "Farm", title: "Farm", type: "Generator", icon: "fa-apple-alt", cost: {base: bcost['Farm'], rate: 1.1}, gain: bgain['Farm'], mult: 1.00, iconcolor: "red darken-2", width: 20, height: 20, mapcolor: '#D32F2F', zonepref: [0]},
+  {name: "Inn" , title: "Inn", type: "Generator", icon: "fa-beer", cost: {base: bcost['Inn'], rate: 1.1}, gain: bgain['Inn'], mult: 1.00, iconcolor: "amber", width: 5, height: 5, mapcolor: '#FFC107', zonepref: [2,0,1]},
+  {name: "Store", title: "Store", type: "Generator", icon: "fa-store-alt", cost: {base: bcost['Store'], rate: 1.1}, gain: bgain['Store'], mult: 1.00, iconcolor: "brown darken-3", width: 9, height: 5, mapcolor: '#FFC107', zonepref: [1,0,2]},
+  {name: "Bank", title: "Bank", type: "Generator", icon: "fa-university", cost: {base: bcost['Bank'], rate: 1.1}, gain: bgain['Bank'], mult: 1.00, iconcolor: "grey darken-4", width: 4, height: 8, mapcolor: '#0D47A1', zonepref: [1,0,3]},
+  {name: "Datacenter", title: "Datacenter", type: "Generator", icon: "fa-satellite-dish", cost: {base: bcost['Datacenter'], rate: 1.1}, gain: bgain['Datacenter'], mult: 1.00, iconcolor: "blue darken-4", width: 6, height: 9, mapcolor: '#0D47A1', zonepref: [0]},
+  {name: "Factory", title: "Factory", type: "Generator", icon: "fa-industry", cost: {base: bcost['Factory'], rate: 1.1}, gain: bgain['Factory'], mult: 1.00, iconcolor: "teal darken-4", width: 11, height: 6, mapcolor: '#004D40', zonepref: [3,0,2]},
+  {name: "Energy", title: "Power Plant", type: "Generator", icon: "fa-burn", cost: {base: bcost['Energy'], rate: 1.1}, gain: bgain['Energy'], mult: 1.00, iconcolor: "deep-orange", width: 7, height: 7, mapcolor: '#FF5722', zonepref: [3,0,1]},
+  {name: "Casino", title: "Gambling Den", type: "Generator", icon: "fa-dice", cost: {base: bcost['Casino'], rate: 1.095}, gain: bgain['Casino'], mult: 1.00, iconcolor: "purple darken-2", width: 6, height: 12, mapcolor: '#7B1FA2', zonepref: [2,0,3]}
 ];
 
 export const upgrades = {
@@ -86,7 +97,7 @@ export const upgrades = {
     90: {gain: 8, uname: "Renewable Energy", upgcost: 50}
   },
   Casino: {
-    75: {gain: 2, title: "Casino", uname: "Gamling License", upgcost: 50},
+    75: {gain: 2, title: "Casino", uname: "Gambling License", upgcost: 50},
     150: {gain: 4, title: "Las Vegas", uname: "Gambling Addiction", upgcost: 50}
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <v-layout style="padding-left: 16px;padding-right: 16px;">
+  <v-layout style="margin-left:15px;margin-right:15px;">
     <v-checkbox
         v-model="buytoupgrade"
         :label="$store.getters.ignoreupgradebuy?'To max':'To next upgrade (or max)'"

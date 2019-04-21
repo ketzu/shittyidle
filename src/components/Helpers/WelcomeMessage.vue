@@ -13,7 +13,7 @@
               Welcome {{title}},
             </v-flex>
             <v-flex md10 offset-md1>
-              I am your assistant and this is your new {{towntype}}! It will take some time, but you will surely create something awe inspiring on these empty planes.
+              I am your assistant and this is your new {{towntype}}! It will take some time, but you will surely create something awe inspiring on these empty plains.
             </v-flex>
             <v-flex md10 offset-md1>
               Many jobs await you, but you should not burden yourself with every aspect of town building. Some <b>more complex tasks require a lot of experience</b>.
