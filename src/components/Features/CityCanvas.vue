@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import {basebuildings} from "../../statics/buildings";
+  import {basebuildings} from "@/statics/buildings";
 
   const gen_prng = (seed) => {
     let value = seed;

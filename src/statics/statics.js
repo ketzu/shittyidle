@@ -55,5 +55,6 @@ export const achievements = {
   upgrades2: {desc: "Get to the level of the last upgrade, without buying any upgrades, for any building.", title: "New features make good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-1", buildingboni: "Upgrade all button unlocked.", mult: 0.1},
   upgrades: {desc: "Get a new job without buying any building upgrades.", title: "Nerfs make for good achievements", icon: "fas fa-upload", iconcolor: "light-blue darken-3", buildingboni: "Autoupgrades unlocked.", mult: 0.3},
   zone: {desc: "Reach a zoning value of over 500 for one type.", title: "In the zone", icon: "fas fa-object-group", iconcolor: "purple darken-4", mult: 0.5},
-  zone2: {desc: "Reach a zoning value of over 2399 for one type.", title: "Twilight zone", icon: "fas fa-object-group", iconcolor: "green accent-4", mult: 1}
+  zone2: {desc: "Reach a zoning value of over 2399 for one type.", title: "Twilight zone", icon: "fas fa-object-group", iconcolor: "green accent-4", mult: 1},
+  theEnd: {desc: "Do everything there is to do... yet", title: "The End‽", icon: "fas fa-hourglass-end ", iconcolor: "black", buildingboni: "Thank you so much for playing my game! I am reworking all mechanics, maybe 1.0 wont be as bland! :)", mult: 10.0}
 };

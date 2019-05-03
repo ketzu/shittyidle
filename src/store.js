@@ -108,7 +108,7 @@ let visible = true;
 let lastActive = undefined;
 let root;
 
-const version = "0.11.5";
+const version = "0.11.6";
 
 export default new Vuex.Store({
   state: {
@@ -399,6 +399,9 @@ export default new Vuex.Store({
     },
     selectresearch({commit}, payload) {
       commit('selectresearch', payload);
+      if(payload.level===4) {
+        commit('achievement', 'theEnd');
+      }
     },
     softreset({state, commit}, {upgrade}) {
       if (resettable(state)) {
