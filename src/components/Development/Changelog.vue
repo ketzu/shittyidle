@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title primary-title>
       <div>
-        <div class="headline">Game Development</div>
+        <div class="headline">Changelog</div>
         <span class="grey--text"><a class="grey--text" href="https://www.paypal.me/roughbudget" target="_blank"><v-icon>fab fa-paypal</v-icon> Support the game.</a></span><br>
         <span class="grey--text">Current Version: {{$store.getters.version}}</span>
       </div>
@@ -12,40 +12,13 @@
       <v-container grid-list-lg style="margin-top:-30px;">
         <v-layout align-start justify-center row wrap>
           <v-flex md12>
-            Next upgrade will be a huge rework of the core mechanics of the game and some balancing!
-          </v-flex>
-          <v-flex md12>
-            A huge thank you to Filip, the first person to use the "support the game" button (that's not a personal friend teasing me)!
-          </v-flex>
-          <v-flex md12>
-            <h2>Feedback and Ideas</h2>
-            <v-textarea
-                    name="feedback"
-                    filled
-                    v-model="feedbacktext"
-                    label="Message to the authors."
-                    auto-grow
-                    value=""
-            ></v-textarea>
-            <v-btn @click="submitFeedback()">
-              Submit
-            </v-btn>
-          </v-flex>
-
-          <v-flex md12>
-            <h2>Changelog</h2>
-            <div slot="header">Version {{$store.getters.version}}</div>
-            <ul>
-              <li>Removed incomplete features.</li>
-              <li>Moved to vuetify 2.0</li>
-            </ul>
-            <v-expansion-panels>
+            <v-expansion-panels :value="0">
               <v-expansion-panel>
-                <v-expansion-panel-header>Version 0.12</v-expansion-panel-header>
+                <v-expansion-panel-header>Version {{$store.getters.version}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ul>
-                    <li>Some typos fixed.</li>
-                    <li>More consistent naming.</li>
+                    <li>Removed incomplete features.</li>
+                    <li>Moved to vuetify 2.0</li>
                   </ul>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -53,6 +26,8 @@
                 <v-expansion-panel-header>Version 0.11</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ul>
+                    <li>Some typos fixed.</li>
+                    <li>More consistent naming.</li>
                     <li>Max buy maybe fixed.</li>
                     <li>Tried to eliminate the savegame bugs, if you have any savegame related issues, it would be nice if you could send me your savegame!</li>
                     <li>Rough city screen.</li>
@@ -262,40 +237,10 @@
 </template>
 
 <script>
-  import Future from "./FutureFeature.vue";
   import {storagename} from "../../statics/statics";
 
   export default {
-    name: "Changelog",
-    components: {
-      Future
-    },
-    data() {
-      return {
-        feedbacktext: ""
-      }
-    },
-    methods: {
-      submitFeedback() {
-        if(this.feedbacktext !== "") {
-          let data = new FormData();
-          data.append( "feedback", this.feedbacktext+" "+localStorage.getItem(storagename));
-          fetch("http://shittyidle.com/feedback.php", {
-            method: 'POST',
-            body: data
-          }).then(res => res.json())
-                  .then(({success}) => {
-                    if(success) {
-                      this.feedbacktext = "";
-                      this.bus.$emit('notification', "Message succesfully sent! Thank you for helping us.");
-                    }else{
-                      this.bus.$emit('notification', "Message could not be sent for some reason, sorry! Maybe try e-mail or reddit.");
-                    }
-                  })
-                  .catch(error => console.error('Error:', error));
-        }
-      }
-    }
+    name: "Changelog"
   }
 </script>
 
