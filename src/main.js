@@ -92,12 +92,35 @@ new Vue({
   render: h => h(App),
   data() {
     return {
+      kongapi: undefined,
       store_buildings: JSON.parse(JSON.stringify(basebuildings)),
       store_infrastructure: JSON.parse(JSON.stringify(baseinfrastructure))
     }
   },
   beforeCreate() {
     this.$store.dispatch('initstore', this);
+    let self = this;
+    kongregateAPI.loadAPI(()=>{
+      self.kongapi=kongregateAPI.getAPI();
+
+      let buildinglevels = self.$store.getters.buildinglevels;
+      let count = 0;
+      for(let b in buildinglevels){
+        if(buildinglevels.hasOwnProperty(b)) {
+          count+=buildinglevels[b];
+        }
+      }
+      let infralevels = self.$store.getters.infrastructurelevels;
+      for(let i in infralevels){
+        if(infralevels.hasOwnProperty(i)) {
+          count+=infralevels[i];
+        }
+      }
+      self.kongapi.stats.submit("Resets", self.$store.getters.resets);
+      self.kongapi.stats.submit("Buildings", count);
+      self.kongapi.stats.submit("Zeros", Math.log10(self.$store.getters.alltime));
+
+    });
   },
   mounted() {
     this.$store.dispatch('startgame');

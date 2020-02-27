@@ -4,7 +4,7 @@ import {achievements, baseinfrastructure, research, storagename} from './statics
 import {affecting, basebuildings, bgain, buildingGain} from "./statics/buildings";
 import settings from "@/store/settings";
 import grid from "@/store/grid";
-import buildings from "@/store/buildings";
+import buildings, {submitBuildingStats} from "@/store/buildings";
 import eventBus from "@/eventBus";
 
 Vue.use(Vuex);
@@ -393,9 +393,10 @@ export default new Vuex.Store({
     settownspecs({commit}, payload) {
       commit('settownspecs', payload);
     },
-    buyinfrastructure({commit}, payload) {
+    buyinfrastructure({commit,state}, payload) {
       commit('buyinfrastrucutre', payload);
       commit('updateinfrastructure');
+      submitBuildingStats(state.buildings,state);
     },
     selectresearch({commit}, payload) {
       commit('selectresearch', payload);
@@ -423,6 +424,7 @@ export default new Vuex.Store({
         }
         commit('gainexp');
         commit('resetstate');
+        root.kongapi.stats.submit("Resets", state.resets);
       }
       if (state.citylevel >= 1)
         commit('achievement', 'advancer');

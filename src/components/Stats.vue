@@ -37,7 +37,7 @@
       </v-flex>
 
       <v-flex md4 offset-md1 xs10 offset-xs1>
-        <h2 class="stat">{{$store.getters.version}}</h2>
+        <h2 class="stat">{{$store.getters.version}} (Kong)</h2>
         <span class="subitem">current version</span>
       </v-flex>
 
