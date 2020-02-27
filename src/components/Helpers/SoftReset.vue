@@ -1,7 +1,7 @@
 <template>
   <transition-group name="fade">
   <v-dialog v-model="dialog" max-width="600" key="expreset">
-    <v-btn slot="activator" flat color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
+    <v-btn slot="activator0" text color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
         <v-icon large color="white">far fa-envelope</v-icon>
@@ -34,12 +34,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="green darken-4" flat @click="dialog = false;$store.dispatch('softreset', {})">
+        <v-btn color="green darken-4" text @click="dialog = false;$store.dispatch('softreset', {})">
           <v-icon small left>fas fa-file-signature</v-icon>
           Accept
         </v-btn>
 
-        <v-btn color="blue darken-2" flat @click="dialog = false">
+        <v-btn color="blue darken-2" text @click="dialog = false">
           <v-icon small left>fas fa-times</v-icon>
           Stay
         </v-btn>
@@ -47,7 +47,7 @@
     </v-card>
   </v-dialog>
   <v-dialog v-model="promodialog" max-width="600" key="levelreset">
-    <v-btn slot="activator" flat color="white" v-if="cityupgradeable">A promotion offer!</v-btn>
+    <v-btn slot="activator" text color="white" v-if="cityupgradeable">A promotion offer!</v-btn>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
         <v-icon large color="white">far fa-envelope</v-icon>
@@ -80,12 +80,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
 
-        <v-btn color="green darken-4" flat @click="promodialog = false;$store.dispatch('softreset', {upgrade: true})">
+        <v-btn color="green darken-4" text @click="promodialog = false;$store.dispatch('softreset', {upgrade: true})">
           <v-icon small left>fas fa-file-signature</v-icon>
           Accept
         </v-btn>
 
-        <v-btn color="blue darken-2" flat @click="promodialog = false">
+        <v-btn color="blue darken-2" text @click="promodialog = false">
           <v-icon small left>fas fa-times</v-icon>
           Stay
         </v-btn>

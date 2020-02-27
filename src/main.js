@@ -1,6 +1,6 @@
 import '@babel/polyfill'
 import Vue from 'vue'
-import './plugins/vuetify'
+import vuetify from './plugins/vuetify';
 import App from './App.vue'
 import store from './store'
 import eventBus from "./eventBus";
@@ -88,6 +88,7 @@ Vue.mixin({
 
 new Vue({
   store,
+  vuetify,
   render: h => h(App),
   data() {
     return {

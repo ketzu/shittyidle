@@ -1,30 +1,30 @@
 <template>
   <v-hover>
-    <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
-      <v-list-tile-avatar>
+    <v-list-item ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''">
+      <v-list-item-avatar>
         <v-icon large :color="type.iconcolor">fas {{type.icon}}</v-icon>
-      </v-list-tile-avatar>
+      </v-list-item-avatar>
 
-      <v-list-tile-content>
-        <v-list-tile-title>
+      <v-list-item-content>
+        <v-list-item-title>
           ({{level}}) {{type.title}}
-        </v-list-tile-title>
+        </v-list-item-title>
 
-        <v-list-tile-sub-title>
+        <v-list-item-subtitle>
           Improves {{comp_affected.slice(0,-1).join(', ')}} and {{type.affected[comp_affected.length-1]}} by {{format(multiplier)}}x.
-        </v-list-tile-sub-title>
+        </v-list-item-subtitle>
 
-        <v-list-tile-sub-title>
+        <v-list-item-subtitle>
           Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
-        </v-list-tile-sub-title>
-      </v-list-tile-content>
+        </v-list-item-subtitle>
+      </v-list-item-content>
 
-      <v-list-tile-action>
+      <v-list-item-action>
         <v-btn icon ripple @click="buy()" :disabled="!buyable">
           <v-icon :color="buyable? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
         </v-btn>
-      </v-list-tile-action>
-    </v-list-tile>
+      </v-list-item-action>
+    </v-list-item>
   </v-hover>
 </template>
 

@@ -10,7 +10,7 @@
         </v-card-title>
       </v-flex>
       <v-flex xs4 align-self-center v-if="$store.getters.achievements['upgrades2'] === true">
-        <v-btn flat large ripple block color="blue darken-4" @click="$store.dispatch('buyallupgrades')" :disabled="!anyupgrades">
+        <v-btn text large ripple block color="blue darken-4" @click="$store.dispatch('buyallupgrades')" :disabled="!anyupgrades">
           Upgrade<br>all
         </v-btn>
       </v-flex>

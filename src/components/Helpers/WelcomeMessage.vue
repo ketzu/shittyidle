@@ -37,7 +37,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-4" flat @click="$store.dispatch('startGame')">
+        <v-btn color="green darken-4" text @click="$store.dispatch('startGame')">
           <v-icon small left>fas fa-file-signature</v-icon>
           Accept responsibilities
         </v-btn>

@@ -1,7 +1,7 @@
 <template>
   <v-hover>
-    <v-list-tile avatar ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''" @click="dialog=true">
-      <v-list-tile-avatar>
+    <v-list-item ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''" @click="dialog=true">
+      <v-list-item-avatar>
         <v-badge left overlap :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'?'green darken-4':'white'">
           <v-icon small color="blue darken-4" slot="badge" v-if="upgradeable">fas fa-plus</v-icon>
           <small style="color: white;" slot="badge" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}
@@ -9,23 +9,25 @@
           <v-icon small color="amber darken-3" slot="badge" v-else-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
           <v-icon large :color="type.iconcolor" style="width:40px;">fas {{type.icon}}</v-icon>
         </v-badge>
-      </v-list-tile-avatar>
+      </v-list-item-avatar>
 
-      <v-list-tile-content>
+      <v-list-item-content>
         <v-dialog v-model="dialog" max-width="600px">
-          <span slot="activator" ripple>
-            <v-list-tile-title>
-              <small>{{level}}x</small> {{type.title}}
-            </v-list-tile-title>
+          <template v-slot:activator="{ on }">
+            <span ripple v-on="on">
+              <v-list-item-title>
+                <small>{{level}}x</small> {{type.title}}
+              </v-list-item-title>
 
-            <v-list-tile-sub-title>
-              {{formatresource(production*1000/tickrate)}} per second ({{format(production*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
-            </v-list-tile-sub-title>
+              <v-list-item-subtitle>
+                {{formatresource(production*1000/tickrate)}} per second ({{format(production*100/(resourcegain>0.1?resourcegain-0.1:1))}}%).
+              </v-list-item-subtitle>
 
-            <v-list-tile-sub-title>
-              Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
-            </v-list-tile-sub-title>
-          </span>
+              <v-list-item-subtitle>
+                Next {{compbuycount>1? compbuycount : ''}} level{{compbuycount>1?'s':''}}: {{formatresource(cost)}}.
+              </v-list-item-subtitle>
+            </span>
+          </template>
           <v-card>
             <v-card-title style="background-color: #2e7d32; color: white;">
               <v-container fluid>
@@ -68,30 +70,30 @@
                   </v-flex>
                   <v-flex xs12>
                     <v-list two-line>
-                      <v-list-tile avatar :key="index" v-for="(upgrade, index) in upgrades">
-                        <v-list-tile-avatar>
+                      <v-list-item avatar :key="index" v-for="(upgrade, index) in upgrades">
+                        <v-list-item-avatar>
                           <v-btn depressed fab color="green darken-3">
                             <h2 style="color: white;">{{index}}</h2>
                           </v-btn>
-                        </v-list-tile-avatar>
-                        <v-list-tile-content>
-                          <v-list-tile-title>
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                          <v-list-item-title>
                             {{upgrade.uname === undefined ? upgrade.title : upgrade.uname}}
-                          </v-list-tile-title>
+                          </v-list-item-title>
 
-                          <v-list-tile-sub-title>
+                          <v-list-item-subtitle>
                             {{format(upgrade.gain)}}x {{upgbought(index)?'':'cost:'+formatresource(upgrades[index].upgcost)}}
-                          </v-list-tile-sub-title>
-                        </v-list-tile-content>
+                          </v-list-item-subtitle>
+                        </v-list-item-content>
 
-                        <v-list-tile-action>
+                        <v-list-item-action>
                           <v-icon large color="green darken-3" v-if="upgbought(index)">fas fa-check</v-icon>
                           <v-btn v-else icon ripple @click="buyupgrade(index)" :disabled="!upgbuyable(index)">
                             <v-icon large :color="upgbuyable(index)? 'blue darken-4' : 'grey darken-2'">fas fa-hammer
                             </v-icon>
                           </v-btn>
-                        </v-list-tile-action>
-                      </v-list-tile>
+                        </v-list-item-action>
+                      </v-list-item>
                     </v-list>
                   </v-flex>
                 </v-layout>
@@ -99,18 +101,18 @@
             </v-card-text>
             <v-card-actions style="background-color: #2e7d32;">
               <v-spacer></v-spacer>
-              <v-btn color="white" flat @click="dialog = false">Close</v-btn>
+              <v-btn color="white" text @click="dialog = false">Close</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-list-tile-content>
+      </v-list-item-content>
 
-      <v-list-tile-action @click.stop="buy()">
+      <v-list-item-action @click.stop="buy()">
         <v-btn icon ripple  :disabled="!buyable">
           <v-icon :color="buyable? 'blue darken-4' : 'grey darken-2'">fas fa-hammer</v-icon>
         </v-btn>
-      </v-list-tile-action>
-    </v-list-tile>
+      </v-list-item-action>
+    </v-list-item>
   </v-hover>
 </template>
 

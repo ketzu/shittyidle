@@ -1,7 +1,7 @@
 <template>
   <v-snackbar v-model="flag" multi-line :timeout="5000" top right>
     {{ text }}
-    <v-btn dark flat @click="flag = false">
+    <v-btn dark text @click="flag = false">
       Close
     </v-btn>
   </v-snackbar>

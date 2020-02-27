@@ -4,7 +4,7 @@
       <v-flex :key="i" md4 v-for="i in 5">
         <v-layout column>
           <v-flex :key="j" md4 v-for="j in 5" style="padding:1px;">
-            <v-card :color="color(i,j)" dark min-height="100px" flat @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
+            <v-card :color="color(i,j)" dark min-height="100px" text @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
               <v-card-text class="text-md-center">
                 <v-icon x-large v-if="grid[i-1][j-1]!==0" style="margin-bottom:-30px;">{{icon(i,j)}}</v-icon>
                 <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
@@ -49,23 +49,23 @@
                 <div class="headline">Effectiveness:</div>
               </div>
               <v-list :style="hover? 'background-color: #C8E6C9;' : ''">
-                <v-list-tile :key="index" v-for="(value, index) in evalGrid(config)">
-                  <v-list-tile-avatar>
+                <v-list-item :key="index" v-for="(value, index) in evalGrid(config)">
+                  <v-list-item-avatar>
                     <v-icon color="blue darken-4" v-if="index===0">fas fa-glass-martini </v-icon>
                     <v-icon color="light-green darken-2" v-else-if="index===1">fas fa-home</v-icon>
                     <v-icon color="yellow accent-4" v-else>fas fa-industry</v-icon>
-                  </v-list-tile-avatar>
+                  </v-list-item-avatar>
 
-                  <v-list-tile-content>
-                    <v-list-tile-title>{{['Commercial','Residential','Industrial'][index]}}: {{value.toFixed(0)}}</v-list-tile-title>
-                  </v-list-tile-content>
-                </v-list-tile>
+                  <v-list-item-content>
+                    <v-list-item-title>{{['Commercial','Residential','Industrial'][index]}}: {{value.toFixed(0)}}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
               </v-list>
             </v-card-title>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn flat @click="useConfig(index)" color="green darken-4">Use!</v-btn>
+              <v-btn text @click="useConfig(index)" color="green darken-4">Use!</v-btn>
             </v-card-actions>
           </v-card>
         </v-hover>
@@ -97,30 +97,30 @@
                 <v-list two-line>
                   <transition name="fade" :key="index" v-for="(zone, index) in zones.slice(1)">
 
-                    <v-list-tile avatar>
-                      <v-list-tile-avatar>
+                    <v-list-item avatar>
+                      <v-list-item-avatar>
                         <v-icon large :color="zone.color">{{zone.icons[0]}}</v-icon>
-                      </v-list-tile-avatar>
+                      </v-list-item-avatar>
 
-                      <v-list-tile-content>
-                        <v-list-tile-title>
+                      <v-list-item-content>
+                        <v-list-item-title>
                           {{zone.name}} ({{whatif(di,dj,index+1).join(', ')}})
-                        </v-list-tile-title>
+                        </v-list-item-title>
 
-                        <v-list-tile-sub-title>
+                        <v-list-item-subtitle>
                           Strongly affects: {{nameFormat(zone.strong)}}
-                        </v-list-tile-sub-title>
-                        <v-list-tile-sub-title>
+                        </v-list-item-subtitle>
+                        <v-list-item-subtitle>
                           Weakly affects: {{nameFormat(zone.weak)}}
-                        </v-list-tile-sub-title>
-                      </v-list-tile-content>
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
 
-                      <v-list-tile-action>
+                      <v-list-item-action>
                         <v-btn icon ripple @click="build(di,dj,index+1);dialog=false">
                           <v-icon color="blue darken-4">fas fa-map-marker-alt</v-icon>
                         </v-btn>
-                      </v-list-tile-action>
-                    </v-list-tile>
+                      </v-list-item-action>
+                    </v-list-item>
                   </transition>
                 </v-list>
               </v-flex>
@@ -129,7 +129,7 @@
         </v-card-text>
         <v-card-actions style="background-color: #2e7d32;">
           <v-spacer></v-spacer>
-          <v-btn color="white" flat @click="dialog = false">Close</v-btn>
+          <v-btn color="white" text @click="dialog = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

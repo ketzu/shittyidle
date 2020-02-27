@@ -1,6 +1,6 @@
 <template>
   <div>
-  <v-btn flat @click="dialog = true" color="red darken-4">
+  <v-btn text @click="dialog = true" color="red darken-4">
     HARD RESET!
   </v-btn>
   <v-dialog
@@ -18,7 +18,7 @@
 
         <v-btn
             color="red darken-4"
-            flat="flat"
+            text
             @click="dialog = false;$store.commit('hardreset')"
         >
           Hard Reset
@@ -26,7 +26,7 @@
 
         <v-btn
             color="green darken-4"
-            flat="flat"
+            text
             @click="dialog = false"
         >
           Keep Progress

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-toolbar dark fixed app>
+    <v-app-bar dark fixed app>
       <v-toolbar-title>
         <img src="logo.png" height="35px" alt="Logo" style="margin-bottom: -8px;"> {{cityname}}
       </v-toolbar-title>
@@ -17,7 +17,7 @@
       <v-btn icon id="sidemenutoggle" @click="sidemenu = !sidemenu">
         <v-icon>fas fa-code-branch</v-icon>
       </v-btn>
-    </v-toolbar>
+    </v-app-bar>
 
     <v-navigation-drawer fixed v-model="sidemenu" app right>
       <Changelog></Changelog>

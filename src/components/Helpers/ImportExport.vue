@@ -1,8 +1,10 @@
 <template>
   <v-dialog v-model="dialog" max-width="600px">
-    <v-btn slot="activator" icon id="importexporttoggle">
-      <v-icon>fas fa-save</v-icon>
-    </v-btn>
+    <template v-slot:activator="{ on }">
+      <v-btn icon id="importexporttoggle" v-on="on">
+        <v-icon>fas fa-save</v-icon>
+      </v-btn>
+    </template>
     <v-card>
       <v-card-title style="background-color: #2e7d32; color: white;">
         <v-container fluid>
@@ -42,7 +44,7 @@
       </v-card-text>
       <v-card-actions style="background-color: #2e7d32;">
         <v-spacer></v-spacer>
-        <v-btn color="white" flat @click="dialog = false">Close</v-btn>
+        <v-btn color="white" text @click="dialog = false">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
