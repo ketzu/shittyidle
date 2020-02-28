@@ -1,15 +1,16 @@
 <template>
   <v-hover>
     <v-list-item ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''" @click="dialog=true">
-      <v-list-item-avatar>
-        <v-badge left overlap :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'?'green darken-4':'white'">
-          <v-icon small color="blue darken-4" slot="badge" v-if="upgradeable">fas fa-plus</v-icon>
-          <small style="color: white;" slot="badge" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}
-          </small>
-          <v-icon small color="amber darken-3" slot="badge" v-else-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
+      <v-list-item-icon>
+        <v-badge overlap left :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'? 'green darken-4' : ''">
+          <template v-slot:badge>
+            <v-icon color="blue darken-4" v-if="upgradeable">fas fa-plus</v-icon>
+            <small style="color: white;" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}</small>
+            <v-icon color="amber darken-3" v-else-if="nextupgrade==='∞'">fas fa-check-circle</v-icon>
+          </template>
           <v-icon large :color="type.iconcolor" style="width:40px;">fas {{type.icon}}</v-icon>
         </v-badge>
-      </v-list-item-avatar>
+      </v-list-item-icon>
 
       <v-list-item-content>
         <v-dialog v-model="dialog" max-width="600px">

@@ -5,7 +5,6 @@
         <v-card-title primary-title>
           <div>
             <div class="headline">Buildings</div>
-            <span class="grey--text">Add buildings to your {{towntype}}!</span>
           </div>
         </v-card-title>
       </v-flex>
