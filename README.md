@@ -1,6 +1,6 @@
 # Shitty-Idle
 
-[Shitty-Idle](https://www.kongregate.com/games/Ketzu/shitty-idle) is a city themed idle game and features, post-hoc created by [shittyidle studios](http://shittyidle.com):
+[Shitty-Idle](https://www.kongregate.com/games/Ketzu/shitty-idle) is a city themed idle game, post-hoc created by [shittyidle studios](http://shittyidle.com), and features:
 
  * Buying buildings
  * Upgrades to buildings
