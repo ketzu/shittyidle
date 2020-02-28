@@ -1,41 +1,37 @@
 <template>
   <v-container fluid>
-    <v-layout row>
-      <v-flex :key="i" md4 v-for="i in 5">
-        <v-layout column>
-          <v-flex :key="j" md4 v-for="j in 5" style="padding:1px;">
-            <v-card :color="color(i,j)" dark min-height="100px" text @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
-              <v-card-text class="text-md-center">
-                <v-icon x-large v-if="grid[i-1][j-1]!==0" style="margin-bottom:-30px;">{{icon(i,j)}}</v-icon>
-                <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
-                <v-icon x-large v-else-if="trees[i-1][j-1]===0 || trees[i-1][j-1]===1" style="margin-bottom:-30px;">
-                  fas fa-tree
-                </v-icon>
-                <span v-else-if="trees[i-1][j-1]===2">
+    <v-row :key="j" md4 v-for="j in 5">
+      <v-col :key="i" md4 v-for="i in 5" style="padding:1px;">
+        <v-card :color="color(i,j)" dark min-height="100px" text @click="plotusable(i,j)?dialog = true:'';di=i;dj=j">
+          <v-card-text class="text-md-center">
+            <v-icon x-large v-if="grid[i-1][j-1]!==0" style="margin-bottom:-30px;">{{icon(i,j)}}</v-icon>
+            <v-icon x-large v-else-if="i===3 && j===3" style="margin-bottom:-30px;">fas fa-city</v-icon>
+            <v-icon x-large v-else-if="trees[i-1][j-1]===0 || trees[i-1][j-1]===1" style="margin-bottom:-30px;">
+              fas fa-tree
+            </v-icon>
+            <span v-else-if="trees[i-1][j-1]===2">
                 <v-icon x-large style="margin-bottom:-30px;">fas fa-tree</v-icon>
                   &nbsp;
                 <v-icon x-large style="margin-bottom:-30px;">fas fa-tree</v-icon>
                   &nbsp;
                 <v-icon x-large style="margin-bottom:-30px;">fas fa-tree</v-icon>
                 </span>
-              </v-card-text>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-    <v-layout row>
-      <v-flex md12 class="text-md-center">
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col md12 class="text-md-center">
         Current effectiveness: {{evalGrid(grid).map(value=>value.toFixed(0)).join(', ')}}.
-      </v-flex>
-      <v-flex md12 class="text-md-center">
+      </v-col>
+      <v-col md12 class="text-md-center">
         <v-icon color="#364a38">fas fa-square</v-icon>
         Zone not yet available.
         &nbsp;&nbsp;&nbsp;&nbsp;
         <v-icon color="green darken-4">fas fa-square</v-icon>
         Zone available
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
     <v-layout row>
       <v-flex md4 xs12 :key="index" v-for="(config, index) in gridconfigs">
         <v-hover>
