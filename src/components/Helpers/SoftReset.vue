@@ -1,7 +1,9 @@
 <template>
   <transition-group name="fade">
   <v-dialog v-model="dialog" max-width="600" key="expreset">
-    <v-btn slot="activator0" text color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
+    <template v-slot:activator="{ on }">
+      <v-btn v-on="on" text color="white" v-if="resettable">A new job offer! (Gain {{formatexp(expgain)}} Exp)</v-btn>
+    </template>
     <v-card>
       <v-card-title class="headline"  style="background-color: #2e7d32; color: white;">
         <v-icon large color="white">far fa-envelope</v-icon>
