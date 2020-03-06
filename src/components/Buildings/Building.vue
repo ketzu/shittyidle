@@ -1,8 +1,8 @@
 <template>
   <v-hover>
-    <v-list-item ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''" @click="dialog=true">
+    <v-list-item ripple slot-scope="{ hover }" :style="hover? 'background-color: #C8E6C9;' : ''" @click="dialog=true" class="pl-5">
       <v-list-item-icon>
-        <v-badge overlap left :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'? 'green darken-4' : ''">
+        <v-badge overlap left offset-x="10" :color="!upgradeable && upgradeindicator && nextupgrade !=='∞'? 'green darken-4' : ''">
           <template v-slot:badge>
             <v-icon color="blue darken-4" v-if="upgradeable">fas fa-plus</v-icon>
             <small style="color: white;" v-else-if="nextupgrade!=='∞' && upgradeindicator">{{nextupgrade}}</small>

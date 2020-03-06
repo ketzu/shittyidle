@@ -1,25 +1,22 @@
 <template>
   <v-card>
-    <v-layout row style="margin: 0px;">
-      <v-flex xs6 style="padding: 0px;">
-        <v-card-title primary-title>
-          <div>
-            <div class="headline">Buildings</div>
-          </div>
-        </v-card-title>
-      </v-flex>
-      <v-flex xs4 align-self-center class="ml-auto" v-if="$store.getters.achievements['upgrades2'] === true">
-        <v-btn text large ripple block color="blue darken-4" @click="$store.dispatch('buyallupgrades')" :disabled="!anyupgrades">
-          Upgrade<br>all
-        </v-btn>
-      </v-flex>
-    </v-layout>
+    <v-row class="ml-0">
+      <v-card-title primary-title>
+        <div class="headline">Buildings</div>
+      </v-card-title>
+    </v-row>
 
-    <v-list two-line :dense="densebuildingmenu">
-      <transition name="fade" :key="index" v-for="(building, index) in buildings">
-        <Building :type="building" :index="index" v-if="building.cost.base < alltime" :count="buycount"></Building>
-      </transition>
-    </v-list>
+    <v-row v-if="$store.getters.achievements['upgrades2'] === true" class="py-0">
+      <v-btn text large ripple block color="blue darken-4" @click="$store.dispatch('buyallupgrades')" :disabled="!anyupgrades">
+        Upgrade all
+      </v-btn>
+    </v-row>
+
+      <v-list two-line :dense="densebuildingmenu">
+        <transition name="fade" :key="index" v-for="(building, index) in buildings">
+          <Building :type="building" :index="index" v-if="building.cost.base < alltime" :count="buycount"></Building>
+        </transition>
+      </v-list>
 
     <v-card-actions>
       <MultiBuy></MultiBuy>
