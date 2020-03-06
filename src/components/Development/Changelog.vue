@@ -17,8 +17,9 @@
                 <v-expansion-panel-header>Version {{$store.getters.version}}</v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <ul>
-                    <li>Removed incomplete features.</li>
                     <li>Moved to vuetify 2.0</li>
+                    <li>Removed incomplete features.</li>
+                    <li>Overhaul some layouts.</li>
                   </ul>
                 </v-expansion-panel-content>
               </v-expansion-panel>
