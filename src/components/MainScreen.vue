@@ -2,8 +2,7 @@
   <v-card>
     <v-card-title primary-title style="margin-bottom: -10px;">
       <div>
-        <div class="headline">Welcome to your {{towntype}}, {{title}}.</div>
-        <span class="grey--text">Make wise decisions!</span>
+        <div class="headline py-2">Welcome to your {{towntype}}, {{title}}.</div>
       </div>
     </v-card-title>
 
@@ -18,7 +17,6 @@
       <v-tabs v-model="tabcontrols" color="white" grow slider-color="green darken-4">
         <v-tab v-for="(i, index) in tabs" :key="i" ripple class="green--text text--darken-4">
           <v-icon color="green darken-4">{{icons[i]}}</v-icon>
-          <span v-if="index===tabcontrols">&nbsp;{{i}}</span>
         </v-tab>
       </v-tabs>
       <v-tabs-items v-model="tabcontrols">

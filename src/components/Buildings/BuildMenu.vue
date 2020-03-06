@@ -1,14 +1,14 @@
 <template>
   <v-card>
     <v-layout row style="margin: 0px;">
-      <v-flex xs8 style="padding: 0px;">
+      <v-flex xs6 style="padding: 0px;">
         <v-card-title primary-title>
           <div>
             <div class="headline">Buildings</div>
           </div>
         </v-card-title>
       </v-flex>
-      <v-flex xs4 align-self-center v-if="$store.getters.achievements['upgrades2'] === true">
+      <v-flex xs4 align-self-center class="ml-auto" v-if="$store.getters.achievements['upgrades2'] === true">
         <v-btn text large ripple block color="blue darken-4" @click="$store.dispatch('buyallupgrades')" :disabled="!anyupgrades">
           Upgrade<br>all
         </v-btn>
